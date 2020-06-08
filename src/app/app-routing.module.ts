@@ -20,9 +20,33 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/integration',
     pathMatch: 'full',
+  },
+  {
+    path: 'integration',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'report',
+    loadChildren: () =>
+      import('./pages/report/report.module').then((m) => m.ReportModule),
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'batch',
+    loadChildren: () =>
+      import('./pages/batch/batch.module').then((m) => m.BatchModule),
+  },
+  {
+    path: 'job',
+    loadChildren: () =>
+      import('./pages/job/job.module').then((m) => m.JobModule),
   },
 ];
 
