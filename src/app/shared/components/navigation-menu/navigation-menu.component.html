@@ -1,7 +1,7 @@
 <div class="menu-container">
     <button class="menu-item" *ngFor="let menu of navigationMenu" (click)="onOpenMenu(menu)">
-        <div matRipple>
-            <div class="tab-menu-item" matRipple routerLinkActive="active">
+        <div matRipple [matTooltip]="menu?.name" matRipple>
+            <div class="tab-menu-item" matRipple routerLink="/{{ menu?.route }}" routerLinkActive="active">
                 {{ menu?.name }}
             </div>
         </div>

@@ -8,6 +8,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
  */
 import { NavigationMenu } from '../../models/menu.model';
 import { NavigationMenuConfig } from '../../config/menu.config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -23,7 +24,7 @@ export class NavigationMenuComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  constructor() {}
+  constructor(private router: Router) {}
 
   /**
    *
@@ -38,5 +39,7 @@ export class NavigationMenuComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  onOpenMenu() {}
+  onOpenMenu(menu: NavigationMenu) {
+    // this.router.navigate([menu.route]);
+  }
 }

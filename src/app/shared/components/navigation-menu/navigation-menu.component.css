@@ -8,17 +8,17 @@
 }
 
 .menu-item {
-  border: 10px;
+  border: 0px;
   box-sizing: border-box;
   display: inline-block;
   font-family: Roboto, sans-serif;
   cursor: pointer;
   text-decoration: none;
-  margin: 1px;
-  padding: 1px;
+  background-color: transparent;
+  margin: 0px;
+  padding: 0px;
   outline: none;
   font-size: 14px;
-  font-weight: 500;
   position: relative;
   z-index: 1;
   color: rgba(0, 0, 0, 0.6);
@@ -28,23 +28,22 @@
   font-weight: 600;
 }
 
+.menu-item:focus {
+  outline: none;
+}
+
 .tab-menu-item {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center;
-  height: 38px;
+  height: 40px;
   font-weight: 500;
 }
 
-.active {
+.active, :active:focus {
   outline: none;
-  background-color: #009999;
-  color: #ffffff;
   font-weight: bold;
-  border-bottom: 2px solid black;
-}
-
-.tab-menu-item:focus {
-  outline: none;
+  border-bottom: 2px solid #ff9900
+  ;
 }
