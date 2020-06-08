@@ -22,7 +22,7 @@ export enum SystemIntegrationActionType {
 /**
  *
  */
-export const CreateReport = createAction(
+export const CreateSystemIntegration = createAction(
     SystemIntegrationActionType.CREATE_SYS_INTEGRATION,
     props<{ systemIntegration: SystemIntegration }>()
 );
@@ -30,15 +30,15 @@ export const CreateReport = createAction(
 /**
  *
  */
-export const CreateReportSuccess = createAction(
+export const CreateSystemIntegrationSuccess = createAction(
     SystemIntegrationActionType.CREATE_SYS_INTEGRATION_SUCCESS,
-    props<{ response: HTTPSuccessResponse }>()
+    props<{ response: any }>()
 );
 
 /**
  *
  */
-export const CreateReportFail = createAction(
+export const CreateSystemIntegrationFail = createAction(
     SystemIntegrationActionType.CREATE_SYS_INTEGRATION_FAIL,
     props<{ error: HTTPErrorMessage }>()
 );
