@@ -1,3 +1,10 @@
+.app {
+  overflow: hidden;
+}
+
 .app-container {
-  margin-top: 50px;
+  overflow: auto;
+  position: fixed;
+  width: 100%;
+  top: 48px;
 }
