@@ -51,6 +51,7 @@ export class SystemIntegrationEffects {
                         map((response: HTTPSuccessResponse) =>
                             CreateSystemIntegrationSuccess({
                                 response,
+                                systemIntegration
                             })
                         ),
                         catchError((error: HTTPErrorMessage) =>

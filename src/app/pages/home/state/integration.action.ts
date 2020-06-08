@@ -32,7 +32,10 @@ export const CreateSystemIntegration = createAction(
  */
 export const CreateSystemIntegrationSuccess = createAction(
     SystemIntegrationActionType.CREATE_SYS_INTEGRATION_SUCCESS,
-    props<{ response: any }>()
+    props<{
+        response: HTTPSuccessResponse;
+        systemIntegration: SystemIntegration;
+    }>()
 );
 
 /**

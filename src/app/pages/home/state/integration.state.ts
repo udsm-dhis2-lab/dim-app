@@ -4,6 +4,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { SystemIntegration } from '../models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { HTTPSuccessResponse } from '../models/http-response.model';
 /**
  *
  */
@@ -16,6 +17,7 @@ export interface SystemIntegrationState extends EntityState<SystemIntegration> {
     deleted: boolean;
     created: boolean;
     error: HTTPErrorMessage | null;
+    response: HTTPSuccessResponse;
     systemIntegration: SystemIntegration;
 }
 
@@ -40,7 +42,8 @@ export const defaultSystemIntegration: SystemIntegrationState = {
     deleted: false,
     created: false,
     error: null,
-    systemIntegration: null,
+    response: null,
+    systemIntegration: null
 };
 
 /**
