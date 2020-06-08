@@ -46,6 +46,6 @@ export const defaultSystemIntegration: SystemIntegrationState = {
 /**
  *
  */
-export const initialReportState = systemIntegrationAdapter.getInitialState(
+export const initialSystemIntegrationState = systemIntegrationAdapter.getInitialState(
     defaultSystemIntegration
 );
