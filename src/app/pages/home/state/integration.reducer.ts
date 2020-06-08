@@ -21,7 +21,7 @@ import {
 /**
  *
  */
-const mSystemIntegrationRecducer = createReducer(
+const mSystemIntegrationReducer = createReducer(
     initialSystemIntegrationState,
     on(
         CreateSystemIntegrationSuccess,
@@ -48,12 +48,12 @@ const mSystemIntegrationRecducer = createReducer(
  * @state
  * @action
  */
-export function _SystemIntegrationRecducer(
+export function _SystemIntegrationReducer(
     state: SystemIntegrationState | undefined,
     action: Action
 ) {
     /**
      *
      */
-    return mSystemIntegrationRecducer(state, action);
+    return mSystemIntegrationReducer(state, action);
 }
