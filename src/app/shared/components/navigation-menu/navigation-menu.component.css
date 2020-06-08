@@ -1,0 +1,49 @@
+.menu-container {
+  width: auto;
+  background-color: transparent;
+  background-color: #e3e3e3;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  display: flex;
+}
+
+.menu-item {
+  border: 0px;
+  box-sizing: border-box;
+  display: inline-block;
+  font-family: Roboto, sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: transparent;
+  margin: 0px;
+  padding: 0px;
+  outline: none;
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+  color: rgba(0, 0, 0, 0.6);
+  width: 20%;
+  text-transform: uppercase;
+  background: none;
+  font-weight: 600;
+}
+
+.menu-item:focus {
+  outline: none;
+}
+
+.tab-menu-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center;
+  height: 40px;
+  font-weight: 500;
+}
+
+.active, :active:focus {
+  outline: none;
+  font-weight: bold;
+  border-bottom: 2px solid #ff9900
+  ;
+}

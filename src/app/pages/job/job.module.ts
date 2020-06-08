@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthComponent } from './components/auth/auth.component';
+import { JobRoutingModule } from './job-routing.module';
+import { JobComponent } from './components/job/job.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
-  declarations: [AuthComponent],
+  declarations: [JobComponent],
   imports: [
     CommonModule,
-    AuthRoutingModule,
+    JobRoutingModule,
     SharedModule
   ]
 })
-export class AuthModule { }
+export class JobModule { }

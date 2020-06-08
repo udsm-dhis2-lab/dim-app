@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthComponent } from './components/auth/auth.component';
+import { BatchRoutingModule } from './batch-routing.module';
+import { BatchComponent } from './components/batch/batch.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
-  declarations: [AuthComponent],
+  declarations: [BatchComponent],
   imports: [
     CommonModule,
-    AuthRoutingModule,
+    BatchRoutingModule,
     SharedModule
   ]
 })
-export class AuthModule { }
+export class BatchModule { }

@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthComponent } from './components/auth/auth.component';
+import { BatchComponent } from './components/batch/batch.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AuthComponent
+    component: BatchComponent
   }
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuthRoutingModule { }
+export class BatchRoutingModule { }
