@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { uuid } from '@icodebible/utils/uuid';
 /**
  *
  */
@@ -20,7 +21,8 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class SystemIntegrationService {
-  api = 'api';
+  namespace = 'DIMSystemIntegration';
+  baseURL = 'api';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -28,8 +30,11 @@ export class SystemIntegrationService {
    *
    * @params systemIntegration
    */
-  createIntegration(systemIntegration: SystemIntegration): Observable<any> {
-    const endPointURL = `${this.api}/dataStore`;
+  createSystemIntegration(
+    systemIntegration: SystemIntegration
+  ): Observable<any> {
+    const uid = uuid('', 11);
+    const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${uid}`;
     return this.httpClient.post<any>(
       endPointURL,
       systemIntegration,
