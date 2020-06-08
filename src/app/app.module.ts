@@ -31,6 +31,7 @@ import { CoreModule, RouteSerializer } from './core';
 import { metaReducers, reducers } from './store/reducers';
 import { effects } from './store/effects';
 import { environment } from 'src/environments/environment';
+import { ReactiveFormsModule } from '@angular/forms';
 /**
  *
  */
@@ -40,6 +41,7 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     CoreModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
