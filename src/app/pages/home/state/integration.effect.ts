@@ -44,20 +44,19 @@ export class SystemIntegrationEffects {
         this.actions$.pipe(
             ofType(SystemIntegrationActionType.CREATE_SYS_INTEGRATION),
             map((payload: any) => _.omit(payload, ['type'])),
-            switchMap((systemIntegration: SystemIntegration) =>
-                this.systemIntegrationService
-                    .createSystemIntegration(systemIntegration)
-                    .pipe(
-                        map((response: HTTPSuccessResponse) =>
-                            CreateSystemIntegrationSuccess({
-                                response,
-                                systemIntegration
-                            })
-                        ),
-                        catchError((error: HTTPErrorMessage) =>
-                            of(CreateSystemIntegrationFail({ error }))
-                        )
+            switchMap((payload: { [key: string]: SystemIntegration }) =>
+                this.systemIntegrationService.createSystemIntegration(payload).pipe(
+                    map((response: HTTPSuccessResponse) => {
+                        const systemIntegration = payload?.systemIntegration;
+                        return CreateSystemIntegrationSuccess({
+                            response,
+                            systemIntegration,
+                        });
+                    }),
+                    catchError((error: HTTPErrorMessage) =>
+                        of(CreateSystemIntegrationFail({ error }))
                     )
+                )
             )
         )
     );
