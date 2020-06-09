@@ -1,0 +1,101 @@
+<div>
+    <div>
+        <div>
+            <mat-form-field class="search" appearance="standard">
+                <mat-label>Search Data Elements...</mat-label>
+                <input matInput name="search" type="search" [(ngModel)]="searchString" />
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="search-container">
+            <div class="search-container-flex">
+                <div class="search-sub-container">
+                    <div *ngIf="!availableReports">
+                    </div>
+                    <div *ngIf="
+                availableReports?.length === 0 ||
+                (availableReports | searchByName: searchString)?.length === 0
+              ">
+                        <app-empty-notification></app-empty-notification>
+                    </div>
+                    <select *ngIf="availableReports?.length > 0" multiple class="selection-container">
+                        <option class="option" *ngFor="
+                  let fieldOption of availableReports | searchByName: searchString
+                " (dblclick)="onDoubleClickSelect(fieldOption, 'select')"
+                            (click)="onClickSelect(fieldOption, 'select')">
+                            {{ fieldOption?.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="assignment">
+                    <button matRipple [attr.class]="availableReports?.length > 0 ? 'enabled' : 'disabled'"
+                        disabled="availableReports?.length === 0" type="button">
+                        <div matRipple>
+                            <span (click)="assignAll()">Assign all
+                                {{ (availableReports | searchByName: searchString)?.length }}
+                                →</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="temp-selected-container">
+                <div class="temp-selected" *ngIf="tempReports?.length > 0">
+                    {{ tempReports?.length }} selected
+                </div>
+                <div class="assign-one">
+                    <button mat-stroked-button [attr.class]="
+                tempReports.length > 0 && action === 'select'
+                  ? 'is-enabled'
+                  : 'is-disabled'
+              " disabled="tempReports?.length === 0" tabindex="-1" type="button">
+                        <div (click)="toggleTempValues()">
+                            <span>→</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="unassign-one">
+                    <button mat-stroked-button [attr.class]="
+                tempReports.length > 0 && action === 'deselect'
+                  ? 'is-enabled'
+                  : 'is-disabled'
+              " disabled="tempReports?.length === 0" type="button">
+                        <div (click)="toggleTempValues()">
+                            <span>←</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="search-container-flex">
+                <div class="search-sub-container">
+                    <div *ngIf="
+                selectedReports?.length === 0 ||
+                (selectedReports | searchByName: searchString)?.length === 0
+              ">
+                        <app-empty-notification></app-empty-notification>
+                    </div>
+                    <select multiple *ngIf="selectedReports?.length > 0" class="selection-container">
+                        <option class="option" *ngFor="
+                  let selectedFieldOption of selectedReports
+                    | searchByName: searchString
+                " (dblclick)="
+                  onDoubleClickDeSelect(selectedFieldOption, 'deselect')
+                " (click)="onClickDeSelect(selectedFieldOption, 'deselect')">
+                            {{ selectedFieldOption?.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="un-assignment">
+                    <button matRipple [attr.class]="selectedReports?.length > 0 ? 'enabled' : 'disabled'"
+                        disabled="selectedFieldOption?.length === 0" type="button">
+                        <div>
+                            <span (click)="removeAll()">← Remove all
+                                {{ (selectedReports | searchByName: searchString)?.length }}
+                            </span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="bottom"></div>
+    </div>
+</div>
