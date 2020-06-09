@@ -12,6 +12,14 @@ export const NavigationMenuConfig: Array<NavigationMenu> = [
         route: 'system'
     },
     {
+        name: 'Authentication Management',
+        route: 'auth'
+    },
+    {
+        name: 'Integration Management',
+        route: 'integration'
+    },
+    {
         name: 'Job Management',
         route: 'job'
     },
@@ -20,15 +28,7 @@ export const NavigationMenuConfig: Array<NavigationMenu> = [
         route: 'batch'
     },
     {
-        name: 'Integration Management',
-        route: 'integration'
-    },
-    {
         name: 'Report Management',
         route: 'report'
-    },
-    {
-        name: 'Authentication Management',
-        route: 'auth'
     }
 ];
