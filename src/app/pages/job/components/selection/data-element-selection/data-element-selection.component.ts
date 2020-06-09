@@ -6,7 +6,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./data-element-selection.component.scss']
 })
 export class DataElementSelectionComponent implements OnInit {
-
   @Input() availableReports: Array<any>;
   @Input() selectedReports: Array<any>;
   @Output() selectedEntityEventEmitter = new EventEmitter();
@@ -127,5 +126,4 @@ export class DataElementSelectionComponent implements OnInit {
     //   'id'
     // );
   }
-
 }
