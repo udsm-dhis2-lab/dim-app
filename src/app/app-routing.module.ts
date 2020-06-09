@@ -20,13 +20,18 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/integration',
+    redirectTo: '/system',
     pathMatch: 'full',
   },
   {
     path: 'integration',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'system',
+    loadChildren: () =>
+      import('./pages/system/system.module').then((m) => m.SystemModule),
   },
   {
     path: 'report',

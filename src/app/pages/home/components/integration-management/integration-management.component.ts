@@ -5,8 +5,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 /**
  *
  */
-import { Menu } from '../../models/side-menu.model';
 import { SideMenuConfig } from '../../config/menu.config';
+import { Menu } from 'src/app/shared/models/side-menu.model';
 /**
  *
  */

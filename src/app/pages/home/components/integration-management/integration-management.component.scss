@@ -13,6 +13,11 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.active {
+  color: rgb(33, 150, 243);
+  background-color: #d6d3d3;
+}
+
 .side-menu {
   flex: 1 1 0%;
   display: flex;
