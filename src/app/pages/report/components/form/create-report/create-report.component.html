@@ -1,0 +1,98 @@
+<main class="form">
+    <div class="field-form-div">
+        <main [formGroup]="createJobForm" class="field-form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <h5>Source System</h5>
+                    </div>
+                    <hr />
+                    <div class="form-element-container">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>System List</mat-label>
+                            <mat-select formControlName="to">
+                                <mat-option *ngFor="let system of systems" [value]="system?.id">
+                                    {{ system?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    &nbsp;
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <h5>Receiving System</h5>
+                    </div>
+                    <hr />
+                    <div class="form-element-container">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>System List</mat-label>
+                            <mat-select formControlName="to">
+                                <mat-option *ngFor="let system of systems" [value]="system?.id">
+                                    {{ system?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    &nbsp;
+                </div>
+            </div>
+            <div class="form-element-container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-element-container">
+                            <mat-form-field>
+                                <mat-label>From Date</mat-label>
+                                <input matInput [matDatepicker]="from" disabled />
+                                <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                                <mat-datepicker #from disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-element-container">
+                            <mat-form-field>
+                                <mat-label>To Date</mat-label>
+                                <input matInput [matDatepicker]="to" disabled />
+                                <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                                <mat-datepicker #to disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-element-container">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Status</mat-label>
+                                <mat-select value="'all'" formControlName="to">
+                                    <mat-option *ngFor="let status of statuses" [value]="status.status">
+                                        {{ status?.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-element-container">
+                <app-data-element-selection></app-data-element-selection>
+            </div>
+            <div class="form-element-container">
+                <app-indicator-selection></app-indicator-selection>
+            </div>
+            <div class="form-element-container">
+                <app-program-indicator-selection></app-program-indicator-selection>
+            </div>
+            &nbsp;
+            <div class="form-footer">
+                <div class="form-footer-div example-button-row">
+                    <button mat-stroked-button class="form-footer-save-btn">
+                        Generate Report
+                    </button>
+                </div>
+                <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn">
+                    Cancel
+                </button>
+            </div>
+        </main>
+    </div>
+</main>
