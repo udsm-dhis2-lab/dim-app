@@ -1,15 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-
+/**
+ *
+ */
+import { Component, OnInit, OnDestroy } from '@angular/core';
+/**
+ *
+ */
+import { Menu } from '../../models/side-menu.model';
+import { SideMenuConfig } from '../../config/menu.config';
+/**
+ *
+ */
 @Component({
   selector: 'app-integration-management',
   templateUrl: './integration-management.component.html',
-  styleUrls: ['./integration-management.component.css']
+  styleUrls: ['./integration-management.component.scss'],
 })
-export class IntegrationManagementComponent implements OnInit {
+/**
+ *
+ */
+export class IntegrationManagementComponent implements OnInit, OnDestroy {
+  /**
+   *
+   */
+  sideMenuConfig: Array<Menu> = SideMenuConfig;
 
-  constructor() { }
+  /**
+   *
+   */
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  /**
+   *
+   */
+  ngOnInit(): void {}
+  /**
+   *
+   */
+  ngOnDestroy(): void {}
 }
