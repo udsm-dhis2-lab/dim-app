@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,7 +21,7 @@ import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
   templateUrl: './edit-system.component.html',
   styleUrls: ['./edit-system.component.scss']
 })
-export class EditSystemComponent implements OnInit {
+export class EditSystemComponent implements OnInit, OnDestroy {
   systems: Array<{ [key: string]: any }> = [
     {
       name: 'National Health Portal',
