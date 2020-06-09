@@ -10,6 +10,11 @@ const routes: Routes = [
     component: IntegrationManagementComponent,
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'create'
+      },
+      {
         path: 'create',
         component: CreateIntegrationComponent,
       },
