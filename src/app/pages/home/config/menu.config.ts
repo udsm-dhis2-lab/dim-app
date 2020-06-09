@@ -1,7 +1,9 @@
 /**
  *
  */
-import { Menu } from '../models/side-menu.model';
+
+import { Menu } from 'src/app/shared/models/side-menu.model';
+
 /**
  *
  */
