@@ -11,8 +11,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
-
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 /**
  *
@@ -51,7 +50,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatIconModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   exports: [
     SearchByNamePipe,
