@@ -3,8 +3,8 @@
 }
 
 .app-container {
-  overflow: auto;
-  position: fixed;
+  overflow: hidden;
+  position: relative;
   width: 100%;
   top: 48px;
 }

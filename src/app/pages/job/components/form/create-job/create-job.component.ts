@@ -7,19 +7,23 @@ import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
-import { SystemIntegrationState, CreateSystemIntegration } from 'src/app/pages/home/state';
+import {
+  SystemIntegrationState,
+  CreateSystemIntegration,
+} from 'src/app/pages/home/state';
 import { SystemIntegration } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemIntegrationCreatedStatus } from 'src/app/pages/home/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { OrgUnitLevel } from '../../../models/orgunit-level.model';
+import { OrgUnitLevelConfig } from '../../../config/orgunit-level.config';
 
 @Component({
   selector: 'app-create-job',
   templateUrl: './create-job.component.html',
-  styleUrls: ['./create-job.component.scss']
+  styleUrls: ['./create-job.component.scss'],
 })
 export class CreateJobComponent implements OnInit, OnDestroy {
-
   systems: Array<{ [key: string]: any }> = [
     {
       name: 'National Health Portal',
@@ -40,8 +44,18 @@ export class CreateJobComponent implements OnInit, OnDestroy {
   ];
   integrationFormEntries: DataEntryField = _.clone(_.create());
   subscriptions: Array<Subscription> = [];
-  createIntegrationForm: FormGroup = new FormGroup({
+  organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
+  createJobForm: FormGroup = new FormGroup({
     name: new FormControl(''),
+    isExecuted: new FormControl(false),
+    dataSet: new FormGroup({
+      id: new FormControl(''),
+      name: new FormControl(''),
+    }),
+    ou: new FormGroup({
+      id: new FormControl(''),
+      name: new FormControl(''),
+    }),
     description: new FormControl(''),
     defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
@@ -65,7 +79,7 @@ export class CreateJobComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.formSUB$ = this.createIntegrationForm.valueChanges.subscribe(
+    this.formSUB$ = this.createJobForm.valueChanges.subscribe(
       (systemIntegration: SystemIntegration) => {
         this.integrationFormEntries = onUpdateFormProps(
           this.integrationFormEntries,
@@ -96,7 +110,7 @@ export class CreateJobComponent implements OnInit, OnDestroy {
       .pipe(select(getSystemIntegrationCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
-          this.createIntegrationForm.reset();
+          this.createJobForm.reset();
           OpenSnackBar(
             this.snackBar,
             `System Integration "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
@@ -107,5 +121,4 @@ export class CreateJobComponent implements OnInit, OnDestroy {
       });
     this.subscriptions.push(this.integrationCreatedSUB$);
   }
-
 }

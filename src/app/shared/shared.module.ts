@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatIconModule } from '@angular/material/icon';
 
 /**
  *
@@ -18,13 +18,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { SearchByNamePipe } from './pipes/search-by-name/search-by-name.pipe';
+import { EmptyNotificationComponent } from './components/empty-notification/empty-notification.component';
 
 /**
  *
  */
 @NgModule({
-  declarations: [NavigationMenuComponent],
+  declarations: [
+    NavigationMenuComponent,
+    EmptyNotificationComponent,
+    SearchByNamePipe,
+  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -35,20 +41,26 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     MatInputModule,
     MatCheckboxModule,
+    FormsModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
   exports: [
+    SearchByNamePipe,
+    EmptyNotificationComponent,
     NavigationMenuComponent,
     MatButtonModule,
     MatTooltipModule,
     MatFormFieldModule,
     MatSelectModule,
     MatRadioModule,
+    FormsModule,
     ReactiveFormsModule,
     MatInputModule,
     MatCheckboxModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
 })
 /**

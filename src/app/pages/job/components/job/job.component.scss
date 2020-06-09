@@ -1,13 +1,18 @@
+.navigation-menu {
+  margin-bottom: 15px !important;
+  width: 100%;
+  display: block;
+}
+
 .main {
+  top: 88px;
   margin-bottom: 10px;
+  display: block;
+  width: 100%;
 }
 
 .main-menu {
   padding-top: 10px;
-}
-
-.navigation-menu {
-  margin-bottom: 15px !important;
 }
 
 body {
@@ -25,10 +30,16 @@ body {
   width: 100% !important;
 }
 
+.main-content-area {
+  position: relafitive;
+  display: block;
+  overflow: auto;
+}
+
 .side-menu-item {
   background-color: rgb(243, 243, 243);
-  overflow-y: initial;
   width: 295px;
+  overflow: auto;
 }
 
 .side-menu-container:first-child {
