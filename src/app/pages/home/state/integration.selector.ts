@@ -5,7 +5,7 @@ import {
 } from './integration.state';
 
 export const getSystemIntegrationFeature = createFeatureSelector(
-    'systemIntegration'
+    'systemIntegrations'
 );
 
 /**
@@ -21,12 +21,12 @@ export const getCreatedSystemIntegration = createSelector(
     (state: SystemIntegrationState) => state.systemIntegration
 );
 
-export const getSystemIntegrationCreatedStat = createSelector(
+export const getSystemIntegrationCreatedStatus = createSelector(
     getSystemIntegrationFeature,
-    (state: SystemIntegrationState) => state.created
+    (state: SystemIntegrationState) => state?.created
 );
 
 export const getSystemIntegrationError = createSelector(
     getSystemIntegrationFeature,
-    (state: SystemIntegrationState) => state.error
+    (state: SystemIntegrationState) => state?.error
 );

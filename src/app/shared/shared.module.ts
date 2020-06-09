@@ -8,6 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 /**
  *
@@ -33,7 +35,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     MatInputModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   exports: [
     NavigationMenuComponent,
@@ -44,7 +47,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
 })
 /**

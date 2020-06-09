@@ -3,6 +3,7 @@
  */
 export interface SystemIntegration {
     id: string;
+    name: string;
     isAllowed: boolean;
     isUsingHIM: boolean;
     importURL: string;

@@ -9,11 +9,17 @@ import { SystemIntegration } from '../../../models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import {
   SystemIntegrationState,
   CreateSystemIntegration,
 } from '../../../state';
+import {
+  getSystemIntegrationCreatedStatus,
+  getCreatedSystemIntegration,
+} from '../../../state/integration.selector';
+import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-integration',
@@ -56,10 +62,13 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
 
   // Subscriptions
   formSUB$: Subscription;
+  integrationCreatedSUB$: Subscription;
+  createdIntegrationSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>
+    private systemIntegrationState: Store<SystemIntegrationState>,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -90,5 +99,19 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
     this.systemIntegrationState.dispatch(
       CreateSystemIntegration(_.clone({ systemIntegration }))
     );
+    this.integrationCreatedSUB$ = this.systemIntegrationState
+      .pipe(select(getSystemIntegrationCreatedStatus))
+      .subscribe((status: boolean) => {
+        if (status) {
+          this.createIntegrationForm.reset();
+          OpenSnackBar(
+            this.snackBar,
+            `System Integration "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
+            '',
+            'success-snackbar'
+          );
+        }
+      });
+    this.subscriptions.push(this.integrationCreatedSUB$);
   }
 }
