@@ -1,2 +1,34 @@
-<app-navigation-menu></app-navigation-menu>
-<p>integration-management works!</p>
+<app-navigation-menu class="navigation-menu"></app-navigation-menu>
+<main class="container-fluid main">
+    <main class="row">
+        <main class="col-md-2 main-menu">
+            <main *ngFor="let menu of sideMenuConfig" class="side-menu">
+                <div>
+                    <div class="side-menu-item">
+                        <div class="side-menu-container">
+                            <div>
+                                <span class="side-menu-span">
+                                    <div class="side-menu-card">
+                                        <div matRipple routerLink="{{menu?.route}}" routerLinkActive class="menu-item-btn">
+                                            <i class="material-icons menu-item-icon">
+                                                folder
+                                            </i>
+                                            <div>{{ menu?.name }}</div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </main>
+        <main class="col-md-10">
+            <main class="row side-menu">
+                <main class="col-md-12">
+                    <router-outlet></router-outlet>
+                </main>
+            </main>
+        </main>
+    </main>
+</main>

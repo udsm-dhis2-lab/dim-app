@@ -2,6 +2,7 @@
  *
  */
 export interface SystemIntegration {
+    id: string;
     isAllowed: boolean;
     isUsingHIM: boolean;
     importURL: string;

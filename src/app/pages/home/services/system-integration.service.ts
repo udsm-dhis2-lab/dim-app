@@ -34,7 +34,8 @@ export class SystemIntegrationService {
     [key: string]: SystemIntegration;
   }): Observable<any> {
     const systemIntegration: SystemIntegration = payload.systemIntegration;
-    const uid = uuid('', 11);
+    const uid = systemIntegration?.id ? systemIntegration?.id : uuid('', 11);
+
     const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${uid}`;
     return this.httpClient.post<any>(
       endPointURL,

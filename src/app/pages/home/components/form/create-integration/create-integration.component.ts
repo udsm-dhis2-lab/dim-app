@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 
 import * as _ from 'lodash';
+import { uuid } from '@icodebible/utils/uuid';
 
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataEntryField } from 'src/app/shared/models/form.model';
@@ -82,11 +83,12 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(): void {
-    const systemIntegration: SystemIntegration = <SystemIntegration>(
-      this.integrationFormEntries
-    );
+    const id = uuid('', 11);
+    const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
+      id,
+    });
     this.systemIntegrationState.dispatch(
-      CreateSystemIntegration({ systemIntegration })
+      CreateSystemIntegration(_.clone({ systemIntegration }))
     );
   }
 }
