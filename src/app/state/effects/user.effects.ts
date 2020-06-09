@@ -3,12 +3,11 @@ import { NgxDhis2HttpClientService, User } from '@iapps/ngx-dhis2-http-client';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
 import {
-  addCurrentUser,
   loadCurrentUser,
-  loadCurrentUserFail
-} from '../actions';
+  addCurrentUser,
+  loadCurrentUserFail,
+} from '../actions/user.actions';
 
 @Injectable()
 export class UserEffects implements OnInitEffects {
