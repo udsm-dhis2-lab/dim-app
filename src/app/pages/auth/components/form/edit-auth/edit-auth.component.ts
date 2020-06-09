@@ -23,7 +23,7 @@ import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
   templateUrl: './edit-auth.component.html',
   styleUrls: ['./edit-auth.component.scss'],
 })
-export class EditAuthComponent implements OnInit {
+export class EditAuthComponent implements OnInit, OnDestroy {
   systems: Array<{ [key: string]: any }> = [
     {
       name: 'National Health Portal',

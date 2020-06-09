@@ -9,6 +9,16 @@
                     <hr />
                     <div class="form-element-container">
                         <mat-form-field class="example-full-width">
+                            <mat-label>System List</mat-label>
+                            <mat-select formControlName="to">
+                                <mat-option *ngFor="let system of systems" [value]="system?.id">
+                                    {{ system?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-element-container">
+                        <mat-form-field class="example-full-width">
                             <mat-label>Username</mat-label>
                             <input formControlName="username" matInput />
                         </mat-form-field>
@@ -17,16 +27,6 @@
                         <mat-form-field class="example-full-width">
                             <mat-label>Password</mat-label>
                             <input type="password" formControlName="password" matInput />
-                        </mat-form-field>
-                    </div>
-                    <div class="form-element-container">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>System List</mat-label>
-                            <mat-select formControlName="to">
-                                <mat-option *ngFor="let system of systems" [value]="system?.id">
-                                    {{ system?.name }}
-                                </mat-option>
-                            </mat-select>
                         </mat-form-field>
                     </div>
                     &nbsp;
@@ -38,6 +38,16 @@
                     <hr />
                     <div class="form-element-container">
                         <mat-form-field class="example-full-width">
+                            <mat-label>System List</mat-label>
+                            <mat-select formControlName="to">
+                                <mat-option *ngFor="let system of systems" [value]="system?.id">
+                                    {{ system?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-element-container">
+                        <mat-form-field class="example-full-width">
                             <mat-label>Username</mat-label>
                             <input formControlName="username" matInput />
                         </mat-form-field>
@@ -46,16 +56,6 @@
                         <mat-form-field class="example-full-width">
                             <mat-label>Password</mat-label>
                             <input type="password" formControlName="password" matInput />
-                        </mat-form-field>
-                    </div>
-                    <div class="form-element-container">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>System List</mat-label>
-                            <mat-select formControlName="to">
-                                <mat-option *ngFor="let system of systems" [value]="system?.id">
-                                    {{ system?.name }}
-                                </mat-option>
-                            </mat-select>
                         </mat-form-field>
                     </div>
                     &nbsp;
