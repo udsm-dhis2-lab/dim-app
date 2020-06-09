@@ -28,8 +28,7 @@ import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
 import { AppComponent } from './app.component';
 import { AppRoutingModule, HttpLoaderFactory } from './app-routing.module';
 import { CoreModule, RouteSerializer } from './core';
-import { metaReducers, reducers } from './store/reducers';
-import { effects } from './store/effects';
+import { reducers, metaReducers, appEffects } from './state/states/app.state';
 import { environment } from 'src/environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 /**
@@ -45,7 +44,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CoreModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot(effects),
+    EffectsModule.forRoot(appEffects),
     NgxDhis2HttpClientModule.forRoot({
       version: 1,
       namespace: 'icodebible',
