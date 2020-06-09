@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+
 
 /**
  *
@@ -21,6 +24,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SearchByNamePipe } from './pipes/search-by-name/search-by-name.pipe';
 import { EmptyNotificationComponent } from './components/empty-notification/empty-notification.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 /**
  *
@@ -44,7 +48,10 @@ import { EmptyNotificationComponent } from './components/empty-notification/empt
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatNativeDateModule
   ],
   exports: [
     SearchByNamePipe,
@@ -60,7 +67,8 @@ import { EmptyNotificationComponent } from './components/empty-notification/empt
     MatInputModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
   ],
 })
 /**

@@ -52,10 +52,10 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
     description: new FormControl(''),
     defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
-    importURL: new FormControl(false),
+    importURL: new FormControl(''),
     isUsingHIM: new FormControl(false),
     dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(''),
+    isUsingLiveDhis2: new FormControl(false),
     from: new FormControl(''),
     to: new FormControl(''),
   });
