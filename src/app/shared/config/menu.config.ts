@@ -8,16 +8,16 @@ import { NavigationMenu } from '../models/menu.model';
  */
 export const NavigationMenuConfig: Array<NavigationMenu> = [
     {
-        name: 'Integration Management',
-        route: 'integration'
+        name: 'Job Management',
+        route: 'job'
     },
     {
         name: 'Batch Management',
         route: 'batch'
     },
     {
-        name: 'Job Management',
-        route: 'job'
+        name: 'Integration Management',
+        route: 'integration'
     },
     {
         name: 'Report Management',
