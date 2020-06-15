@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,15 @@ import { SystemIntegration } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemIntegrationCreatedStatus } from 'src/app/pages/home/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+// export class MyErrorStateMatcher implements ErrorStateMatcher {
+//   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+//     const isSubmitted = form && form.submitted;
+//     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+//   }
+// }
 
 @Component({
   selector: 'app-create-system',
@@ -40,6 +49,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
       id: 'ards',
     },
   ];
+  // matcher = new MyErrorStateMatcher();
   integrationFormEntries: DataEntryField = _.clone(_.create());
   subscriptions: Array<Subscription> = [];
   organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
@@ -73,7 +83,9 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   constructor(
     private appState: Store<AppState>,
     private systemIntegrationState: Store<SystemIntegrationState>,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -118,5 +130,9 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
         }
       });
     this.subscriptions.push(this.integrationCreatedSUB$);
+  }
+
+  onBack() {
+    this.router.navigate(['../list'], { relativeTo: this.route});
   }
 }
