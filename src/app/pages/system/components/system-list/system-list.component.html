@@ -1,0 +1,140 @@
+<div>
+    <div class="table-box-shodow">
+        <div>
+            <h4 class="menu-option-info">
+                System Config Management
+            </h4>
+        </div>
+        <div class="table-box-shodow">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Search in list</mat-label>
+                        <input matInput (keyup)="applyFilter($event.target.value)" />
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div [matTooltip]="'This feature is Under Construction'" class="col-md-6">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Search in list from remote</mat-label>
+                        <input [disabled]="true" matInput (keyup)="applyFilter($event.target.value)" />
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <div>
+                <!-- <table mat-table [dataSource]="" matSort matSortActive="created" matSortDirection="asc"
+                    matSortDisableClear>
+                    <ng-container class="table-header" matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <b>Name</b>
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
+                    </ng-container>
+                    <ng-container class="table-header" matColumnDef="caption">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <b>Caption</b>
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.caption }}</td>
+                    </ng-container>
+                    <ng-container class="table-header" matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <b>Description</b>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.description }}
+                        </td>
+                    </ng-container>
+                    <ng-container class="table-header" matColumnDef="created">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <b>Created</b>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.created | date }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container class="table-header" matColumnDef="lastUpdated">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <b>Last Updated</b>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.lastUpdated | date }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="menu">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <i class="material-icons">
+                                settings_applications
+                            </i>
+                        </th>
+                        <td [matTooltip]="'More Options'" mat-cell *matCellDef="let element">
+                            <i class="material-icons rounded-pill rouded-pill-pd-5" matRipple
+                                [matMenuTriggerFor]="appMenu">
+                                more_vert
+                            </i>
+                            <mat-menu #appMenu="matMenu">
+                                <div role="menu" class="menu-more-options">
+                                    <div class="menu-more-option" (click)="onEdit(element)">
+                                        <span matRipple role="menuitem" tabindex="0" class="menu-more-option-span">
+                                            <div>
+                                                <div class="menu-more-div">
+                                                    <span class="material-icons menu-more-option-name"
+                                                        color="#757575">edit</span>
+                                                    <div class="edit">
+                                                        Edit
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <div class="menu-more-option" (click)="onDelete(element)">
+                                        <span matRipple role="menuitem" tabindex="0" class="menu-more-option-span">
+                                            <div>
+                                                <div class="menu-more-div">
+                                                    <span class="material-icons menu-more-option-name"
+                                                        color="#757575">delete</span>
+                                                    <div class="edit">
+                                                        Delete
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <div class="menu-more-option" (click)="onViewMore(element)">
+                                        <span matRipple role="menuitem" tabindex="0" class="menu-more-option-span">
+                                            <div>
+                                                <div class="menu-more-div">
+                                                    <span class="material-icons menu-more-option-name"
+                                                        color="#757575">details</span>
+                                                    <div class="edit">
+                                                        Show details
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table> -->
+            </div>
+            <mat-paginator [pageSizeOptions]="[12, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+    <div>
+        <div [matTooltip]="'Add New'" [matTooltipPosition]="'below'" class="fab-add-btn">
+            <button (click)="openDataEntryForm()" class="fab" matRipple class="fab" mat-mini-fab color="primary">
+                <i class="material-icons">
+                    add
+                </i>
+            </button>
+        </div>
+    </div>
+</div>
