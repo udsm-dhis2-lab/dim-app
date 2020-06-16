@@ -29,7 +29,7 @@ const routes: Routes = [
         component: CreateSystemComponent,
       },
       {
-        path: 'edit',
+        path: 'edit/:id',
         component: EditSystemComponent,
       },
     ],

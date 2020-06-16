@@ -18,6 +18,7 @@ import {
     CreateSystemFail,
     LoadSystemsSuccess,
     LoadSystemsFail,
+    SetSelectedSystem,
 } from './integration.action';
 
 /**
@@ -25,6 +26,10 @@ import {
  */
 const mSystemIntegrationReducer = createReducer(
     initialSystemIntegrationState,
+    on(SetSelectedSystem, (state: SystemState, { system }) => ({
+        ...state,
+        selectedSystem: system,
+    })),
     on(CreateSystemSuccess, (state: SystemState, { response, system }) => {
         return systemAdapter.addOne(system, {
             ...state,

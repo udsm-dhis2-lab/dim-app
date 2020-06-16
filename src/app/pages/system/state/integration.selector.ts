@@ -11,6 +11,11 @@ export const getAllSystems = createSelector(
     systemAdapter.getSelectors().selectAll
 );
 
+export const getSelectedSystem = createSelector(
+    getSystemFeature,
+    (state: SystemState) => state.selectedSystem
+);
+
 export const getCreatedSystem = createSelector(
     getSystemFeature,
     (state: SystemState) => state.system

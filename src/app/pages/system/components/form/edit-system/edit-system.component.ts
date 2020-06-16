@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -7,43 +8,24 @@ import { uuid } from '@icodebible/utils/uuid';
 import * as _ from 'lodash';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
-import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
-import { AppState } from 'src/app/state/states/app.state';
-import { SystemIntegrationState, CreateSystem } from 'src/app/pages/system/state';
+import { CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemCreatedStatus } from 'src/app/pages/system/state/integration.selector';
+import {
+  getSystemCreatedStatus,
+  getSelectedSystem,
+} from 'src/app/pages/system/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { SystemState } from '../../../state/integration.state';
 
 @Component({
   selector: 'app-edit-system',
   templateUrl: './edit-system.component.html',
-  styleUrls: ['./edit-system.component.scss']
+  styleUrls: ['./edit-system.component.scss'],
 })
 export class EditSystemComponent implements OnInit, OnDestroy {
-  systems: Array<{ [key: string]: any }> = [
-    {
-      name: 'National Health Portal',
-      id: 'portal',
-    },
-    {
-      name: 'DHIS2 HMIS',
-      id: 'hmis',
-    },
-    {
-      name: 'NSMIS',
-      id: 'nsmis',
-    },
-    {
-      name: 'ARDS',
-      id: 'ards',
-    },
-  ];
-  integrationFormEntries: DataEntryField = _.clone(_.create());
-  subscriptions: Array<Subscription> = [];
-  organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
-  createJobForm: FormGroup = new FormGroup({
+  systemFormEntries: DataEntryField = _.clone(_.create());
+  updateSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),
     dataSet: new FormGroup({
@@ -57,35 +39,43 @@ export class EditSystemComponent implements OnInit, OnDestroy {
     description: new FormControl(''),
     defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
-    importURL: new FormControl(false),
-    isUsingHIM: new FormControl(false),
+    importURL: new FormControl(''),
+    isUsingHIM: new FormControl(''),
     dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(''),
+    isUsingLiveDhis2: new FormControl(false),
     from: new FormControl(''),
     to: new FormControl(''),
   });
 
-  // Subscriptions
-  formSUB$: Subscription;
-  integrationCreatedSUB$: Subscription;
-  createdIntegrationSUB$: Subscription;
+  subscriptions: Array<Subscription> = [];
+  systemFormSUB$: Subscription;
+  systemUpdatedSUB$: Subscription;
+  updatedSystemSUB$: Subscription;
+  selectedSystemSUB$: Subscription;
 
   constructor(
-    private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
-    private snackBar: MatSnackBar
+    private systemState: Store<SystemState>,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.formSUB$ = this.createJobForm.valueChanges.subscribe(
+    this.systemFormSUB$ = this.updateSystemForm.valueChanges.subscribe(
       (systemIntegration: DIMSystem) => {
-        this.integrationFormEntries = onUpdateFormProps(
-          this.integrationFormEntries,
+        this.systemFormEntries = onUpdateFormProps(
+          this.systemFormEntries,
           systemIntegration
         );
       }
     );
-    this.subscriptions.push(this.formSUB$);
+    this.selectedSystemSUB$ = this.systemState
+      .pipe(select(getSelectedSystem))
+      .subscribe((system: DIMSystem) => {
+        this.updateSystemForm.patchValue(system);
+      });
+    this.subscriptions.push(this.systemFormSUB$);
+    this.subscriptions.push(this.selectedSystemSUB$);
   }
 
   ngOnDestroy(): void {
@@ -98,26 +88,29 @@ export class EditSystemComponent implements OnInit, OnDestroy {
 
   onSubmitForm(): void {
     const id = uuid('', 11);
-    const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
+    const system = _.merge(_.clone(this.systemFormEntries), {
       id,
     });
-    this.systemIntegrationState.dispatch(
-      CreateSystem(_.clone({ systemIntegration }))
+    this.systemState.dispatch(
+      CreateSystem(_.clone({ systemIntegration: system }))
     );
-    this.integrationCreatedSUB$ = this.systemIntegrationState
+    this.systemUpdatedSUB$ = this.systemState
       .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
-          this.createJobForm.reset();
+          this.updateSystemForm.reset();
           OpenSnackBar(
             this.snackBar,
-            `System Integration "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
+            `System "${system?.name}" with id <${system?.id}> is successfully updated`,
             '',
             'success-snackbar'
           );
         }
       });
-    this.subscriptions.push(this.integrationCreatedSUB$);
+    this.subscriptions.push(this.systemUpdatedSUB$);
   }
 
+  onBack() {
+    this.router.navigate(['../../list'], { relativeTo: this.route });
+  }
 }

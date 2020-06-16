@@ -10,7 +10,7 @@ import { SystemService } from '../../services/system.service';
 import { SystemState } from '../../state/integration.state';
 import { Store, select } from '@ngrx/store';
 import { getAllSystems } from '../../state/integration.selector';
-import { LoadSystems } from '../../state';
+import { LoadSystems, SetSelectedSystem } from '../../state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { SystemTableCulumns } from '../../config/system-table.config';
 
@@ -65,8 +65,9 @@ export class SystemListComponent implements OnInit, OnDestroy {
 
   applyFilter(e: any) {}
 
-  onEdit() {
-    //
+  onEdit(system: DIMSystem) {
+    this.systemState.dispatch(SetSelectedSystem({ system }));
+    this.router.navigate(['../edit/' + system?.id], { relativeTo: this.route });
   }
 
   onDelete() {

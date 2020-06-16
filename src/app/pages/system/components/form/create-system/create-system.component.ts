@@ -17,6 +17,7 @@ import { getSystemCreatedStatus } from 'src/app/pages/system/state/integration.s
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SystemState } from '../../../state/integration.state';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -31,24 +32,6 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./create-system.component.scss']
 })
 export class CreateSystemComponent implements OnInit, OnDestroy {
-  systems: Array<{ [key: string]: any }> = [
-    {
-      name: 'National Health Portal',
-      id: 'portal',
-    },
-    {
-      name: 'DHIS2 HMIS',
-      id: 'hmis',
-    },
-    {
-      name: 'NSMIS',
-      id: 'nsmis',
-    },
-    {
-      name: 'ARDS',
-      id: 'ards',
-    },
-  ];
   // matcher = new MyErrorStateMatcher();
   integrationFormEntries: DataEntryField = _.clone(_.create());
   subscriptions: Array<Subscription> = [];
@@ -67,10 +50,10 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
     description: new FormControl(''),
     defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
-    importURL: new FormControl(false),
-    isUsingHIM: new FormControl(false),
+    importURL: new FormControl(''),
+    isUsingHIM: new FormControl(''),
     dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(''),
+    isUsingLiveDhis2: new FormControl(false),
     from: new FormControl(''),
     to: new FormControl(''),
   });
@@ -82,7 +65,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemState: Store<SystemState>,
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute
@@ -113,17 +96,17 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
     const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
       id,
     });
-    this.systemIntegrationState.dispatch(
+    this.systemState.dispatch(
       CreateSystem(_.clone({ systemIntegration }))
     );
-    this.integrationCreatedSUB$ = this.systemIntegrationState
+    this.integrationCreatedSUB$ = this.systemState
       .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
           this.createJobForm.reset();
           OpenSnackBar(
             this.snackBar,
-            `System Integration "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
+            `System "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
             '',
             'success-snackbar'
           );

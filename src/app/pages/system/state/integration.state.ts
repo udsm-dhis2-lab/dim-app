@@ -10,6 +10,7 @@ import { HTTPSuccessResponse } from '../../home/models/http-response.model';
  */
 export interface SystemState extends EntityState<DIMSystem> {
     selectedSystemId: string | number | null;
+    selectedSystem: DIMSystem;
     loading: boolean;
     loaded: boolean;
     editing: boolean;
@@ -35,6 +36,7 @@ export const defaultSystemIntegration: SystemState = {
     ids: [],
     entities: {},
     selectedSystemId: null,
+    selectedSystem: null,
     loaded: false,
     loading: false,
     editing: false,
