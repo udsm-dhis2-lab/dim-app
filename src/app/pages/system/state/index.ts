@@ -3,7 +3,7 @@
  */
 export {
     initialSystemIntegrationState,
-    SystemIntegrationState,
+    SystemState as SystemIntegrationState,
 } from './integration.state';
 
 /**

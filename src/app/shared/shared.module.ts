@@ -16,6 +16,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 
 
 /**
@@ -29,6 +31,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SearchByNamePipe } from './pipes/search-by-name/search-by-name.pipe';
 import { EmptyNotificationComponent } from './components/empty-notification/empty-notification.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ProgressLoaderComponent } from './components/progress-loader/progress-loader.component';
 
 /**
  *
@@ -38,6 +41,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     NavigationMenuComponent,
     EmptyNotificationComponent,
     SearchByNamePipe,
+    ProgressLoaderComponent,
   ],
   imports: [
     CommonModule,
@@ -59,10 +63,12 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSidenavModule,
     MatMenuModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressBarModule
   ],
   exports: [
     SearchByNamePipe,
+    ProgressLoaderComponent,
     EmptyNotificationComponent,
     NavigationMenuComponent,
     MatButtonModule,
@@ -80,7 +86,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSidenavModule,
     MatMenuModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressBarModule
   ],
 })
 /**

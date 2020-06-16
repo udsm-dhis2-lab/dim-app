@@ -6,16 +6,18 @@ import { createReducer, Action, on } from '@ngrx/store';
  *
  */
 import {
-    SystemIntegrationState,
+    SystemState,
     initialSystemIntegrationState,
-    systemIntegrationAdapter,
+    systemAdapter,
 } from './integration.state';
 /**
  *
  */
 import {
-    CreateDIMSystemSuccess,
-    CreateDIMSystemFail,
+    CreateSystemSuccess,
+    CreateSystemFail,
+    LoadSystemsSuccess,
+    LoadSystemsFail,
 } from './integration.action';
 
 /**
@@ -23,20 +25,29 @@ import {
  */
 const mSystemIntegrationReducer = createReducer(
     initialSystemIntegrationState,
-    on(
-        CreateDIMSystemSuccess,
-        (state: SystemIntegrationState, { response, system }) => {
-            return systemIntegrationAdapter.addOne(system, {
-                ...state,
-                created: true,
-                response,
-                system,
-            });
-        }
-    ),
-    on(CreateDIMSystemFail, (state: SystemIntegrationState, { error }) => ({
+    on(CreateSystemSuccess, (state: SystemState, { response, system }) => {
+        return systemAdapter.addOne(system, {
+            ...state,
+            created: true,
+            response,
+            system,
+        });
+    }),
+    on(CreateSystemFail, (state: SystemState, { error }) => ({
         ...state,
         created: false,
+        error,
+    })),
+    on(LoadSystemsSuccess, (state: SystemState, { systems }) => {
+        return systemAdapter.setAll(systems, {
+            ...state,
+            loading: false,
+            loaded: true,
+        });
+    }),
+    on(LoadSystemsFail, (state: SystemState, { error }) => ({
+        ...state,
+        entities: {},
         error,
     }))
 );
@@ -46,7 +57,7 @@ const mSystemIntegrationReducer = createReducer(
  * @action
  */
 export function _SystemIntegrationReducer(
-    state: SystemIntegrationState | undefined,
+    state: SystemState | undefined,
     action: Action
 ) {
     /**

@@ -8,8 +8,8 @@ import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 /**
  *
  */
-export interface SystemIntegrationState extends EntityState<DIMSystem> {
-    selectedSystemIntegrationId: string | number | null;
+export interface SystemState extends EntityState<DIMSystem> {
+    selectedSystemId: string | number | null;
     loading: boolean;
     loaded: boolean;
     editing: boolean;
@@ -18,23 +18,23 @@ export interface SystemIntegrationState extends EntityState<DIMSystem> {
     created: boolean;
     error: HTTPErrorMessage | null;
     response: HTTPSuccessResponse;
-    systemIntegration: DIMSystem;
+    system: DIMSystem;
 }
 
 /**
  *
  */
-export const systemIntegrationAdapter: EntityAdapter<DIMSystem> = createEntityAdapter<
+export const systemAdapter: EntityAdapter<DIMSystem> = createEntityAdapter<
     DIMSystem
 >();
 
 /**
  *
  */
-export const defaultSystemIntegration: SystemIntegrationState = {
+export const defaultSystemIntegration: SystemState = {
     ids: [],
     entities: {},
-    selectedSystemIntegrationId: null,
+    selectedSystemId: null,
     loaded: false,
     loading: false,
     editing: false,
@@ -43,12 +43,12 @@ export const defaultSystemIntegration: SystemIntegrationState = {
     created: false,
     error: null,
     response: null,
-    systemIntegration: null
+    system: null,
 };
 
 /**
  *
  */
-export const initialSystemIntegrationState = systemIntegrationAdapter.getInitialState(
+export const initialSystemIntegrationState = systemAdapter.getInitialState(
     defaultSystemIntegration
 );

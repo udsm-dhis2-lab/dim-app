@@ -10,10 +10,10 @@ import { DataEntryField } from 'src/app/shared/models/form.model';
 import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
 import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
-import { SystemIntegrationState, CreateDIMSystem } from 'src/app/pages/system/state';
+import { SystemIntegrationState, CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemIntegrationCreatedStatus } from 'src/app/pages/system/state/integration.selector';
+import { getSystemCreatedStatus } from 'src/app/pages/system/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -114,10 +114,10 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
       id,
     });
     this.systemIntegrationState.dispatch(
-      CreateDIMSystem(_.clone({ systemIntegration }))
+      CreateSystem(_.clone({ systemIntegration }))
     );
     this.integrationCreatedSUB$ = this.systemIntegrationState
-      .pipe(select(getSystemIntegrationCreatedStatus))
+      .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
           this.createJobForm.reset();

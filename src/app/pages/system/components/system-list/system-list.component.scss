@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  opacity: 0.03 !important;
+  background-color: rgb(33, 150, 243);
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: rgb(33, 150, 243);
+}
+
 // FAB Button
 .fab-add-btn button,
 .fab-add-btn a {

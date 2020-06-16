@@ -12,11 +12,11 @@ import { AppState } from 'src/app/state/states/app.state';
 import { Store, select } from '@ngrx/store';
 import {
   SystemIntegrationState,
-  CreateDIMSystem,
+  CreateSystem,
 } from '../../../../system/state';
 import {
-  getSystemIntegrationCreatedStatus,
-  getCreatedSystemIntegration,
+  getSystemCreatedStatus,
+  getCreatedSystem,
 } from '../../../../system/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -97,10 +97,10 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
       id,
     });
     this.systemIntegrationState.dispatch(
-      CreateDIMSystem(_.clone({ systemIntegration }))
+      CreateSystem(_.clone({ systemIntegration }))
     );
     this.integrationCreatedSUB$ = this.systemIntegrationState
-      .pipe(select(getSystemIntegrationCreatedStatus))
+      .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
           this.createIntegrationForm.reset();

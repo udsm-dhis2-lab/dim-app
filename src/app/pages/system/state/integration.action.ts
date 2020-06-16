@@ -13,25 +13,28 @@ import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 /**
  *
  */
-export enum SystemIntegrationActionType {
+export enum SystemActionType {
     CREATE_SYSTEM = '[Integration:Create] Create System',
-    CREATE_SYSTEM_SUCCESS = '[Integration:Create] System Success',
-    CREATE_SYSTEM_FAIL = '[Integration:Create] Load System Fail',
+    CREATE_SYSTEM_SUCCESS = '[Integration:Create] Create System Success',
+    CREATE_SYSTEM_FAIL = '[Integration:Create] Create System Fail',
+    LOAD_SYSTEMS = '[Integration:System] Load Systems',
+    LOAD_SYSTEMS_SUCCESS = '[Integration:System] Load Systems Success',
+    LOAD_SYSTEMS_FAIL = '[Integration:System] Load Systems Fail',
 }
 
 /**
  *
  */
-export const CreateDIMSystem = createAction(
-    SystemIntegrationActionType.CREATE_SYSTEM,
+export const CreateSystem = createAction(
+    SystemActionType.CREATE_SYSTEM,
     props<{ system: DIMSystem }>()
 );
 
 /**
  *
  */
-export const CreateDIMSystemSuccess = createAction(
-    SystemIntegrationActionType.CREATE_SYSTEM_SUCCESS,
+export const CreateSystemSuccess = createAction(
+    SystemActionType.CREATE_SYSTEM_SUCCESS,
     props<{
         response: HTTPSuccessResponse;
         system: DIMSystem;
@@ -41,7 +44,19 @@ export const CreateDIMSystemSuccess = createAction(
 /**
  *
  */
-export const CreateDIMSystemFail = createAction(
-    SystemIntegrationActionType.CREATE_SYSTEM_FAIL,
+export const CreateSystemFail = createAction(
+    SystemActionType.CREATE_SYSTEM_FAIL,
+    props<{ error: HTTPErrorMessage }>()
+);
+
+export const LoadSystems = createAction(SystemActionType.LOAD_SYSTEMS);
+
+export const LoadSystemsSuccess = createAction(
+    SystemActionType.LOAD_SYSTEMS_SUCCESS,
+    props<{ systems: Array<DIMSystem> }>()
+);
+
+export const LoadSystemsFail = createAction(
+    SystemActionType.LOAD_SYSTEMS_FAIL,
     props<{ error: HTTPErrorMessage }>()
 );

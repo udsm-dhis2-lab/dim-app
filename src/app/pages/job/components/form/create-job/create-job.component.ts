@@ -9,11 +9,11 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
 import {
   SystemIntegrationState,
-  CreateDIMSystem,
+  CreateSystem,
 } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemIntegrationCreatedStatus } from 'src/app/pages/system/state/integration.selector';
+import { getSystemCreatedStatus } from 'src/app/pages/system/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { OrgUnitLevel } from '../../../models/orgunit-level.model';
 import { OrgUnitLevelConfig } from '../../../config/orgunit-level.config';
@@ -104,10 +104,10 @@ export class CreateJobComponent implements OnInit, OnDestroy {
       id,
     });
     this.systemIntegrationState.dispatch(
-      CreateDIMSystem(_.clone({ systemIntegration }))
+      CreateSystem(_.clone({ systemIntegration }))
     );
     this.integrationCreatedSUB$ = this.systemIntegrationState
-      .pipe(select(getSystemIntegrationCreatedStatus))
+      .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
           this.createJobForm.reset();
