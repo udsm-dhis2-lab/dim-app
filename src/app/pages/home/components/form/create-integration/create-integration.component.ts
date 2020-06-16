@@ -17,7 +17,7 @@ import {
 import {
   getSystemCreatedStatus,
   getCreatedSystem,
-} from '../../../../system/state/integration.selector';
+} from '../../../../system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

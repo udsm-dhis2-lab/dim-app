@@ -13,11 +13,11 @@ import { AppState } from 'src/app/state/states/app.state';
 import { SystemIntegrationState, CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemCreatedStatus } from 'src/app/pages/system/state/integration.selector';
+import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SystemState } from '../../../state/integration.state';
+import { SystemState } from '../../../state/system.state';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

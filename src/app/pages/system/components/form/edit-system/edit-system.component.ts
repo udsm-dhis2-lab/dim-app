@@ -14,9 +14,9 @@ import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.util
 import {
   getSystemCreatedStatus,
   getSelectedSystem,
-} from 'src/app/pages/system/state/integration.selector';
+} from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
-import { SystemState } from '../../../state/integration.state';
+import { SystemState } from '../../../state/system.state';
 
 @Component({
   selector: 'app-edit-system',

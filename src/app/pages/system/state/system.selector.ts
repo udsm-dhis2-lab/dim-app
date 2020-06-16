@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { systemAdapter, SystemState } from './integration.state';
+import { systemAdapter, SystemState } from './system.state';
 
 export const getSystemFeature = createFeatureSelector('systemIntegrations');
 

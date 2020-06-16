@@ -21,7 +21,7 @@ import {
     CreateSystemFail,
     LoadSystemsSuccess,
     LoadSystemsFail,
-} from './integration.action';
+} from './system.action';
 import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';

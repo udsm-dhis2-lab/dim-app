@@ -4,19 +4,19 @@
 export {
     initialSystemIntegrationState,
     SystemState as SystemIntegrationState,
-} from './integration.state';
+} from './system.state';
 
 /**
  *
  */
-export { SystemIntegrationEffects } from './integration.effect';
+export { SystemIntegrationEffects } from './system.effect';
 
 /**
  *
  */
-export { _SystemIntegrationReducer } from './integration.reducer';
+export { _SystemIntegrationReducer } from './system.reducer';
 
 /**
  *
  */
-export * from './integration.action';
+export * from './system.action';

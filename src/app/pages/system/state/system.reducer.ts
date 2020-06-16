@@ -9,7 +9,7 @@ import {
     SystemState,
     initialSystemIntegrationState,
     systemAdapter,
-} from './integration.state';
+} from './system.state';
 /**
  *
  */
@@ -19,7 +19,7 @@ import {
     LoadSystemsSuccess,
     LoadSystemsFail,
     SetSelectedSystem,
-} from './integration.action';
+} from './system.action';
 
 /**
  *

@@ -7,9 +7,9 @@ import { Subscription, Observable } from 'rxjs';
 import * as _ from 'lodash';
 
 import { SystemService } from '../../services/system.service';
-import { SystemState } from '../../state/integration.state';
+import { SystemState } from '../../state/system.state';
 import { Store, select } from '@ngrx/store';
-import { getAllSystems } from '../../state/integration.selector';
+import { getAllSystems } from '../../state/system.selector';
 import { LoadSystems, SetSelectedSystem } from '../../state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { SystemTableCulumns } from '../../config/system-table.config';
