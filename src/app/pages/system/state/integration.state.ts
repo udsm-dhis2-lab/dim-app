@@ -2,13 +2,13 @@
  *
  */
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { SystemIntegration } from '../../home/models/integration.model';
+import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 /**
  *
  */
-export interface SystemIntegrationState extends EntityState<SystemIntegration> {
+export interface SystemIntegrationState extends EntityState<DIMSystem> {
     selectedSystemIntegrationId: string | number | null;
     loading: boolean;
     loaded: boolean;
@@ -18,14 +18,14 @@ export interface SystemIntegrationState extends EntityState<SystemIntegration> {
     created: boolean;
     error: HTTPErrorMessage | null;
     response: HTTPSuccessResponse;
-    systemIntegration: SystemIntegration;
+    systemIntegration: DIMSystem;
 }
 
 /**
  *
  */
-export const systemIntegrationAdapter: EntityAdapter<SystemIntegration> = createEntityAdapter<
-    SystemIntegration
+export const systemIntegrationAdapter: EntityAdapter<DIMSystem> = createEntityAdapter<
+    DIMSystem
 >();
 
 /**

@@ -1,7 +1,7 @@
 /**
  *
  */
-export interface SystemIntegration {
+export interface DIMSystem {
     id: string;
     name: string;
     isAllowed: boolean;

@@ -5,14 +5,14 @@ import { uuid } from '@icodebible/utils/uuid';
 
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { SystemIntegration } from '../../../models/integration.model';
+import { DIMSystem } from '../../../models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
 import { Store, select } from '@ngrx/store';
 import {
   SystemIntegrationState,
-  CreateSystemIntegration,
+  CreateDIMSystem,
 } from '../../../../system/state';
 import {
   getSystemIntegrationCreatedStatus,
@@ -73,7 +73,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formSUB$ = this.createIntegrationForm.valueChanges.subscribe(
-      (systemIntegration: SystemIntegration) => {
+      (systemIntegration: DIMSystem) => {
         this.integrationFormEntries = onUpdateFormProps(
           this.integrationFormEntries,
           systemIntegration
@@ -97,7 +97,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
       id,
     });
     this.systemIntegrationState.dispatch(
-      CreateSystemIntegration(_.clone({ systemIntegration }))
+      CreateDIMSystem(_.clone({ systemIntegration }))
     );
     this.integrationCreatedSUB$ = this.systemIntegrationState
       .pipe(select(getSystemIntegrationCreatedStatus))

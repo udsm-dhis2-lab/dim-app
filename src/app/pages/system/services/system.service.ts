@@ -5,7 +5,7 @@ import { Observable, zip } from 'rxjs';
 import * as _ from 'lodash';
 import { uuid } from '@icodebible/utils/uuid';
 
-import { SystemIntegration } from '../../home/models/integration.model';
+import { DIMSystem } from '../../home/models/integration.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -27,9 +27,9 @@ export class SystemService {
    * @params systemIntegration
    */
   createSystemIntegration(payload: {
-    [key: string]: SystemIntegration;
+    [key: string]: DIMSystem;
   }): Observable<any> {
-    const systemIntegration: SystemIntegration = payload.systemIntegration;
+    const systemIntegration: DIMSystem = payload.systemIntegration;
     const uid = systemIntegration?.id ? systemIntegration?.id : uuid('', 11);
 
     const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${uid}`;

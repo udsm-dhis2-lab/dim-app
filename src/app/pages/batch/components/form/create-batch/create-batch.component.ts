@@ -9,9 +9,9 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
 import {
   SystemIntegrationState,
-  CreateSystemIntegration,
+  CreateDIMSystem,
 } from 'src/app/pages/system/state';
-import { SystemIntegration } from 'src/app/pages/home/models/integration.model';
+import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemIntegrationCreatedStatus } from 'src/app/pages/system/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
@@ -76,7 +76,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formSUB$ = this.createJobForm.valueChanges.subscribe(
-      (systemIntegration: SystemIntegration) => {
+      (systemIntegration: DIMSystem) => {
         this.integrationFormEntries = onUpdateFormProps(
           this.integrationFormEntries,
           systemIntegration
@@ -100,7 +100,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
       id,
     });
     this.systemIntegrationState.dispatch(
-      CreateSystemIntegration(_.clone({ systemIntegration }))
+      CreateDIMSystem(_.clone({ systemIntegration }))
     );
     this.integrationCreatedSUB$ = this.systemIntegrationState
       .pipe(select(getSystemIntegrationCreatedStatus))

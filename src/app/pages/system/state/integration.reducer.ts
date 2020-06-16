@@ -14,8 +14,8 @@ import {
  *
  */
 import {
-    CreateSystemIntegrationSuccess,
-    CreateSystemIntegrationFail,
+    CreateDIMSystemSuccess,
+    CreateDIMSystemFail,
 } from './integration.action';
 
 /**
@@ -24,24 +24,21 @@ import {
 const mSystemIntegrationReducer = createReducer(
     initialSystemIntegrationState,
     on(
-        CreateSystemIntegrationSuccess,
-        (state: SystemIntegrationState, { response, systemIntegration }) => {
-            return systemIntegrationAdapter.addOne(systemIntegration, {
+        CreateDIMSystemSuccess,
+        (state: SystemIntegrationState, { response, system }) => {
+            return systemIntegrationAdapter.addOne(system, {
                 ...state,
                 created: true,
                 response,
-                systemIntegration,
+                system,
             });
         }
     ),
-    on(
-        CreateSystemIntegrationFail,
-        (state: SystemIntegrationState, { error }) => ({
-            ...state,
-            created: false,
-            error,
-        })
-    )
+    on(CreateDIMSystemFail, (state: SystemIntegrationState, { error }) => ({
+        ...state,
+        created: false,
+        error,
+    }))
 );
 /**
  *

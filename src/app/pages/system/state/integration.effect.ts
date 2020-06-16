@@ -17,10 +17,10 @@ import * as _ from 'lodash';
  */
 import {
     SystemIntegrationActionType,
-    CreateSystemIntegrationSuccess,
-    CreateSystemIntegrationFail,
+    CreateDIMSystemSuccess,
+    CreateDIMSystemFail,
 } from './integration.action';
-import { SystemIntegration } from '../../home/models/integration.model';
+import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { SystemService } from '../services/system.service';
@@ -42,19 +42,18 @@ export class SystemIntegrationEffects {
      */
     createSystemIntegration$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(SystemIntegrationActionType.CREATE_SYS_INTEGRATION),
+            ofType(SystemIntegrationActionType.CREATE_SYSTEM),
             map((payload: any) => _.omit(payload, ['type'])),
-            switchMap((payload: { [key: string]: SystemIntegration }) =>
+            switchMap((payload: { [key: string]: DIMSystem }) =>
                 this.systemService.createSystemIntegration(payload).pipe(
                     map((response: HTTPSuccessResponse) => {
-                        const systemIntegration = payload?.systemIntegration;
-                        return CreateSystemIntegrationSuccess({
+                        return CreateDIMSystemSuccess({
                             response,
-                            systemIntegration,
+                            system: payload?.system,
                         });
                     }),
                     catchError((error: HTTPErrorMessage) =>
-                        of(CreateSystemIntegrationFail({ error }))
+                        of(CreateDIMSystemFail({ error }))
                     )
                 )
             )
