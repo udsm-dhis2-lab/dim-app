@@ -15,15 +15,15 @@ import * as _ from 'lodash';
 /**
  *
  */
-import { SystemIntegration } from '../../home/models/integration.model';
-import { HTTPSuccessResponse } from '../../home/models/http-response.model';
-import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
-import { SystemIntegrationService } from '../../system/services/system-integration.service';
 import {
     SystemIntegrationActionType,
     CreateSystemIntegrationSuccess,
     CreateSystemIntegrationFail,
-} from '../../system/state';
+} from './integration.action';
+import { SystemIntegration } from '../../home/models/integration.model';
+import { HTTPSuccessResponse } from '../../home/models/http-response.model';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { SystemService } from '../services/system.service';
 
 @Injectable()
 export class SystemIntegrationEffects {
@@ -34,7 +34,7 @@ export class SystemIntegrationEffects {
      */
     constructor(
         private actions$: Actions,
-        private systemIntegrationService: SystemIntegrationService
+        private systemService: SystemService
     ) { }
 
     /**
@@ -45,7 +45,7 @@ export class SystemIntegrationEffects {
             ofType(SystemIntegrationActionType.CREATE_SYS_INTEGRATION),
             map((payload: any) => _.omit(payload, ['type'])),
             switchMap((payload: { [key: string]: SystemIntegration }) =>
-                this.systemIntegrationService.createSystemIntegration(payload).pipe(
+                this.systemService.createSystemIntegration(payload).pipe(
                     map((response: HTTPSuccessResponse) => {
                         const systemIntegration = payload?.systemIntegration;
                         return CreateSystemIntegrationSuccess({

@@ -1,4 +1,4 @@
-<div class="menu-container">
+<!-- <div class="menu-container">
     <button class="menu-item" *ngFor="let menu of navigationMenu" (click)="onOpenMenu(menu)">
         <div matRipple [matTooltip]="menu?.name" matRipple>
             <div class="tab-menu-item" matRipple routerLink="/{{ menu?.route }}" routerLinkActive="active">
@@ -6,4 +6,35 @@
             </div>
         </div>
     </button>
-</div>
+</div> -->
+<!-- <div class="main">
+  <div class="main-a">
+    <div value="all">
+      <div class="main-b">
+        <button *ngFor="let menu of navigationMenu" tabindex="0" type="button" class="main-btn">
+          <div>
+            <div class="all">
+              {{ menu?.name }}
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<main class="i-main-navigation-menu-container">
+  <div>
+    <div>
+      <div class="i-main-menu-container">
+        <button class="i-main-menu-btn" *ngFor="let menu of navigationMenu">
+          <div class="i-main-menu-btn-div" routerLink="/{{ menu?.route }}" routerLinkActive="active">
+            <div class="i-main-menu">
+              {{ menu?.name }}
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

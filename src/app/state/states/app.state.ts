@@ -5,7 +5,7 @@ import { MetaReducer, ActionReducerMap } from '@ngrx/store';
 /**
  *
  */
-import * as fromSystemIntegrationStore from '../../pages/home/state';
+import * as fromSystemIntegrationStore from '../../pages/system/state';
 import { environment } from 'src/environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { UserState, initialUserState } from './user.state';

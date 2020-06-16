@@ -12,6 +12,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+
 
 /**
  *
@@ -51,6 +56,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatMomentDateModule,
     MatNativeDateModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   exports: [
     SearchByNamePipe,
@@ -68,6 +77,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSnackBarModule,
     MatIconModule,
     MatDatepickerModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
 })
 /**

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SystemService } from '../../services/system.service';
 
 @Component({
   selector: 'app-system-list',
@@ -10,7 +11,11 @@ export class SystemListComponent implements OnInit {
   dataSource = [];
   displayedColumns = ['id'];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private systemService: SystemService
+  ) {}
 
   ngOnInit(): void {}
 

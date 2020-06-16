@@ -13,11 +13,11 @@ import { Store, select } from '@ngrx/store';
 import {
   SystemIntegrationState,
   CreateSystemIntegration,
-} from '../../../state';
+} from '../../../../system/state';
 import {
   getSystemIntegrationCreatedStatus,
   getCreatedSystemIntegration,
-} from '../../../state/integration.selector';
+} from '../../../../system/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

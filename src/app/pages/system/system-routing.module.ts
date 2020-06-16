@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SystemComponent } from './components/system/system.component';
+import { SystemComponent } from './containers/system/system.component';
 import { EditSystemComponent } from './components/form/edit-system/edit-system.component';
 import { CreateSystemComponent } from './components/form/create-system/create-system.component';
+import { SystemListComponent } from './components/system-list/system-list.component';
+import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
 
 const routes: Routes = [
   {
@@ -12,7 +14,15 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'create',
+        component: ServiceMenuComponent,
+      },
+      {
+        path: 'dim-system-section',
+        component: ServiceMenuComponent,
+      },
+      {
+        path: 'list',
+        component: SystemListComponent,
       },
       {
         path: 'create',

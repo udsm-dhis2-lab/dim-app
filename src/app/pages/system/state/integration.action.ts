@@ -6,9 +6,9 @@ import { createAction, props } from '@ngrx/store';
 /**
  *
  */
-import { SystemIntegration } from '../models/integration.model';
+import { SystemIntegration } from '../../home/models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
-import { HTTPSuccessResponse } from '../models/http-response.model';
+import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 
 /**
  *

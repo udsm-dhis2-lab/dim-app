@@ -10,10 +10,10 @@ import { AppState } from 'src/app/state/states/app.state';
 import {
   SystemIntegrationState,
   CreateSystemIntegration,
-} from 'src/app/pages/home/state';
+} from 'src/app/pages/system/state';
 import { SystemIntegration } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemIntegrationCreatedStatus } from 'src/app/pages/home/state/integration.selector';
+import { getSystemIntegrationCreatedStatus } from 'src/app/pages/system/state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { OrgUnitLevel } from '../../../models/orgunit-level.model';
 import { OrgUnitLevelConfig } from '../../../config/orgunit-level.config';
