@@ -6,10 +6,12 @@ import { IntegrationComponent } from './containers/integration/integration.compo
 import { SharedModule } from 'src/app/shared/shared.module';
 import { IntegrationListComponent } from './components/integration-list/integration-list.component';
 import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
+import { CreateIntegrationComponent } from './components/form/create-integration/create-integration.component';
+import { EditIntegrationComponent } from './components/form/edit-integration/edit-integration.component';
 
 
 @NgModule({
-  declarations: [IntegrationComponent, IntegrationListComponent, ServiceMenuComponent],
+  declarations: [IntegrationComponent, IntegrationListComponent, ServiceMenuComponent, CreateIntegrationComponent, EditIntegrationComponent],
   imports: [
     CommonModule,
     IntegrationRoutingModule,
