@@ -8,12 +8,13 @@ import { uuid } from '@icodebible/utils/uuid';
 import * as _ from 'lodash';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { CreateSystem } from 'src/app/pages/system/state';
+import { CreateSystem, UpdateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import {
   getSystemCreatedStatus,
   getSelectedSystem,
+  getSystemEditedStatus,
 } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { SystemState } from '../../../state/system.state';
@@ -62,10 +63,10 @@ export class EditSystemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.systemFormSUB$ = this.updateSystemForm.valueChanges.subscribe(
-      (systemIntegration: DIMSystem) => {
+      (system: DIMSystem) => {
         this.systemFormEntries = onUpdateFormProps(
           this.systemFormEntries,
-          systemIntegration
+          system
         );
       }
     );
@@ -87,27 +88,31 @@ export class EditSystemComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(): void {
-    const id = uuid('', 11);
-    const system = _.merge(_.clone(this.systemFormEntries), {
-      id,
-    });
-    this.systemState.dispatch(
-      CreateSystem(_.clone({ systemIntegration: system }))
-    );
-    this.systemUpdatedSUB$ = this.systemState
-      .pipe(select(getSystemCreatedStatus))
-      .subscribe((status: boolean) => {
-        if (status) {
-          this.updateSystemForm.reset();
-          OpenSnackBar(
-            this.snackBar,
-            `System "${system?.name}" with id <${system?.id}> is successfully updated`,
-            '',
-            'success-snackbar'
-          );
-        }
+    this.selectedSystemSUB$ = this.systemState
+      .pipe(select(getSelectedSystem))
+      .subscribe((system: DIMSystem) => {
+        const updatedSystem = _.merge(_.clone(this.systemFormEntries), {
+          id: system?.id,
+        });
+        this.systemState.dispatch(
+          UpdateSystem(_.clone({ system: updatedSystem }))
+        );
+        this.systemUpdatedSUB$ = this.systemState
+          .pipe(select(getSystemEditedStatus))
+          .subscribe((status: boolean) => {
+            if (status) {
+              this.router.navigate(['../../list'], { relativeTo: this.route });
+              OpenSnackBar(
+                this.snackBar,
+                `System "${updatedSystem?.name}" with id <${updatedSystem?.id}> is successfully updated`,
+                '',
+                'success-snackbar'
+              );
+            }
+          });
+        this.subscriptions.push(this.systemUpdatedSUB$);
       });
-    this.subscriptions.push(this.systemUpdatedSUB$);
+    this.subscriptions.push(this.selectedSystemSUB$);
   }
 
   onBack() {

@@ -21,6 +21,8 @@ import {
     CreateSystemFail,
     LoadSystemsSuccess,
     LoadSystemsFail,
+    UpdateSystemSuccess,
+    UpdateSystemFail,
 } from './system.action';
 import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPSuccessResponse } from '../../home/models/http-response.model';
@@ -72,6 +74,29 @@ export class SystemIntegrationEffects {
                 this.systemService.getSystems().pipe(
                     map((systems: Array<DIMSystem>) => LoadSystemsSuccess({ systems })),
                     catchError((error: any) => of(LoadSystemsFail({ error })))
+                )
+            )
+        )
+    );
+
+    updateSystem$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(SystemActionType.UPDATE_SYSTEM),
+            map((payload: any) => _.omit(payload, ['type'])),
+            switchMap((formPayload: { [key: string]: DIMSystem }) =>
+                this.systemService.updateSystem(formPayload).pipe(
+                    map((response: any) =>
+                        UpdateSystemSuccess({
+                            system: {
+                                id: formPayload?.system?.id,
+                                changes: formPayload?.system,
+                            },
+                            payload: formPayload?.system,
+                        })
+                    ),
+                    catchError((error: HTTPErrorMessage) =>
+                        of(UpdateSystemFail({ error }))
+                    )
                 )
             )
         )

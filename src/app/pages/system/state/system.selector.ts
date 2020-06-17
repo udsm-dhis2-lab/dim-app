@@ -26,6 +26,11 @@ export const getSystemCreatedStatus = createSelector(
     (state: SystemState) => state?.created
 );
 
+export const getSystemEditedStatus = createSelector(
+    getSystemFeature,
+    (state: SystemState) => state.edited
+);
+
 export const getSystemError = createSelector(
     getSystemFeature,
     (state: SystemState) => state?.error

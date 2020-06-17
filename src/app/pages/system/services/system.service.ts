@@ -54,4 +54,12 @@ export class SystemService {
       })
     );
   }
+
+  updateSystem(payload: { [key: string]: DIMSystem }): Observable<any> {
+    if (payload) {
+      const system: DIMSystem = payload?.system;
+      const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${system?.id}`;
+      return this.httpClient.put<any>(endPointURL, system, httpOptions);
+    }
+  }
 }

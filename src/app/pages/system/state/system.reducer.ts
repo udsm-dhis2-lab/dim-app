@@ -19,6 +19,8 @@ import {
     LoadSystemsSuccess,
     LoadSystemsFail,
     SetSelectedSystem,
+    UpdateSystemSuccess,
+    UpdateSystemFail,
 } from './system.action';
 
 /**
@@ -41,6 +43,22 @@ const mSystemIntegrationReducer = createReducer(
     on(CreateSystemFail, (state: SystemState, { error }) => ({
         ...state,
         created: false,
+        error,
+    })),
+    on(UpdateSystemSuccess, (state: SystemState, { system, payload }) => {
+        return systemAdapter.updateOne(system, {
+            ...state,
+            loaded: false,
+            loading: false,
+            edited: true,
+            selectedSystemId: payload?.id,
+            system: payload,
+        });
+    }),
+    on(UpdateSystemFail, (state: SystemState, { error }) => ({
+        ...state,
+        selectedSystemId: null,
+        edited: false,
         error,
     })),
     on(LoadSystemsSuccess, (state: SystemState, { systems }) => {
