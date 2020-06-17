@@ -51,6 +51,6 @@ export const defaultSystemIntegration: SystemState = {
 /**
  *
  */
-export const initialSystemIntegrationState = systemAdapter.getInitialState(
+export const initialSystemState = systemAdapter.getInitialState(
     defaultSystemIntegration
 );

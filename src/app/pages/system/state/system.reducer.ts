@@ -7,7 +7,7 @@ import { createReducer, Action, on } from '@ngrx/store';
  */
 import {
     SystemState,
-    initialSystemIntegrationState,
+    initialSystemState,
     systemAdapter,
 } from './system.state';
 /**
@@ -26,8 +26,8 @@ import {
 /**
  *
  */
-const mSystemIntegrationReducer = createReducer(
-    initialSystemIntegrationState,
+const mSystemReducer = createReducer(
+    initialSystemState,
     on(SetSelectedSystem, (state: SystemState, { system }) => ({
         ...state,
         selectedSystem: system,
@@ -79,12 +79,12 @@ const mSystemIntegrationReducer = createReducer(
  * @state
  * @action
  */
-export function _SystemIntegrationReducer(
+export function _SystemReducer(
     state: SystemState | undefined,
     action: Action
 ) {
     /**
      *
      */
-    return mSystemIntegrationReducer(state, action);
+    return mSystemReducer(state, action);
 }

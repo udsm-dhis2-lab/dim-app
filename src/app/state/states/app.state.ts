@@ -17,7 +17,6 @@ import { UserEffects } from '../effects/user.effects';
 import { SystemInfoEffects } from '../effects/system-info.effects';
 import { RouterEffects } from '../effects/router.effects';
 import { initialRouterState } from '../selectors/router.selectors';
-
 /**
  *
  */
@@ -25,7 +24,7 @@ export interface AppState {
     /**
      *
      */
-    systemIntegrations: fromSystemIntegrationStore.SystemIntegrationState;
+    system: fromSystemIntegrationStore.SystemState;
     user: UserState;
     systemInfo: SystemInfoState;
     router: RouterReducerState;
@@ -38,7 +37,7 @@ export const initialAppState: AppState = {
     /**
      *
      */
-    systemIntegrations: fromSystemIntegrationStore.initialSystemIntegrationState,
+    system: fromSystemIntegrationStore.initialSystemState,
     user: initialUserState,
     systemInfo: initialSystemInfoState,
     router: initialRouterState,
@@ -52,7 +51,7 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
  *
  */
 export const reducers: ActionReducerMap<AppState> = {
-    systemIntegrations: fromSystemIntegrationStore._SystemIntegrationReducer,
+    system: fromSystemIntegrationStore._SystemReducer,
     user: userReducer,
     systemInfo: systemInfoReducer,
     router: routerReducer,
@@ -62,7 +61,7 @@ export const reducers: ActionReducerMap<AppState> = {
  *
  */
 export const appEffects: Array<any> = [
-    fromSystemIntegrationStore.SystemIntegrationEffects,
+    fromSystemIntegrationStore.SystemEffects,
     UserEffects,
     SystemInfoEffects,
     RouterEffects,

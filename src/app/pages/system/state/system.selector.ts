@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { systemAdapter, SystemState } from './system.state';
 
-export const getSystemFeature = createFeatureSelector('systemIntegrations');
+export const getSystemFeature = createFeatureSelector('system');
 
 /**
  * Reports Selectors

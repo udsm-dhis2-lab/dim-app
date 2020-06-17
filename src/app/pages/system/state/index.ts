@@ -1,20 +1,17 @@
 /**
  *
  */
-export {
-    initialSystemIntegrationState,
-    SystemState as SystemIntegrationState,
-} from './system.state';
+export { initialSystemState, SystemState } from './system.state';
 
 /**
  *
  */
-export { SystemIntegrationEffects } from './system.effect';
+export { SystemEffects } from './system.effect';
 
 /**
  *
  */
-export { _SystemIntegrationReducer } from './system.reducer';
+export { _SystemReducer } from './system.reducer';
 
 /**
  *

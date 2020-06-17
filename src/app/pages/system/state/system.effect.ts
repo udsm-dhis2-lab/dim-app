@@ -30,7 +30,7 @@ import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { SystemService } from '../services/system.service';
 
 @Injectable()
-export class SystemIntegrationEffects {
+export class SystemEffects {
     /**
      *
      * @actions$

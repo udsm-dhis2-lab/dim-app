@@ -10,10 +10,7 @@ import { DataEntryField } from 'src/app/shared/models/form.model';
 import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
 import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
-import {
-  SystemIntegrationState,
-  CreateSystem,
-} from 'src/app/pages/system/state';
+import { SystemState, CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
@@ -74,7 +71,7 @@ export class EditAuthComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemIntegrationState: Store<SystemState>,
     private snackBar: MatSnackBar
   ) {}
 

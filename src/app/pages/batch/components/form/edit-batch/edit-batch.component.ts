@@ -7,10 +7,7 @@ import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
-import {
-  SystemIntegrationState,
-  CreateSystem,
-} from 'src/app/pages/system/state';
+import { SystemState, CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
@@ -18,7 +15,7 @@ import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 @Component({
   selector: 'app-edit-batch',
   templateUrl: './edit-batch.component.html',
-  styleUrls: ['./edit-batch.component.scss']
+  styleUrls: ['./edit-batch.component.scss'],
 })
 export class EditBatchComponent implements OnInit {
   systems: Array<{ [key: string]: any }> = [
@@ -70,7 +67,7 @@ export class EditBatchComponent implements OnInit {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemIntegrationState: Store<SystemState>,
     private snackBar: MatSnackBar
   ) {}
 

@@ -7,10 +7,7 @@ import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
-import {
-  SystemIntegrationState,
-  CreateSystem,
-} from 'src/app/pages/system/state';
+import { SystemState, CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
@@ -74,7 +71,7 @@ export class CreateJobComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemIntegrationState: Store<SystemState>,
     private snackBar: MatSnackBar
   ) {}
 

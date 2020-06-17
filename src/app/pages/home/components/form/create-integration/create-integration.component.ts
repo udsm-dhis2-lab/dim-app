@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
 import { Store, select } from '@ngrx/store';
 import {
-  SystemIntegrationState,
+  SystemState,
   CreateSystem,
 } from '../../../../system/state';
 import {
@@ -67,7 +67,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemIntegrationState: Store<SystemState>,
     private snackBar: MatSnackBar
   ) {}
 

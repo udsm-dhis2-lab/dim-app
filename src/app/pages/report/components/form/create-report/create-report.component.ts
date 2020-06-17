@@ -7,7 +7,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/state/states/app.state';
 import {
-  SystemIntegrationState,
+  SystemState,
   CreateSystem,
 } from 'src/app/pages/system/state';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -77,7 +77,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemState: Store<SystemState>,
     private snackBar: MatSnackBar
   ) {}
 
@@ -106,10 +106,10 @@ export class CreateReportComponent implements OnInit, OnDestroy {
     const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
       id,
     });
-    this.systemIntegrationState.dispatch(
+    this.systemState.dispatch(
       CreateSystem(_.clone({ systemIntegration }))
     );
-    this.integrationCreatedSUB$ = this.systemIntegrationState
+    this.integrationCreatedSUB$ = this.systemState
       .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {

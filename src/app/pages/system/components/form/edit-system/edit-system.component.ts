@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
-import { uuid } from '@icodebible/utils/uuid';
 import * as _ from 'lodash';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
@@ -26,6 +25,7 @@ import { SystemState } from '../../../state/system.state';
 })
 export class EditSystemComponent implements OnInit, OnDestroy {
   systemFormEntries: DataEntryField = _.clone(_.create());
+  isUpdating: boolean;
   updateSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),
@@ -62,6 +62,7 @@ export class EditSystemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isUpdating = false;
     this.systemFormSUB$ = this.updateSystemForm.valueChanges.subscribe(
       (system: DIMSystem) => {
         this.systemFormEntries = onUpdateFormProps(
@@ -88,6 +89,7 @@ export class EditSystemComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(): void {
+    this.isUpdating = true;
     this.selectedSystemSUB$ = this.systemState
       .pipe(select(getSelectedSystem))
       .subscribe((system: DIMSystem) => {
@@ -101,6 +103,7 @@ export class EditSystemComponent implements OnInit, OnDestroy {
           .pipe(select(getSystemEditedStatus))
           .subscribe((status: boolean) => {
             if (status) {
+              this.isUpdating = false;
               this.router.navigate(['../../list'], { relativeTo: this.route });
               OpenSnackBar(
                 this.snackBar,

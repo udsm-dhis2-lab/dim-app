@@ -11,7 +11,7 @@ import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
 import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
 import {
-  SystemIntegrationState,
+  SystemState,
   CreateSystem,
 } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
@@ -75,7 +75,7 @@ export class CreateAuthComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemIntegrationState: Store<SystemState>,
     private snackBar: MatSnackBar
   ) {}
 

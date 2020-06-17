@@ -10,7 +10,7 @@ import { DataEntryField } from 'src/app/shared/models/form.model';
 import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
 import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
-import { SystemIntegrationState, CreateSystem } from 'src/app/pages/system/state';
+import { CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
@@ -34,6 +34,7 @@ import { SystemState } from '../../../state/system.state';
 export class CreateSystemComponent implements OnInit, OnDestroy {
   // matcher = new MyErrorStateMatcher();
   integrationFormEntries: DataEntryField = _.clone(_.create());
+  isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
   organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
   createJobForm: FormGroup = new FormGroup({
@@ -72,6 +73,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isUpdating = false;
     this.formSUB$ = this.createJobForm.valueChanges.subscribe(
       (systemIntegration: DIMSystem) => {
         this.integrationFormEntries = onUpdateFormProps(
@@ -92,6 +94,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(): void {
+    this.isUpdating = true;
     const id = uuid('', 11);
     const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
       id,
@@ -103,6 +106,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
       .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
+          this.isUpdating = false;
           this.createJobForm.reset();
           OpenSnackBar(
             this.snackBar,
