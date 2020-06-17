@@ -24,9 +24,14 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'integration',
+    path: 'all',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'integration',
+    loadChildren: () =>
+      import('./pages/integration/integration.module').then((m) => m.IntegrationModule),
   },
   {
     path: 'system',
