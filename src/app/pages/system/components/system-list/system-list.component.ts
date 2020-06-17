@@ -70,7 +70,19 @@ export class SystemListComponent implements OnInit, OnDestroy {
     this.router.navigate(['../create'], { relativeTo: this.route });
   }
 
-  applyFilter(e: any) {}
+  applyFilter(filterValue: string) {
+    this.systemSUB$ = this.systemState
+      .pipe(select(getAllSystems))
+      .subscribe((systems: Array<DIMSystem>) => {
+        if (systems) {
+          this.dataSource.filter = filterValue.trim().toLowerCase();
+          if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+          }
+        }
+      });
+    this.subscriptions.push(this.systemSUB$);
+  }
 
   onEdit(system: DIMSystem) {
     this.systemState.dispatch(SetSelectedSystem({ system }));
