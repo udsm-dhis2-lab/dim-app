@@ -5,11 +5,7 @@ import { createReducer, Action, on } from '@ngrx/store';
 /**
  *
  */
-import {
-    SystemState,
-    initialSystemState,
-    systemAdapter,
-} from './system.state';
+import { SystemState, initialSystemState, systemAdapter } from './system.state';
 /**
  *
  */
@@ -21,6 +17,8 @@ import {
     SetSelectedSystem,
     UpdateSystemSuccess,
     UpdateSystemFail,
+    DeleteSystemSuccess,
+    DeleteSystemFail,
 } from './system.action';
 
 /**
@@ -72,6 +70,17 @@ const mSystemReducer = createReducer(
         ...state,
         entities: {},
         error,
+    })),
+    on(DeleteSystemSuccess, (state: SystemState, { response, payload }) => {
+        return systemAdapter.removeOne(payload?.id, {
+            ...state,
+            deleted: true,
+        });
+    }),
+    on(DeleteSystemFail, (state: SystemState, { error }) => ({
+        ...state,
+        deleted: false,
+        error,
     }))
 );
 /**
@@ -79,10 +88,7 @@ const mSystemReducer = createReducer(
  * @state
  * @action
  */
-export function _SystemReducer(
-    state: SystemState | undefined,
-    action: Action
-) {
+export function _SystemReducer(state: SystemState | undefined, action: Action) {
     /**
      *
      */

@@ -23,11 +23,14 @@ import {
     LoadSystemsFail,
     UpdateSystemSuccess,
     UpdateSystemFail,
+    DeleteSystemSuccess,
+    DeleteSystemFail,
 } from './system.action';
 import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { SystemService } from '../services/system.service';
+import { HTTPResponse } from 'src/app/shared/models/http-response.model';
 
 @Injectable()
 export class SystemEffects {
@@ -96,6 +99,26 @@ export class SystemEffects {
                     ),
                     catchError((error: HTTPErrorMessage) =>
                         of(UpdateSystemFail({ error }))
+                    )
+                )
+            )
+        )
+    );
+
+    deleteforms$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(SystemActionType.DELETE_SYSTEM),
+            map((payload: any) => _.omit(payload, ['type'])),
+            switchMap((payload: { [key: string]: DIMSystem }) =>
+                this.systemService.deleteSystem(payload).pipe(
+                    map((response: HTTPResponse) =>
+                        DeleteSystemSuccess({
+                            response,
+                            payload: payload.system,
+                        })
+                    ),
+                    catchError((error: HTTPErrorMessage) =>
+                        of(DeleteSystemFail({ error }))
                     )
                 )
             )

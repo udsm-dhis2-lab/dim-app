@@ -10,6 +10,7 @@ import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 import { Update } from '@ngrx/entity';
+import { HTTPResponse } from 'src/app/shared/models/http-response.model';
 
 /**
  *
@@ -25,6 +26,9 @@ export enum SystemActionType {
     LOAD_SYSTEMS = '[Integration:System] Load Systems',
     LOAD_SYSTEMS_SUCCESS = '[Integration:System] Load Systems Success',
     LOAD_SYSTEMS_FAIL = '[Integration:System] Load Systems Fail',
+    DELETE_SYSTEM = '[Integration:System] Delete System',
+    DELETE_SYSTEM_SUCCESS = '[Integration:System] Delete System Success',
+    DELETE_SYSTEM_FAIL = '[Integration:System] Delete System Fail',
 }
 
 /**
@@ -86,5 +90,20 @@ export const LoadSystemsSuccess = createAction(
 
 export const LoadSystemsFail = createAction(
     SystemActionType.LOAD_SYSTEMS_FAIL,
+    props<{ error: HTTPErrorMessage }>()
+);
+
+export const DeleteSystem = createAction(
+    SystemActionType.DELETE_SYSTEM,
+    props<{ system: DIMSystem }>()
+);
+
+export const DeleteSystemSuccess = createAction(
+    SystemActionType.DELETE_SYSTEM_SUCCESS,
+    props<{ response: HTTPResponse; payload: DIMSystem }>()
+);
+
+export const DeleteSystemFail = createAction(
+    SystemActionType.DELETE_SYSTEM_FAIL,
     props<{ error: HTTPErrorMessage }>()
 );

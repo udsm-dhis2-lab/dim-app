@@ -45,3 +45,8 @@ export const getFieldLoaded = createSelector(
     getSystemFeature,
     (state: SystemState) => state.loaded
 );
+
+export const getDeletedSystemStatus = createSelector(
+    getSystemFeature,
+    (state: SystemState) => state.deleted
+);

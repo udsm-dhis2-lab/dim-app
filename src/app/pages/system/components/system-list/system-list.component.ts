@@ -9,10 +9,15 @@ import * as _ from 'lodash';
 import { SystemService } from '../../services/system.service';
 import { SystemState } from '../../state/system.state';
 import { Store, select } from '@ngrx/store';
-import { getAllSystems } from '../../state/system.selector';
-import { LoadSystems, SetSelectedSystem } from '../../state';
+import {
+  getAllSystems,
+  getDeletedSystemStatus,
+} from '../../state/system.selector';
+import { LoadSystems, SetSelectedSystem, DeleteSystem } from '../../state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { SystemTableCulumns } from '../../config/system-table.config';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 
 @Component({
   selector: 'app-system-list',
@@ -27,11 +32,13 @@ export class SystemListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   subscriptions: Array<Subscription> = [];
   systemSUB$: Subscription;
+  systemDeleteSUB$: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private systemState: Store<SystemState>
+    private systemState: Store<SystemState>,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -70,8 +77,28 @@ export class SystemListComponent implements OnInit, OnDestroy {
     this.router.navigate(['../edit/' + system?.id], { relativeTo: this.route });
   }
 
-  onDelete() {
-    //
+  onDelete(system: DIMSystem) {
+    if (
+      confirm(
+        `Are you sure you want to delete system <${system?.name}> with id <${system?.id}> `
+      )
+    ) {
+      this.systemState.dispatch(DeleteSystem({ system }));
+      this.systemDeleteSUB$ = this.systemState
+        .pipe(select(getDeletedSystemStatus))
+        .subscribe((status: boolean) => {
+          if (status) {
+            this.router.navigate(['./'], { relativeTo: this.route });
+            OpenSnackBar(
+              this.snackBar,
+              `System "${system?.name}" with id <${system?.id}> is successfully deleted`,
+              '',
+              'success-snackbar'
+            );
+          }
+        });
+      this.subscriptions.push(this.systemDeleteSUB$);
+    }
   }
 
   onViewMore() {
