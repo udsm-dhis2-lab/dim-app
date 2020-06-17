@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuInfo } from '../../models/service.model';
+import { MenuInfo } from '../../../../shared/models/service.model';
 import { SystemMenu } from '../../config/service.config';
 import { Router, ActivatedRoute } from '@angular/router';
 

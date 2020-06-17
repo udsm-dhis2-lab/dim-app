@@ -1,7 +1,7 @@
 /**
  *
  */
-import { MenuInfo } from '../models/service.model';
+import { MenuInfo } from '../../../shared/models/service.model';
 /**
  *
  */
