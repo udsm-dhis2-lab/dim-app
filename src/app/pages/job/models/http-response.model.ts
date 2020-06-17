@@ -1,7 +1,7 @@
 /**
  *
  */
-export interface HTTPSuccessResponse {
+export interface HTTPResponse {
     httpStatus: string;
     httpStatusCode: number;
     status: string;

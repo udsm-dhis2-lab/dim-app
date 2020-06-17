@@ -4,7 +4,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
-import { HTTPSuccessResponse } from '../../home/models/http-response.model';
+import { HTTPResponse } from 'src/app/shared/models/http-response.model';
 /**
  *
  */
@@ -18,7 +18,7 @@ export interface SystemState extends EntityState<DIMSystem> {
     deleted: boolean;
     created: boolean;
     error: HTTPErrorMessage | null;
-    response: HTTPSuccessResponse;
+    response: HTTPResponse;
     system: DIMSystem;
 }
 

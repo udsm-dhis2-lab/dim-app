@@ -27,7 +27,6 @@ import {
     DeleteSystemFail,
 } from './system.action';
 import { DIMSystem } from '../../home/models/integration.model';
-import { HTTPSuccessResponse } from '../../home/models/http-response.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { SystemService } from '../services/system.service';
 import { HTTPResponse } from 'src/app/shared/models/http-response.model';
@@ -47,18 +46,18 @@ export class SystemEffects {
     /**
      *
      */
-    createSystemIntegration$ = createEffect(() =>
+    createSystem$ = createEffect(() =>
         this.actions$.pipe(
             ofType(SystemActionType.CREATE_SYSTEM),
             map((payload: any) => _.omit(payload, ['type'])),
-            switchMap((payload: { [key: string]: DIMSystem }) =>
-                this.systemService.createSystemIntegration(payload).pipe(
-                    map((response: HTTPSuccessResponse) => {
-                        return CreateSystemSuccess({
+            switchMap((payload: { system: DIMSystem }) =>
+                this.systemService.createSystem(payload).pipe(
+                    map((response: HTTPResponse) =>
+                        CreateSystemSuccess({
                             response,
                             system: payload?.system,
-                        });
-                    }),
+                        })
+                    ),
                     catchError((error: HTTPErrorMessage) =>
                         of(CreateSystemFail({ error }))
                     )

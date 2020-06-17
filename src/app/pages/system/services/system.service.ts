@@ -24,20 +24,13 @@ export class SystemService {
 
   /**
    *
-   * @params systemIntegration
+   * @param_payload
    */
-  createSystemIntegration(payload: {
-    [key: string]: DIMSystem;
-  }): Observable<any> {
-    const systemIntegration: DIMSystem = payload.systemIntegration;
-    const uid = systemIntegration?.id ? systemIntegration?.id : uuid('', 11);
-
+  createSystem(payload: { system: DIMSystem }): Observable<any> {
+    const system: DIMSystem = payload.system;
+    const uid = system?.id ? system?.id : uuid('', 11);
     const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${uid}`;
-    return this.httpClient.post<any>(
-      endPointURL,
-      systemIntegration,
-      httpOptions
-    );
+    return this.httpClient.post<any>(endPointURL, system, httpOptions);
   }
 
   getSystems(): Observable<any> {

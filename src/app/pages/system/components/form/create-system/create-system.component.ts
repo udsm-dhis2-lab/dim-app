@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,6 @@ import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SystemState } from '../../../state/system.state';
 
@@ -29,7 +28,7 @@ import { SystemState } from '../../../state/system.state';
 @Component({
   selector: 'app-create-system',
   templateUrl: './create-system.component.html',
-  styleUrls: ['./create-system.component.scss']
+  styleUrls: ['./create-system.component.scss'],
 })
 export class CreateSystemComponent implements OnInit, OnDestroy {
   // matcher = new MyErrorStateMatcher();
@@ -75,10 +74,10 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isUpdating = false;
     this.formSUB$ = this.createJobForm.valueChanges.subscribe(
-      (systemIntegration: DIMSystem) => {
+      (system: DIMSystem) => {
         this.integrationFormEntries = onUpdateFormProps(
           this.integrationFormEntries,
-          systemIntegration
+          system
         );
       }
     );
@@ -96,21 +95,19 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   onSubmitForm(): void {
     this.isUpdating = true;
     const id = uuid('', 11);
-    const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
+    const system = _.merge(_.clone(this.integrationFormEntries), {
       id,
     });
-    this.systemState.dispatch(
-      CreateSystem(_.clone({ systemIntegration }))
-    );
+    this.systemState.dispatch(CreateSystem(_.clone({ system })));
     this.integrationCreatedSUB$ = this.systemState
       .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
           this.isUpdating = false;
-          this.createJobForm.reset();
+          this.router.navigate(['../list'], { relativeTo: this.route });
           OpenSnackBar(
             this.snackBar,
-            `System "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
+            `System "${system?.name}" with id <${system?.id}> is successfully created`,
             '',
             'success-snackbar'
           );
@@ -120,6 +117,6 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this.router.navigate(['../list'], { relativeTo: this.route});
+    this.router.navigate(['../list'], { relativeTo: this.route });
   }
 }
