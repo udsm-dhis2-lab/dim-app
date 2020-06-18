@@ -35,7 +35,6 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   integrationFormEntries: DataEntryField = _.clone(_.create());
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
-  organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
   createJobForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),
