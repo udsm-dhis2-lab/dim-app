@@ -8,14 +8,22 @@ import { IntegrationListComponent } from './components/integration-list/integrat
 import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
 import { CreateIntegrationComponent } from './components/form/create-integration/create-integration.component';
 import { EditIntegrationComponent } from './components/form/edit-integration/edit-integration.component';
-
+import { StoreModule } from '@ngrx/store';
+import { _IntegrationReducer } from './state';
 
 @NgModule({
-  declarations: [IntegrationComponent, IntegrationListComponent, ServiceMenuComponent, CreateIntegrationComponent, EditIntegrationComponent],
+  declarations: [
+    IntegrationComponent,
+    IntegrationListComponent,
+    ServiceMenuComponent,
+    CreateIntegrationComponent,
+    EditIntegrationComponent,
+  ],
   imports: [
     CommonModule,
     IntegrationRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+    StoreModule.forFeature('integration', _IntegrationReducer),
+  ],
 })
-export class IntegrationModule { }
+export class IntegrationModule {}
