@@ -1,0 +1,62 @@
+<app-navigation-menu class="navigation-menu"></app-navigation-menu>
+<main class="maintenance-all-services-container">
+    <div style="margin-bottom: 4rem; width: 100%;">
+        <div>
+            <div *ngFor="let menu of AllMenuConfigs">
+                <h1 class="maintenance-all-services-container-title">
+                    {{ menu?.name }}
+                </h1>
+                <div>
+                    <div class="maintenance-all-service-container" *ngFor="let subMenu of menu?.subMenus">
+                        <div class="service-card">
+                            <div class="maintenance-all-service-container-title-div">
+                                <div>
+                                    <span class="title">{{ subMenu?.name }}</span><span class="separator"></span>
+                                </div>
+                            </div>
+                            <div class="maintenance-all-service-container-description-div">
+                                {{ 'menuOption.description' }}
+                            </div>
+                            <div class="maintenance-all-service-container-operations">
+                                <button (click)="onOpenForm(subMenu)" [matTooltip]="'Open Form'" tabindex="0" type="button"
+                                    class="button rounded-circle">
+                                    <div matRipple class="rounded">
+                                        <div class="button-section">
+                                            <div class="add-section"></div>
+                                            <span class="add">Add</span>
+                                        </div>
+                                        <span class="material-icons" color="rgba(0, 0, 0, 0.87)" style="
+                        color: rgba(0, 0, 0, 0.87);
+                        position: relative;
+                        font-size: 24px;
+                        display: inline-block;
+                        user-select: none;
+                        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+                      "></span>
+                                    </div>
+                                </button>
+                                <button (click)="onOpenList(subMenu)" [matTooltip]="'View List'" tabindex="0" type="button" class="button">
+                                    <div matRipple>
+                                        <div class="button-section">
+                                            <div class="list-section"></div>
+                                            <span class="list">List</span>
+                                        </div>
+                                        <span class="material-icons" color="rgba(0, 0, 0, 0.87)" style="
+                        color: rgba(0, 0, 0, 0.87);
+                        position: relative;
+                        font-size: 24px;
+                        display: inline-block;
+                        user-select: none;
+                        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+                      "></span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
