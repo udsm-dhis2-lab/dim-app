@@ -26,10 +26,10 @@ import {
     DeleteSystemSuccess,
     DeleteSystemFail,
 } from './system.action';
-import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { SystemService } from '../services/system.service';
 import { HTTPResponse } from 'src/app/shared/models/http-response.model';
+import { DIMSystem } from '../models/system.model';
 
 @Injectable()
 export class SystemEffects {

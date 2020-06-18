@@ -13,10 +13,10 @@ import {
   getDeletedSystemStatus,
 } from '../../state/system.selector';
 import { LoadSystems, SetSelectedSystem, DeleteSystem } from '../../state';
-import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { SystemTableCulumns } from '../../config/system-table.config';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { DIMSystem } from '../../models/system.model';
 
 @Component({
   selector: 'app-system-list',

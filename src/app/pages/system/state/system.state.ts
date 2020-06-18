@@ -2,9 +2,9 @@
  *
  */
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { HTTPResponse } from 'src/app/shared/models/http-response.model';
+import { DIMSystem } from '../models/system.model';
 /**
  *
  */

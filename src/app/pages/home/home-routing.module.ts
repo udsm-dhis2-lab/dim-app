@@ -1,26 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { IntegrationManagementComponent } from './components/integration-management/integration-management.component';
-import { CreateIntegrationComponent } from './components/form/create-integration/create-integration.component';
-import { EditIntegrationComponent } from './components/form/edit-integration/edit-integration.component';
+import { HomeComponent } from './containers/home/home.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: IntegrationManagementComponent,
+    component: HomeComponent,
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'create'
-      },
-      {
-        path: 'create',
-        component: CreateIntegrationComponent,
-      },
-      {
-        path: 'edit',
-        component: EditIntegrationComponent,
       },
     ],
   },

@@ -20,7 +20,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/system',
+    redirectTo: '/all',
     pathMatch: 'full',
   },
   {

@@ -4,8 +4,7 @@ import { mergeMap } from 'rxjs/operators';
 import { Observable, zip } from 'rxjs';
 import * as _ from 'lodash';
 import { uuid } from '@icodebible/utils/uuid';
-
-import { DIMSystem } from '../../home/models/integration.model';
+import { DIMSystem } from '../models/system.model';
 
 const httpOptions = {
   headers: new HttpHeaders({

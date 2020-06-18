@@ -9,12 +9,12 @@ import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { AppState } from 'src/app/state/states/app.state';
 import { CreateSystem } from 'src/app/pages/system/state';
-import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SystemState } from '../../../state/system.state';
+import { DIMSystem } from '../../../models/system.model';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

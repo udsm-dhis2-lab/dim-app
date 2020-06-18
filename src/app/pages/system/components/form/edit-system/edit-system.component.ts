@@ -7,16 +7,15 @@ import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { CreateSystem, UpdateSystem } from 'src/app/pages/system/state';
-import { DIMSystem } from 'src/app/pages/home/models/integration.model';
+import { UpdateSystem } from 'src/app/pages/system/state';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import {
-  getSystemCreatedStatus,
   getSelectedSystem,
   getSystemEditedStatus,
 } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { SystemState } from '../../../state/system.state';
+import { DIMSystem } from '../../../models/system.model';
 
 @Component({
   selector: 'app-edit-system',

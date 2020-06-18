@@ -6,10 +6,10 @@ import { createAction, props } from '@ngrx/store';
 /**
  *
  */
-import { DIMSystem } from '../../home/models/integration.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { Update } from '@ngrx/entity';
 import { HTTPResponse } from 'src/app/shared/models/http-response.model';
+import { DIMSystem } from '../models/system.model';
 
 /**
  *

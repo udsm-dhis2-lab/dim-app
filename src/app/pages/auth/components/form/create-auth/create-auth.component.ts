@@ -12,10 +12,10 @@ import {
   SystemState,
   CreateSystem,
 } from 'src/app/pages/system/state';
-import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { DIMSystem } from 'src/app/pages/system/models/system.model';
 
 @Component({
   selector: 'app-create-auth',
