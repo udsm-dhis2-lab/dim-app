@@ -58,7 +58,7 @@ export class BatchService {
     }
   }
 
-  deletebatch(payload: { batch: DIMBatch }): Observable<any> {
+  deleteBatch(payload: { batch: DIMBatch }): Observable<any> {
     if (payload) {
       const batch: DIMBatch = payload?.batch;
       const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${batch?.id}`;

@@ -9,14 +9,23 @@ import { EditBatchComponent } from './components/form/edit-batch/edit-batch.comp
 import { JobSelectionComponent } from './components/selection/job-selection/job-selection.component';
 import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
-
+import { StoreModule } from '@ngrx/store';
+import { _BatchReducer } from './state/batch.reducer';
 
 @NgModule({
-  declarations: [BatchComponent, CreateBatchComponent, EditBatchComponent, JobSelectionComponent, ServiceMenuComponent, BatchListComponent],
+  declarations: [
+    BatchComponent,
+    CreateBatchComponent,
+    EditBatchComponent,
+    JobSelectionComponent,
+    ServiceMenuComponent,
+    BatchListComponent,
+  ],
   imports: [
     CommonModule,
     BatchRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+    StoreModule.forFeature('batch', _BatchReducer),
+  ],
 })
-export class BatchModule { }
+export class BatchModule {}
