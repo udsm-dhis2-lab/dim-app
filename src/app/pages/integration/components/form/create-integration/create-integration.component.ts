@@ -54,7 +54,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemState: Store<IntegrationState>,
+    private integrationState: Store<IntegrationState>,
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute
@@ -87,8 +87,8 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
     const integration = _.merge(_.clone(this.integrationFormEntries), {
       id,
     });
-    this.systemState.dispatch(CreateIntegration(_.clone({ integration })));
-    this.integrationCreatedSUB$ = this.systemState
+    this.integrationState.dispatch(CreateIntegration(_.clone({ integration })));
+    this.integrationCreatedSUB$ = this.integrationState
       .pipe(select(getIntegrationCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {

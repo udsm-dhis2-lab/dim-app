@@ -41,7 +41,7 @@ export const SetSelectedIntegration = createAction(
 );
 
 export const CreateIntegrationSuccess = createAction(
-    IntegrationActionType.CREATE_INTEGRATION,
+    IntegrationActionType.CREATE_INTEGRATION_SUCCESS,
     props<{
         response: HTTPResponse;
         integration: DIMIntegration;
