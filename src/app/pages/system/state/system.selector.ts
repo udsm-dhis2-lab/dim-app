@@ -4,7 +4,7 @@ import { systemAdapter, SystemState } from './system.state';
 export const getSystemFeature = createFeatureSelector('system');
 
 /**
- * Reports Selectors
+ * System Selectors
  */
 export const getAllSystems = createSelector(
     getSystemFeature,
@@ -41,7 +41,7 @@ export const getSystemLoading = createSelector(
     (state: SystemState) => state.loading
 );
 
-export const getFieldLoaded = createSelector(
+export const getSystemLoaded = createSelector(
     getSystemFeature,
     (state: SystemState) => state.loaded
 );

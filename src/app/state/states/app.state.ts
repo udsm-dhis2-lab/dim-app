@@ -6,6 +6,7 @@ import { MetaReducer, ActionReducerMap } from '@ngrx/store';
  *
  */
 import * as fromSystemIntegrationStore from '../../pages/system/state';
+import * as fromIntegrationState from '../../pages/integration/state';
 import { environment } from 'src/environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { UserState, initialUserState } from './user.state';
@@ -25,6 +26,7 @@ export interface AppState {
      *
      */
     system: fromSystemIntegrationStore.SystemState;
+    integration: fromIntegrationState.IntegrationState;
     user: UserState;
     systemInfo: SystemInfoState;
     router: RouterReducerState;
@@ -38,6 +40,7 @@ export const initialAppState: AppState = {
      *
      */
     system: fromSystemIntegrationStore.initialSystemState,
+    integration: fromIntegrationState.initialIntegrationState,
     user: initialUserState,
     systemInfo: initialSystemInfoState,
     router: initialRouterState,
@@ -52,6 +55,7 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
  */
 export const reducers: ActionReducerMap<AppState> = {
     system: fromSystemIntegrationStore._SystemReducer,
+    integration: fromIntegrationState._IntegrationReducer,
     user: userReducer,
     systemInfo: systemInfoReducer,
     router: routerReducer,
@@ -62,6 +66,7 @@ export const reducers: ActionReducerMap<AppState> = {
  */
 export const appEffects: Array<any> = [
     fromSystemIntegrationStore.SystemEffects,
+    fromIntegrationState.IntegrationEffects,
     UserEffects,
     SystemInfoEffects,
     RouterEffects,
