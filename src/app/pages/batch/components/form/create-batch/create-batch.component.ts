@@ -7,38 +7,27 @@ import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
-import { SystemState, CreateSystem } from 'src/app/pages/system/state';
-import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { BatchState, CreateBatch } from '../../../state';
+import { Router, ActivatedRoute } from '@angular/router';
+import { DIMBatch } from '../../../models/batch.model';
+import {
+  getBatchCreatedStatus,
+  getBatchError,
+} from '../../../state/batch.selector';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 @Component({
   selector: 'app-create-batch',
   templateUrl: './create-batch.component.html',
   styleUrls: ['./create-batch.component.scss'],
 })
 export class CreateBatchComponent implements OnInit, OnDestroy {
-  systems: Array<{ [key: string]: any }> = [
-    {
-      name: 'National Health Portal',
-      id: 'portal',
-    },
-    {
-      name: 'DHIS2 HMIS',
-      id: 'hmis',
-    },
-    {
-      name: 'NSMIS',
-      id: 'nsmis',
-    },
-    {
-      name: 'ARDS',
-      id: 'ards',
-    },
-  ];
-  integrationFormEntries: DataEntryField = _.clone(_.create());
+  // matcher = new MyErrorStateMatcher();
+  batchFormEntries: DataEntryField = _.clone(_.create());
+  isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
-  createJobForm: FormGroup = new FormGroup({
+  createBatchForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),
     dataSet: new FormGroup({
@@ -52,32 +41,33 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
     description: new FormControl(''),
     defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
-    importURL: new FormControl(false),
-    isUsingHIM: new FormControl(false),
+    importURL: new FormControl(''),
+    isUsingHIM: new FormControl(''),
     dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(''),
+    isUsingLiveDhis2: new FormControl(false),
     from: new FormControl(''),
     to: new FormControl(''),
   });
 
   // Subscriptions
   formSUB$: Subscription;
-  integrationCreatedSUB$: Subscription;
-  createdIntegrationSUB$: Subscription;
+  batchCreatedSUB$: Subscription;
+  createdBatchSUB$: Subscription;
+  errorSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemState>,
-    private snackBar: MatSnackBar
+    private batchState: Store<BatchState>,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.formSUB$ = this.createJobForm.valueChanges.subscribe(
-      (systemIntegration: DIMSystem) => {
-        this.integrationFormEntries = onUpdateFormProps(
-          this.integrationFormEntries,
-          systemIntegration
-        );
+    this.isUpdating = false;
+    this.formSUB$ = this.createBatchForm.valueChanges.subscribe(
+      (batch: DIMBatch) => {
+        this.batchFormEntries = onUpdateFormProps(this.batchFormEntries, batch);
       }
     );
     this.subscriptions.push(this.formSUB$);
@@ -92,26 +82,43 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(): void {
+    this.isUpdating = true;
     const id = uuid('', 11);
-    const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
+    const batch = _.merge(_.clone(this.batchFormEntries), {
       id,
     });
-    this.systemIntegrationState.dispatch(
-      CreateSystem(_.clone({ systemIntegration }))
-    );
-    this.integrationCreatedSUB$ = this.systemIntegrationState
-      .pipe(select(getSystemCreatedStatus))
+    this.batchState.dispatch(CreateBatch(_.clone({ batch })));
+    this.batchCreatedSUB$ = this.batchState
+      .pipe(select(getBatchCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
-          this.createJobForm.reset();
+          this.isUpdating = false;
+          this.router.navigate(['../list'], { relativeTo: this.route });
           OpenSnackBar(
             this.snackBar,
-            `System Integration "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
+            `Batch "${batch?.name}" with id <${batch?.id}> is successfully created`,
             '',
             'success-snackbar'
           );
         }
       });
-    this.subscriptions.push(this.integrationCreatedSUB$);
+    this.errorSUB$ = this.batchState
+      .pipe(select(getBatchError))
+      .subscribe((error: HTTPErrorMessage) => {
+        if (error) {
+          this.isUpdating = false;
+          this.router.navigate(['../../list'], { relativeTo: this.route });
+          const message = _.has(error.error, 'message')
+            ? error.error.message
+            : error.error.error;
+          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
+        }
+      });
+    this.subscriptions.push(this.batchCreatedSUB$);
+    this.subscriptions.push(this.errorSUB$);
+  }
+
+  onBack() {
+    this.router.navigate(['../list'], { relativeTo: this.route });
   }
 }
