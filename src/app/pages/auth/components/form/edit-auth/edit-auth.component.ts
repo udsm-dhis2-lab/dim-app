@@ -7,8 +7,6 @@ import * as _ from 'lodash';
 import { uuid } from '@icodebible/utils/uuid';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
-import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
 import { SystemState, CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
@@ -41,7 +39,6 @@ export class EditAuthComponent implements OnInit, OnDestroy {
   ];
   integrationFormEntries: DataEntryField = _.clone(_.create());
   subscriptions: Array<Subscription> = [];
-  organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
   createJobForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),

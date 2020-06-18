@@ -7,8 +7,6 @@ import { uuid } from '@icodebible/utils/uuid';
 import * as _ from 'lodash';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
-import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
 import { CreateSystem } from 'src/app/pages/system/state';
 import { DIMSystem } from 'src/app/pages/home/models/integration.model';
@@ -35,7 +33,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   integrationFormEntries: DataEntryField = _.clone(_.create());
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
-  createJobForm: FormGroup = new FormGroup({
+  createSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),
     dataSet: new FormGroup({
@@ -72,7 +70,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isUpdating = false;
-    this.formSUB$ = this.createJobForm.valueChanges.subscribe(
+    this.formSUB$ = this.createSystemForm.valueChanges.subscribe(
       (system: DIMSystem) => {
         this.integrationFormEntries = onUpdateFormProps(
           this.integrationFormEntries,

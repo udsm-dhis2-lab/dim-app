@@ -7,13 +7,13 @@ import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
-import { SystemState, CreateSystem } from 'src/app/pages/system/state';
-import { DIMSystem } from 'src/app/pages/home/models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
-import { OrgUnitLevel } from '../../../models/orgunit-level.model';
-import { OrgUnitLevelConfig } from '../../../config/orgunit-level.config';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { JobState, CreateJob } from '../../../state';
+import { DIMJob } from '../../../models/job.model';
+import { getJobCreatedStatus, getJobError } from '../../../state/job.selector';
 
 @Component({
   selector: 'app-create-job',
@@ -21,27 +21,10 @@ import { OrgUnitLevelConfig } from '../../../config/orgunit-level.config';
   styleUrls: ['./create-job.component.scss'],
 })
 export class CreateJobComponent implements OnInit, OnDestroy {
-  systems: Array<{ [key: string]: any }> = [
-    {
-      name: 'National Health Portal',
-      id: 'portal',
-    },
-    {
-      name: 'DHIS2 HMIS',
-      id: 'hmis',
-    },
-    {
-      name: 'NSMIS',
-      id: 'nsmis',
-    },
-    {
-      name: 'ARDS',
-      id: 'ards',
-    },
-  ];
+  // matcher = new MyErrorStateMatcher();
   integrationFormEntries: DataEntryField = _.clone(_.create());
+  isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
-  organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
   createJobForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),
@@ -56,10 +39,10 @@ export class CreateJobComponent implements OnInit, OnDestroy {
     description: new FormControl(''),
     defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
-    importURL: new FormControl(false),
-    isUsingHIM: new FormControl(false),
+    importURL: new FormControl(''),
+    isUsingHIM: new FormControl(''),
     dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(''),
+    isUsingLiveDhis2: new FormControl(false),
     from: new FormControl(''),
     to: new FormControl(''),
   });
@@ -68,22 +51,24 @@ export class CreateJobComponent implements OnInit, OnDestroy {
   formSUB$: Subscription;
   integrationCreatedSUB$: Subscription;
   createdIntegrationSUB$: Subscription;
+  errorSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemState>,
-    private snackBar: MatSnackBar
+    private integrationState: Store<JobState>,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.formSUB$ = this.createJobForm.valueChanges.subscribe(
-      (systemIntegration: DIMSystem) => {
-        this.integrationFormEntries = onUpdateFormProps(
-          this.integrationFormEntries,
-          systemIntegration
-        );
-      }
-    );
+    this.isUpdating = false;
+    this.formSUB$ = this.createJobForm.valueChanges.subscribe((job: DIMJob) => {
+      this.integrationFormEntries = onUpdateFormProps(
+        this.integrationFormEntries,
+        job
+      );
+    });
     this.subscriptions.push(this.formSUB$);
   }
 
@@ -96,26 +81,43 @@ export class CreateJobComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(): void {
+    this.isUpdating = true;
     const id = uuid('', 11);
-    const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
+    const job = _.merge(_.clone(this.integrationFormEntries), {
       id,
     });
-    this.systemIntegrationState.dispatch(
-      CreateSystem(_.clone({ systemIntegration }))
-    );
-    this.integrationCreatedSUB$ = this.systemIntegrationState
-      .pipe(select(getSystemCreatedStatus))
+    this.integrationState.dispatch(CreateJob(_.clone({ job })));
+    this.integrationCreatedSUB$ = this.integrationState
+      .pipe(select(getJobCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
-          this.createJobForm.reset();
+          this.isUpdating = false;
+          this.router.navigate(['../list'], { relativeTo: this.route });
           OpenSnackBar(
             this.snackBar,
-            `System Integration "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
+            `Job "${job?.name}" with id <${job?.id}> is successfully created`,
             '',
             'success-snackbar'
           );
         }
       });
+    this.errorSUB$ = this.integrationState
+      .pipe(select(getJobError))
+      .subscribe((error: HTTPErrorMessage) => {
+        if (error) {
+          this.isUpdating = false;
+          this.router.navigate(['../../list'], { relativeTo: this.route });
+          const message = _.has(error.error, 'message')
+            ? error.error.message
+            : error.error.error;
+          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
+        }
+      });
     this.subscriptions.push(this.integrationCreatedSUB$);
+    this.subscriptions.push(this.errorSUB$);
+  }
+
+  onBack() {
+    this.router.navigate(['../list'], { relativeTo: this.route });
   }
 }

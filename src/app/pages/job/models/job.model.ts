@@ -1,7 +1,7 @@
 /**
  *
  */
-export interface SystemIntegration {
+export interface DIMJob {
     id: string;
     name: string;
     isAllowed: boolean;

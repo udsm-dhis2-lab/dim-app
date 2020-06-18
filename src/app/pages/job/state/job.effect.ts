@@ -18,7 +18,6 @@ import * as _ from 'lodash';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 import { HTTPResponse } from 'src/app/shared/models/http-response.model';
 import { JobService } from '../services/job.service';
-import { JobActionType } from '.';
 import { DIMJob } from '../models/job.model';
 import {
     CreateJobSuccess,
@@ -29,15 +28,11 @@ import {
     UpdateJobFail,
     DeleteJobSuccess,
     DeleteJobFail,
+    JobActionType,
 } from './job.action';
 
 @Injectable()
 export class JobEffects {
-    /**
-     *
-     * @actions$
-     * @reportsService
-     */
     constructor(private actions$: Actions, private jobService: JobService) { }
 
     /**

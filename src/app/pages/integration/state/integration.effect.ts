@@ -33,11 +33,7 @@ import { DIMIntegration } from '../models/integration.model';
 
 @Injectable()
 export class IntegrationEffects {
-    /**
-     *
-     * @actions$
-     * @reportsService
-     */
+
     constructor(
         private actions$: Actions,
         private integrationService: IntegrationService

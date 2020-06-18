@@ -13,7 +13,7 @@ export const getAllJobs = createSelector(
 
 export const getSelectedJob = createSelector(
     getJobFeature,
-    (state: JobState) => state.selectedJobId
+    (state: JobState) => state.selectedJob
 );
 
 export const getCreatedJob = createSelector(

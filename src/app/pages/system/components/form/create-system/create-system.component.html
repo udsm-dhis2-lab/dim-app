@@ -17,12 +17,12 @@
 </main>
 <main class="form-container">
     <div class="field-form-div">
-        <form [formGroup]="createJobForm" class="field-form">
+        <form [formGroup]="createSystemForm" class="field-form">
             <div class="field-form-input-div">
                 <mat-form-field class="example-full-width" appearance="standard">
                     <mat-label>Name(*)</mat-label>
                     <input id="field-name" formControlName="name" matInput />
-                    <mat-error *ngIf="createJobForm.get('name').hasError('notUnique')">
+                    <mat-error *ngIf="createSystemForm.get('name').hasError('notUnique')">
                     </mat-error>
                 </mat-form-field>
             </div>

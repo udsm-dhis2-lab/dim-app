@@ -11,6 +11,8 @@ import { IndicatorSelectionComponent } from './components/selection/indicator-se
 import { ProgramIndicatorSelectionComponent } from './components/selection/program-indicator-selection/program-indicator-selection.component';
 import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
 import { JobListComponent } from './components/job-list/job-list.component';
+import { StoreModule } from '@ngrx/store';
+import { _JobReducer } from './state';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,11 @@ import { JobListComponent } from './components/job-list/job-list.component';
     ServiceMenuComponent,
     JobListComponent,
   ],
-  imports: [CommonModule, JobRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    JobRoutingModule,
+    SharedModule,
+    StoreModule.forFeature('job', _JobReducer),
+  ],
 })
 export class JobModule {}
