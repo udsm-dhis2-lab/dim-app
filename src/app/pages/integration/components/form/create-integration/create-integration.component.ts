@@ -96,7 +96,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
           this.router.navigate(['../list'], { relativeTo: this.route });
           OpenSnackBar(
             this.snackBar,
-            `System "${integration?.name}" with id <${integration?.id}> is successfully created`,
+            `Integration "${integration?.name}" with id <${integration?.id}> is successfully created`,
             '',
             'success-snackbar'
           );

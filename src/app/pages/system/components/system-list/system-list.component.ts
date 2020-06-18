@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import { SystemService } from '../../services/system.service';
 import { SystemState } from '../../state/system.state';
 import { Store, select } from '@ngrx/store';
 import {
