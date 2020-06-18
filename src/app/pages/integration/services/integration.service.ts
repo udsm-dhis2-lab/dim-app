@@ -35,7 +35,7 @@ export class IntegrationService {
     return this.httpClient.post<any>(endPointURL, integration, httpOptions);
   }
 
-  getSystems(): Observable<any> {
+  getIntegrations(): Observable<any> {
     const endPointURL = `${this.baseURL}/dataStore/${this.namespace}`;
     return this.httpClient.get(endPointURL).pipe(
       mergeMap((uids: Array<string>) => {
@@ -50,7 +50,7 @@ export class IntegrationService {
     );
   }
 
-  updateSystem(payload: { integration: DIMIntegration }): Observable<any> {
+  updateIntegration(payload: { integration: DIMIntegration }): Observable<any> {
     if (payload) {
       const integration: DIMIntegration = payload?.integration;
       const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${integration?.id}`;
@@ -58,7 +58,7 @@ export class IntegrationService {
     }
   }
 
-  deleteSystem(payload: { integration: DIMIntegration }): Observable<any> {
+  deleteIntegration(payload: { integration: DIMIntegration }): Observable<any> {
     if (payload) {
       const integration: DIMIntegration = payload?.integration;
       const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${integration?.id}`;
