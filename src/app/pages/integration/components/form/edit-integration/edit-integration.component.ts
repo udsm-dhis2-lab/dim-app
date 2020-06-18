@@ -97,7 +97,7 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
           id: integration?.id,
         });
         this.integrationState.dispatch(
-          UpdateIntegration(_.clone({ system: updatedIntegration }))
+          UpdateIntegration(_.clone({ integration: updatedIntegration }))
         );
         /**
          *
