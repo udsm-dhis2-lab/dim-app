@@ -55,6 +55,7 @@ export class IntegrationService {
 
   updateIntegration(payload: { integration: DIMIntegration }): Observable<any> {
     if (payload) {
+      console.log('NUNDU::: ' + JSON.stringify(payload, null, 4));
       const integration: DIMIntegration = payload?.integration;
       const endPointURL = `${this.baseURL}/dataStore/${this.namespace}/${integration?.id}`;
       return this.httpClient.put<any>(endPointURL, integration, httpOptions);

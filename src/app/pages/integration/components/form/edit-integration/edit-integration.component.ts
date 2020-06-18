@@ -12,8 +12,10 @@ import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.util
 import {
   getSelectedIntegration,
   getIntegrationEditedStatus,
+  getIntegrationError,
 } from '../../../state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-edit-integration',
@@ -50,6 +52,7 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
   systemUpdatedSUB$: Subscription;
   updatedSystemSUB$: Subscription;
   selectedSystemSUB$: Subscription;
+  errorSUB$: Subscription;
 
   constructor(
     private integrationState: Store<IntegrationState>,
@@ -96,6 +99,9 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
         this.integrationState.dispatch(
           UpdateIntegration(_.clone({ system: updatedIntegration }))
         );
+        /**
+         *
+         */
         this.systemUpdatedSUB$ = this.integrationState
           .pipe(select(getIntegrationEditedStatus))
           .subscribe((status: boolean) => {
@@ -110,9 +116,25 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
               );
             }
           });
-        this.subscriptions.push(this.systemUpdatedSUB$);
+        this.errorSUB$ = this.integrationState
+          .pipe(select(getIntegrationError))
+          .subscribe((error: HTTPErrorMessage) => {
+            if (error) {
+              this.isUpdating = false;
+              this.router.navigate(['../../list'], { relativeTo: this.route });
+              const message = _.has(error.error, 'message')
+                ? error.error.message
+                : error.error.error;
+              OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
+            }
+          });
       });
+    /**
+     *
+     */
+    this.subscriptions.push(this.systemUpdatedSUB$);
     this.subscriptions.push(this.selectedSystemSUB$);
+    this.subscriptions.push(this.errorSUB$);
   }
 
   onBack() {

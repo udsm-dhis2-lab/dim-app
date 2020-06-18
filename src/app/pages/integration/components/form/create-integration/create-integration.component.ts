@@ -12,8 +12,12 @@ import { AppState } from 'src/app/state/states/app.state';
 import { IntegrationState, CreateIntegration } from '../../../state';
 import { DIMIntegration } from '../../../models/integration.model';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getIntegrationCreatedStatus } from '../../../state/integration.selector';
+import {
+  getIntegrationCreatedStatus,
+  getIntegrationError,
+} from '../../../state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-create-integration',
@@ -51,6 +55,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
   formSUB$: Subscription;
   integrationCreatedSUB$: Subscription;
   createdIntegrationSUB$: Subscription;
+  errorSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
@@ -102,7 +107,20 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
           );
         }
       });
+    this.errorSUB$ = this.integrationState
+      .pipe(select(getIntegrationError))
+      .subscribe((error: HTTPErrorMessage) => {
+        if (error) {
+          this.isUpdating = false;
+          this.router.navigate(['../../list'], { relativeTo: this.route });
+          const message = _.has(error.error, 'message')
+            ? error.error.message
+            : error.error.error;
+          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
+        }
+      });
     this.subscriptions.push(this.integrationCreatedSUB$);
+    this.subscriptions.push(this.errorSUB$);
   }
 
   onBack() {
