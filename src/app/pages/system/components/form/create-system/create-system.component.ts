@@ -10,11 +10,15 @@ import { DataEntryField } from 'src/app/shared/models/form.model';
 import { AppState } from 'src/app/state/states/app.state';
 import { CreateSystem } from 'src/app/pages/system/state';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
+import {
+  getSystemCreatedStatus,
+  getSystemError,
+} from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SystemState } from '../../../state/system.state';
 import { DIMSystem } from '../../../models/system.model';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -30,35 +34,19 @@ import { DIMSystem } from '../../../models/system.model';
 })
 export class CreateSystemComponent implements OnInit, OnDestroy {
   // matcher = new MyErrorStateMatcher();
-  integrationFormEntries: DataEntryField = _.clone(_.create());
+  systemFormEntries: DataEntryField = _.clone(_.create());
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
   createSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    isExecuted: new FormControl(false),
-    dataSet: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
-    ou: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
     description: new FormControl(''),
-    defaultCOC: new FormControl(''),
-    isAllowed: new FormControl(false),
-    importURL: new FormControl(''),
-    isUsingHIM: new FormControl(''),
-    dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(false),
-    from: new FormControl(''),
-    to: new FormControl(''),
   });
 
   // Subscriptions
   formSUB$: Subscription;
-  integrationCreatedSUB$: Subscription;
-  createdIntegrationSUB$: Subscription;
+  systemCreatedSUB$: Subscription;
+  createdSystemSUB$: Subscription;
+  errorSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
@@ -72,8 +60,8 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
     this.isUpdating = false;
     this.formSUB$ = this.createSystemForm.valueChanges.subscribe(
       (system: DIMSystem) => {
-        this.integrationFormEntries = onUpdateFormProps(
-          this.integrationFormEntries,
+        this.systemFormEntries = onUpdateFormProps(
+          this.systemFormEntries,
           system
         );
       }
@@ -92,11 +80,11 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   onSubmitForm(): void {
     this.isUpdating = true;
     const id = uuid('', 11);
-    const system = _.merge(_.clone(this.integrationFormEntries), {
+    const system = _.merge(_.clone(this.systemFormEntries), {
       id,
     });
     this.systemState.dispatch(CreateSystem(_.clone({ system })));
-    this.integrationCreatedSUB$ = this.systemState
+    this.systemCreatedSUB$ = this.systemState
       .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
@@ -110,7 +98,21 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
           );
         }
       });
-    this.subscriptions.push(this.integrationCreatedSUB$);
+
+    this.errorSUB$ = this.systemState
+      .pipe(select(getSystemError))
+      .subscribe((error: HTTPErrorMessage) => {
+        if (error) {
+          this.isUpdating = false;
+          this.router.navigate(['../../list'], { relativeTo: this.route });
+          const message = _.has(error.error, 'message')
+            ? error.error.message
+            : error.error.error;
+          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
+        }
+      });
+    this.subscriptions.push(this.errorSUB$);
+    this.subscriptions.push(this.systemCreatedSUB$);
   }
 
   onBack() {

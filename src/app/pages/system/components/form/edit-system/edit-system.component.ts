@@ -12,10 +12,12 @@ import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.util
 import {
   getSelectedSystem,
   getSystemEditedStatus,
+  getSystemError,
 } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { SystemState } from '../../../state/system.state';
 import { DIMSystem } from '../../../models/system.model';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-edit-system',
@@ -27,24 +29,7 @@ export class EditSystemComponent implements OnInit, OnDestroy {
   isUpdating: boolean;
   updateSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    isExecuted: new FormControl(false),
-    dataSet: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
-    ou: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
     description: new FormControl(''),
-    defaultCOC: new FormControl(''),
-    isAllowed: new FormControl(false),
-    importURL: new FormControl(''),
-    isUsingHIM: new FormControl(''),
-    dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(false),
-    from: new FormControl(''),
-    to: new FormControl(''),
   });
 
   subscriptions: Array<Subscription> = [];
@@ -52,6 +37,7 @@ export class EditSystemComponent implements OnInit, OnDestroy {
   systemUpdatedSUB$: Subscription;
   updatedSystemSUB$: Subscription;
   selectedSystemSUB$: Subscription;
+  errorSUB$: Subscription;
 
   constructor(
     private systemState: Store<SystemState>,
@@ -112,6 +98,20 @@ export class EditSystemComponent implements OnInit, OnDestroy {
               );
             }
           });
+
+        this.errorSUB$ = this.systemState
+          .pipe(select(getSystemError))
+          .subscribe((error: HTTPErrorMessage) => {
+            if (error) {
+              this.isUpdating = false;
+              this.router.navigate(['../../list'], { relativeTo: this.route });
+              const message = _.has(error.error, 'message')
+                ? error.error.message
+                : error.error.error;
+              OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
+            }
+          });
+        this.subscriptions.push(this.errorSUB$);
         this.subscriptions.push(this.systemUpdatedSUB$);
       });
     this.subscriptions.push(this.selectedSystemSUB$);
