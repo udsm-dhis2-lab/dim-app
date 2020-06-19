@@ -9,6 +9,7 @@ export interface AllServiceConfig {
 export interface SubMenu {
     name: string;
     route: string;
+    description: string;
     childRoutes: ChildRoutes;
 }
 

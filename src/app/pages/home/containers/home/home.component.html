@@ -15,11 +15,11 @@
                                 </div>
                             </div>
                             <div class="maintenance-all-service-container-description-div">
-                                {{ 'menuOption.description' }}
+                                {{ subMenu?.description }}
                             </div>
                             <div class="maintenance-all-service-container-operations">
-                                <button (click)="onOpenForm(subMenu)" [matTooltip]="'Open Form'" tabindex="0" type="button"
-                                    class="button rounded-circle">
+                                <button (click)="onOpenForm(subMenu)" [matTooltip]="'Open Form'" tabindex="0"
+                                    type="button" class="button rounded-circle">
                                     <div matRipple class="rounded">
                                         <div class="button-section">
                                             <div class="add-section"></div>
@@ -35,7 +35,8 @@
                       "></span>
                                     </div>
                                 </button>
-                                <button (click)="onOpenList(subMenu)" [matTooltip]="'View List'" tabindex="0" type="button" class="button">
+                                <button (click)="onOpenList(subMenu)" [matTooltip]="'View List'" tabindex="0"
+                                    type="button" class="button">
                                     <div matRipple>
                                         <div class="button-section">
                                             <div class="list-section"></div>
