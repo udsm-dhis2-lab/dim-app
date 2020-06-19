@@ -1,55 +1,41 @@
 <app-navigation-menu class="navigation-menu"></app-navigation-menu>
-<main class="maintenance-all-services-container">
-    <div style="margin-bottom: 4rem; width: 100%;">
+<main class="dim-all-container">
+    <div class="dim-all-sub-container">
         <div>
-            <div *ngFor="let menu of AllMenuConfigs">
-                <h1 class="maintenance-all-services-container-title">
+            <div style="margin-bottom: 2rem;" *ngFor="let menu of AllMenuConfigs">
+                <h1 class="dim-all-sub-container-title">
                     {{ menu?.name }}
                 </h1>
                 <div>
-                    <div class="maintenance-all-service-container" *ngFor="let subMenu of menu?.subMenus">
-                        <div class="service-card">
-                            <div class="maintenance-all-service-container-title-div">
+                    <div class="dim-all-card-container" *ngFor="let subMenu of menu?.subMenus">
+                        <div class="dim-all-card">
+                            <div class="dim-all-card-container-title">
                                 <div>
-                                    <span class="title">{{ subMenu?.name }}</span><span class="separator"></span>
+                                    <span class="title">{{ subMenu?.name }}</span>
                                 </div>
                             </div>
-                            <div class="maintenance-all-service-container-description-div">
+                            <div class="dim-all-card-container-description">
                                 {{ subMenu?.description }}
                             </div>
-                            <div class="maintenance-all-service-container-operations">
-                                <button (click)="onOpenForm(subMenu)" [matTooltip]="'Open Form'" tabindex="0"
-                                    type="button" class="button rounded-circle">
-                                    <div matRipple class="rounded">
-                                        <div class="button-section">
-                                            <div class="add-section"></div>
+                            <div class="dim-all-card-container-actions">
+                                <button (click)="onOpenForm(subMenu)" [matTooltip]="'Open Form'" type="button"
+                                    class="button">
+                                    <div matRipple>
+                                        <div class="dim-button-section">
+                                            <div class="dim-add-button"></div>
                                             <span class="add">Add</span>
                                         </div>
-                                        <span class="material-icons" color="rgba(0, 0, 0, 0.87)" style="
-                        color: rgba(0, 0, 0, 0.87);
-                        position: relative;
-                        font-size: 24px;
-                        display: inline-block;
-                        user-select: none;
-                        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-                      "></span>
+                                        <span class="material-icons"></span>
                                     </div>
                                 </button>
                                 <button (click)="onOpenList(subMenu)" [matTooltip]="'View List'" tabindex="0"
                                     type="button" class="button">
                                     <div matRipple>
-                                        <div class="button-section">
+                                        <div class="dim-button-section">
                                             <div class="list-section"></div>
                                             <span class="list">List</span>
                                         </div>
-                                        <span class="material-icons" color="rgba(0, 0, 0, 0.87)" style="
-                        color: rgba(0, 0, 0, 0.87);
-                        position: relative;
-                        font-size: 24px;
-                        display: inline-block;
-                        user-select: none;
-                        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-                      "></span>
+                                        <span class="material-icons"></span>
                                     </div>
                                 </button>
                             </div>
@@ -58,6 +44,7 @@
                     <div style="clear: both;"></div>
                 </div>
             </div>
+            &nbsp;
         </div>
     </div>
 </main>

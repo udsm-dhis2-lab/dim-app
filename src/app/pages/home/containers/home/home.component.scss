@@ -1,306 +1,155 @@
 body {
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  .icon-right {
-    float: right;
-  }
-  
-  // FAB Button 
-  .example-button-row button,
-  .example-button-row a {
+  font-family: 'Roboto', sans-serif;
+}
+
+.icon-right {
+  float: right;
+}
+
+// FAB Button
+.example-button-row button,
+.example-button-row a {
+  outline: none;
+  right: 40px;
+  bottom: 40px;
+  height: 60px;
+  width: 60px;
+  position: fixed !important;
+  background-color: rgb(110, 104, 104) !important;
+}
+
+.fab:focus,
+.fab.focus {
+  outline: 0;
+  box-shadow: none !important;
+}
+
+.content-detail {
+  margin-top: 73px;
+  margin-right: 10px;
+}
+
+.mat-card {
+  width: 300px;
+}
+
+.example-card {
+  max-width: 600px;
+}
+
+.maintenance-left-menu-container {
+  flex: 1 1 0%;
+  display: flex;
+  //   margin-top: 8rem;
+}
+
+.maintenance-left-menu-container-item {
+  background-color: rgb(243, 243, 243);
+  overflow-y: initial;
+  width: 295px;
+}
+
+.maintenance-left-menu-folder-icon {
+  color: rgb(117, 117, 117);
+  position: absolute;
+  font-size: 24px;
+  display: block;
+  user-select: none;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  height: 24px;
+  width: 24px;
+  top: 0px;
+  margin: 12px;
+  left: 4px;
+}
+
+.maintenance-left-menu-icon-text-representation {
+  margin-left: 0px;
+  padding: 16px 16px 16px 72px;
+  position: relative;
+}
+
+.maintenance-left-menu-span {
+  border: 10px;
+  box-sizing: border-box;
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  text-decoration: none;
+  margin: 0px 8px;
+  padding: 0px;
+  outline: none;
+  font-size: 14px;
+  font-weight: inherit;
+  position: relative;
+  z-index: 1;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 16px;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  border-radius: 5px;
+  background: none;
+
+  // TODO: Improve This Approach
+  .dim-all-card-left-menu {
     outline: none;
-    right: 40px;
-    bottom: 40px;
-    height: 60px;
-    width: 60px;
-    position: fixed !important;
-    background-color: rgb(110, 104, 104) !important;
+    transition: all 0.25s linear;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
   }
-  
-  .fab:focus, .fab.focus {
-    outline: 0;
-    box-shadow: none !important;
-  }
-  
-  .content-detail {
-    margin-top: 73px;
-    margin-right: 10px;
-  }
-  
-  .mat-card {
-    width: 300px;
-  }
-  
-  .example-card {
-    max-width: 600px;
-  }
-  
-  .maintenance-left-menu-container {
-    flex: 1 1 0%;
-    display: flex;
-    //   margin-top: 8rem;
-  }
-  
-  .maintenance-left-menu-container-item {
-    background-color: rgb(243, 243, 243);
-    overflow-y: initial;
-    width: 295px;
-  }
-  
-  .maintenance-left-menu-folder-icon {
-    color: rgb(117, 117, 117);
-    position: absolute;
-    font-size: 24px;
-    display: block;
-    user-select: none;
-    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-    height: 24px;
-    width: 24px;
-    top: 0px;
-    margin: 12px;
-    left: 4px;
-  }
-  
-  .maintenance-left-menu-icon-text-representation {
-    margin-left: 0px;
-    padding: 16px 16px 16px 72px;
-    position: relative;
-  }
-  
-  .maintenance-left-menu-span {
-    border: 10px;
-    box-sizing: border-box;
-    display: block;
-    font-family: 'Roboto', sans-serif;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    cursor: pointer;
-    text-decoration: none;
-    margin: 0px 8px;
-    padding: 0px;
+
+  .dim-all-card-left-menu:hover {
+    border-left: 10px solid black;
     outline: none;
+    box-shadow: -1px 4px 8px 0px rgba(0, 0, 0, 0.4);
+  }
+
+  // TODO: Improve This Approach
+}
+
+.maintenance-left-menu-container-holder {
+  padding: 0px;
+  background-color: transparent;
+  margin-top: 16px;
+}
+
+.maintenance-right-menu-container {
+  flex: 1 1 0%;
+  padding-right: 2rem;
+
+  .maintenance-right-menu-container-div {
+    margin-bottom: 4rem;
+    width: 100%;
+  }
+}
+
+.maintenance-left-menu-list-container {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgb(255, 255, 255);
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
+  z-index: 1;
+  padding: 0px;
+  margin: 0.5rem;
+  float: left;
+  width: 23%;
+
+  .description {
+    padding: 0.5rem 1rem;
     font-size: 14px;
-    font-weight: inherit;
-    position: relative;
-    z-index: 1;
     color: rgba(0, 0, 0, 0.87);
-    line-height: 16px;
-    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-    border-radius: 5px;
-    background: none;
-  
-    // TODO: Improve This Approach 
-    .service-card-left-menu {
-      outline: none;
-      transition: all .25s linear;
-      box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
-    }
-    
-    .service-card-left-menu:hover{
-      border-left: 10px solid black;
-      outline: none;
-      box-shadow: -1px 4px 8px 0px rgba(0,0,0,0.4);
-    }
-    // TODO: Improve This Approach 
+    height: 85px;
   }
-  
-  .maintenance-left-menu-container-holder {
-    padding: 0px;
-    background-color: transparent;
-    margin-top: 16px;
-  }
-  
-  .maintenance-right-menu-container {
-    flex: 1 1 0%;
-    padding-right: 2rem;
-  
-    .maintenance-right-menu-container-div {
-      margin-bottom: 4rem;
-      width: 100%;
-    }
-  }
-  
-  .maintenance-left-menu-list-container {
-    color: rgba(0, 0, 0, 0.87);
-    background-color: rgb(255, 255, 255);
-    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-    border-radius: 2px;
-    z-index: 1;
-    padding: 0px;
-    margin: 0.5rem;
-    float: left;
-    width: 23%;
-  
-    .description {
-      padding: 0.5rem 1rem;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.87);
-      height: 85px;
-    }
-  
-    .operation-div {
-      padding: 8px;
-      position: relative;
-      text-align: right;
-  
-      .list-button {
-        border: 10px;
-        box-sizing: border-box;
-        display: inline-block;
-        font-family: 'Roboto', sans-serif;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        cursor: pointer;
-        text-decoration: none;
-        margin: 0px 8px 0px 0px;
-        padding: 12px;
-        outline: none;
-        font-size: 0px;
-        font-weight: inherit;
-        position: relative;
-        z-index: 1;
-        overflow: visible;
-        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-        width: 48px;
-        height: 48px;
-        background: none;
-  
-        .list-icon {
-          color: rgba(0, 0, 0, 0.87);
-          position: relative;
-          font-size: 24px;
-          display: inline-block;
-          user-select: none;
-          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-        }
-  
-        .list-div {
-          position: absolute;
-          font-family: 'Roboto', sans-serif;
-          font-size: 10px;
-          line-height: 22px;
-          padding: 0px 8px;
-          z-index: 3000;
-          color: rgb(255, 255, 255);
-          overflow: hidden;
-          top: -10000px;
-          border-radius: 2px;
-          user-select: none;
-          opacity: 0;
-          left: 8px;
-          transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
-            transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
-            opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-          box-sizing: border-box;
-  
-          .list-item {
-            position: relative;
-            white-space: nowrap;
-          }
-        }
-      }
-  
-      .operations-button {
-        border: 10px;
-        box-sizing: border-box;
-        display: inline-block;
-        font-family: 'Roboto', sans-serif;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        cursor: pointer;
-        text-decoration: none;
-        margin: 0px 8px 0px 0px;
-        padding: 12px;
-        outline: none;
-        font-size: 0px;
-        font-weight: inherit;
-        position: relative;
-        z-index: 1;
-        overflow: visible;
-        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-        width: 48px;
-        height: 48px;
-        background: none;
-  
-        .operations-container {
-          position: absolute;
-          font-family: 'Roboto', sans-serif;
-          font-size: 10px;
-          line-height: 22px;
-          padding: 0px 8px;
-          z-index: 3000;
-          color: rgb(255, 255, 255);
-          overflow: hidden;
-          top: -10000px;
-          border-radius: 2px;
-          user-select: none;
-          opacity: 0;
-          left: 7px;
-          transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
-            transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
-            opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-          box-sizing: border-box;
-  
-          .add-button {
-            position: relative;
-            white-space: nowrap;
-          }
-  
-          .plus-button {
-            color: rgba(0, 0, 0, 0.87);
-            position: relative;
-            font-size: 24px;
-            display: inline-block;
-            user-select: none;
-            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-          }
-        }
-      }
-    }
-  }
-  
-  .maintenance-left-menu-container-list {
-    margin-top: 16px;
-  }
-  
-  .maintenance-left-menu-list-item {
-    padding: 1rem;
-    font-weight: 500;
-    box-sizing: border-box;
+
+  .operation-div {
+    padding: 8px;
     position: relative;
-    white-space: nowrap;
-    height: auto;
-    border-bottom: 1px solid rgb(221, 221, 221);
-  
-    .title-div {
-      display: inline-block;
-      vertical-align: top;
-      white-space: normal;
-      padding-right: 0px;
-    }
-  
-    .title {
-      color: rgba(0, 0, 0, 0.77);
-      display: block;
-      font-size: 15px;
-      font-weight: 600;
-    }
-  
-    .operations {
-      padding: 8px;
-      position: relative;
-      text-align: right;
-    }
-  
-    .action-buttons {
-      padding: 8px;
-      position: relative;
-      text-align: right;
-    }
-  
-    .create-button {
+    text-align: right;
+
+    .list-button {
       border: 10px;
       box-sizing: border-box;
       display: inline-block;
@@ -320,84 +169,88 @@ body {
       width: 48px;
       height: 48px;
       background: none;
+
+      .list-icon {
+        color: rgba(0, 0, 0, 0.87);
+        position: relative;
+        font-size: 24px;
+        display: inline-block;
+        user-select: none;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      }
+
+      .list-div {
+        position: absolute;
+        font-family: 'Roboto', sans-serif;
+        font-size: 10px;
+        line-height: 22px;
+        padding: 0px 8px;
+        z-index: 3000;
+        color: rgb(255, 255, 255);
+        overflow: hidden;
+        top: -10000px;
+        border-radius: 2px;
+        user-select: none;
+        opacity: 0;
+        left: 8px;
+        transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+          transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
+          opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+        box-sizing: border-box;
+
+        .list-item {
+          position: relative;
+          white-space: nowrap;
+        }
+      }
     }
-  }
-  
-  .active {
-    outline: none;
-    background-color: rgb(214, 211, 211);
-    color: #009999;
-    font-weight: 700;
-    outline: none;
-    border: none;
-    font-family: 'Roboto', sans-serif;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  }
-  
-  .maintenance-left-menu-icon-text-representation:focus, .maintenance-left-menu-icon-text-representation.focus {
-    outline: none;
-    outline: 0;
-    box-shadow: none !important;
-  }
-  
-  // New CSS Style For All Services
-  
-  .maintenance-left-menu-container {
-    flex: 1 1 0%;
-    display: flex;
-    //   margin-top: 8rem;
-  }
-  
-  .maintenance-all-services-container {
-    background-color: rgb(243, 243, 243);
-    // overflow-y: initial;
-  
-    flex: 1 1 0%;
-    display: flex;
-    margin-top: 3rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
-  
-    .maintenance-all-services-container-title {
-      font-size: 24px;
-      font-weight: 300;
-      color: rgba(0, 0, 0, 0.87);
-      padding: 16px 0px 5px;
-      margin: 0px;
-    }
-  
-    .maintenance-all-service-container {
-      color: rgba(0, 0, 0, 0.87);
-      background-color: rgb(255, 255, 255);
-      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+    .operations-button {
+      border: 10px;
       box-sizing: border-box;
+      display: inline-block;
       font-family: 'Roboto', sans-serif;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0px 8px 0px 0px;
+      padding: 12px;
+      outline: none;
+      font-size: 0px;
+      font-weight: inherit;
+      position: relative;
       z-index: 1;
-      padding: 0px;
-      margin: 0.5rem;
-      float: left;
-      width: 19%;
-  
-      .service-card {
-        outline: none;
-        transition: all .25s linear;
-          box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
-      }
-      
-      .service-card:hover{
-        outline: none;
-        box-shadow: -1px 10px 29px 0px rgba(0,0,0,0.6);
-      }
-  
-      .maintenance-all-service-container-operations {
-        padding: 8px;
-        position: relative;
-        text-align: right;
-  
-        .separator-span {
+      overflow: visible;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      width: 48px;
+      height: 48px;
+      background: none;
+
+      .operations-container {
+        position: absolute;
+        font-family: 'Roboto', sans-serif;
+        font-size: 10px;
+        line-height: 22px;
+        padding: 0px 8px;
+        z-index: 3000;
+        color: rgb(255, 255, 255);
+        overflow: hidden;
+        top: -10000px;
+        border-radius: 2px;
+        user-select: none;
+        opacity: 0;
+        left: 7px;
+        transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+          transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
+          opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+        box-sizing: border-box;
+
+        .add-button {
+          position: relative;
+          white-space: nowrap;
+        }
+
+        .plus-button {
           color: rgba(0, 0, 0, 0.87);
           position: relative;
           font-size: 24px;
@@ -405,124 +258,277 @@ body {
           user-select: none;
           transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
         }
-  
-        .button {
-          border: 10px;
-          box-sizing: border-box;
-          display: inline-block;
-          font-family: 'Roboto', sans-serif;
-          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-          cursor: pointer;
-          text-decoration: none;
-          margin: 0px 8px 0px 0px;
-          padding: 12px;
-          outline: none;
-          font-size: 0px;
-          font-weight: inherit;
+      }
+    }
+  }
+}
+
+.maintenance-left-menu-container-list {
+  margin-top: 16px;
+}
+
+.maintenance-left-menu-list-item {
+  padding: 1rem;
+  font-weight: 500;
+  box-sizing: border-box;
+  position: relative;
+  white-space: nowrap;
+  height: auto;
+  border-bottom: 1px solid rgb(221, 221, 221);
+
+  .title-div {
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    padding-right: 0px;
+  }
+
+  .title {
+    color: rgba(0, 0, 0, 0.77);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .operations {
+    padding: 8px;
+    position: relative;
+    text-align: right;
+  }
+
+  .action-buttons {
+    padding: 8px;
+    position: relative;
+    text-align: right;
+  }
+
+  .create-button {
+    border: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0px 8px 0px 0px;
+    padding: 12px;
+    outline: none;
+    font-size: 0px;
+    font-weight: inherit;
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    width: 48px;
+    height: 48px;
+    background: none;
+  }
+}
+
+.active {
+  outline: none;
+  background-color: rgb(214, 211, 211);
+  color: #009999;
+  font-weight: 700;
+  outline: none;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.maintenance-left-menu-icon-text-representation:focus,
+.maintenance-left-menu-icon-text-representation.focus {
+  outline: none;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+// New CSS Style For All Services
+
+.maintenance-left-menu-container {
+  flex: 1 1 0%;
+  display: flex;
+  //   margin-top: 8rem;
+}
+
+.dim-all-container {
+  background-color: rgb(243, 243, 243);
+  overflow-y: initial;
+  flex: 1 1 0%;
+  display: flex;
+  margin-top: 3rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+
+  .dim-all-sub-container {
+    margin-bottom: 4rem;
+    width: 100%;
+  }
+
+  .dim-all-sub-container-title {
+    font-size: 24px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 16px 0px 5px;
+    margin: 0px;
+  }
+
+  .dim-all-card-container {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: rgb(255, 255, 255);
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    border-radius: 2px;
+    z-index: 1;
+    padding: 0px;
+    margin: 0.5rem;
+    float: left;
+    width: 19%;
+
+    .dim-all-card {
+      outline: none;
+      transition: all 0.25s linear;
+      box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .dim-all-card:hover {
+      outline: none;
+      box-shadow: -1px 10px 29px 0px rgba(0, 0, 0, 0.6);
+    }
+
+    .dim-all-card-container-actions {
+      padding: 8px;
+      position: relative;
+      text-align: right;
+
+      .separator-span {
+        color: rgba(0, 0, 0, 0.87);
+        position: relative;
+        font-size: 24px;
+        display: inline-block;
+        user-select: none;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      }
+
+      .button {
+        border: 10px;
+        box-sizing: border-box;
+        display: inline-block;
+        font-family: 'Roboto', sans-serif;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        cursor: pointer;
+        text-decoration: none;
+        margin: 0px 8px 0px 0px;
+        padding: 12px;
+        outline: none;
+        font-size: 0px;
+        font-weight: inherit;
+        position: relative;
+        z-index: 1;
+        overflow: visible;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+        width: 48px;
+        height: 48px;
+        background: none;
+
+        .add {
           position: relative;
-          z-index: 1;
-          overflow: visible;
-          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-          width: 48px;
-          height: 48px;
-          background: none;
-  
-          .add {
+          white-space: nowrap;
+        }
+
+        .button-section {
+          position: absolute;
+          font-family: 'Roboto', sans-serif;
+          font-size: 10px;
+          line-height: 22px;
+          padding: 0px 8px;
+          z-index: 3000;
+          color: rgb(255, 255, 255);
+          overflow: hidden;
+          top: -10000px;
+          border-radius: 2px;
+          user-select: none;
+          opacity: 0;
+          left: 7px;
+          transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+            transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
+            opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          box-sizing: border-box;
+
+          .dim-add-button {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-color: transparent;
+            transition: width 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+              height 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+              backgroundColor 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            width: 0px;
+            height: 0px;
+          }
+
+          .list-section {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-color: transparent;
+            transition: width 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+              height 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+              backgroundColor 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            width: 0px;
+            height: 0px;
+          }
+
+          .list {
             position: relative;
             white-space: nowrap;
           }
-  
-          .button-section {
-            position: absolute;
-            font-family: 'Roboto', sans-serif;
-            font-size: 10px;
-            line-height: 22px;
-            padding: 0px 8px;
-            z-index: 3000;
-            color: rgb(255, 255, 255);
-            overflow: hidden;
-            top: -10000px;
-            border-radius: 2px;
-            user-select: none;
-            opacity: 0;
-            left: 7px;
-            transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
-              transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
-              opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-            box-sizing: border-box;
-  
-            .add-section {
-              position: absolute;
-              left: 50%;
-              top: 100%;
-              transform: translate(-50%, -50%);
-              border-radius: 50%;
-              background-color: transparent;
-              transition: width 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
-                height 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
-                backgroundColor 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-              width: 0px;
-              height: 0px;
-            }
-  
-            .list-section {
-              position: absolute;
-              left: 50%;
-              top: 100%;
-              transform: translate(-50%, -50%);
-              border-radius: 50%;
-              background-color: transparent;
-              transition: width 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
-                height 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
-                backgroundColor 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-              width: 0px;
-              height: 0px;
-            }
-  
-            .list {
-              position: relative;
-              white-space: nowrap;
-            }
-          }
         }
-      }
-  
-      .maintenance-all-service-container-title-div {
-        padding: 1rem;
-        font-weight: 500;
-        box-sizing: border-box;
-        position: relative;
-        white-space: nowrap;
-        height: auto;
-        border-bottom: 1px solid rgb(221, 221, 221);
-        cursor: pointer;
-  
-        .title {
-          color: rgba(0, 0, 0, 0.87);
-          display: block;
-          font-size: 15px;
-          font-weight: 600;
-        }
-  
-        .separator {
-          color: rgba(0, 0, 0, 0.54);
-          display: block;
-          font-size: 14px;
-        }
-      }
-  
-      .maintenance-all-service-container-description-div {
-        padding: 0.5rem 1rem;
-        font-size: 14px;
-        color: rgba(0, 0, 0, 0.87);
-        height: 85px;
       }
     }
-  
-    .maintenance-all-services-container-div {
-      padding: 0px;
-      background-color: transparent;
-      margin-top: 16px;
+
+    .dim-all-card-container-title {
+      padding: 1rem;
+      font-weight: 500;
+      box-sizing: border-box;
+      position: relative;
+      white-space: nowrap;
+      height: auto;
+      border-bottom: 1px solid rgb(221, 221, 221);
+      cursor: pointer;
+
+      .title {
+        color: rgba(0, 0, 0, 0.87);
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .separator {
+        color: rgba(0, 0, 0, 0.54);
+        display: block;
+        font-size: 14px;
+      }
+    }
+
+    .dim-all-card-container-description {
+      padding: 0.5rem 1rem;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.87);
+      height: 85px;
     }
   }
-  
+
+  .dim-all-container-div {
+    padding: 0px;
+    background-color: transparent;
+    margin-top: 16px;
+  }
+}
