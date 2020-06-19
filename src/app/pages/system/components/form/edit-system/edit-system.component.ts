@@ -30,6 +30,8 @@ export class EditSystemComponent implements OnInit, OnDestroy {
   updateSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
+    createdAt: new FormControl(),
+    lastUpdatedBy: new FormControl()
   });
 
   subscriptions: Array<Subscription> = [];
@@ -80,6 +82,7 @@ export class EditSystemComponent implements OnInit, OnDestroy {
       .subscribe((system: DIMSystem) => {
         const updatedSystem = _.merge(_.clone(this.systemFormEntries), {
           id: system?.id,
+          lastUpdatedBy: new Date(),
         });
         this.systemState.dispatch(
           UpdateSystem(_.clone({ system: updatedSystem }))

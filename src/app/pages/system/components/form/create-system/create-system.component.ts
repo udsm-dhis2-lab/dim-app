@@ -40,6 +40,8 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   createSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
+    createdAt: new FormControl(new Date()),
+    lastUpdatedAt: new FormControl(new Date())
   });
 
   // Subscriptions
