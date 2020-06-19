@@ -19,6 +19,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SystemState } from '../../../state/system.state';
 import { DIMSystem } from '../../../models/system.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { getCurrentUser } from 'src/app/state/selectors/user.selectors';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -34,6 +36,7 @@ import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 })
 export class CreateSystemComponent implements OnInit, OnDestroy {
   // matcher = new MyErrorStateMatcher();
+  user: User;
   systemFormEntries: DataEntryField = _.clone(_.create());
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
@@ -41,7 +44,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
     name: new FormControl(''),
     description: new FormControl(''),
     createdAt: new FormControl(new Date()),
-    lastUpdatedAt: new FormControl(new Date())
+    lastUpdatedAt: new FormControl(new Date()),
   });
 
   // Subscriptions
@@ -49,6 +52,7 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   systemCreatedSUB$: Subscription;
   createdSystemSUB$: Subscription;
   errorSUB$: Subscription;
+  userSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
@@ -69,6 +73,10 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
       }
     );
     this.subscriptions.push(this.formSUB$);
+    this.userSUB$ = this.appState
+      .pipe(select(getCurrentUser))
+      .subscribe((user: User) => (this.user = user));
+    this.subscriptions.push(this.userSUB$);
   }
 
   ngOnDestroy(): void {
@@ -84,6 +92,10 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
     const id = uuid('', 11);
     const system = _.merge(_.clone(this.systemFormEntries), {
       id,
+      createdBy: this.user.name,
+      createdById: this.user.id,
+      lastUpdatedBy: this.user.name,
+      lastUpdatedById: this.user.id,
     });
     this.systemState.dispatch(CreateSystem(_.clone({ system })));
     this.systemCreatedSUB$ = this.systemState

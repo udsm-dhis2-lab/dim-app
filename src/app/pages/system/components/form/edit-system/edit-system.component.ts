@@ -18,6 +18,9 @@ import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { SystemState } from '../../../state/system.state';
 import { DIMSystem } from '../../../models/system.model';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { AppState } from 'src/app/state/states/app.state';
+import { getCurrentUser } from 'src/app/state/selectors/user.selectors';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-edit-system',
@@ -26,12 +29,13 @@ import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 })
 export class EditSystemComponent implements OnInit, OnDestroy {
   systemFormEntries: DataEntryField = _.clone(_.create());
+  user: User;
   isUpdating: boolean;
   updateSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
     createdAt: new FormControl(),
-    lastUpdatedBy: new FormControl()
+    lastUpdatedBy: new FormControl(),
   });
 
   subscriptions: Array<Subscription> = [];
@@ -40,12 +44,14 @@ export class EditSystemComponent implements OnInit, OnDestroy {
   updatedSystemSUB$: Subscription;
   selectedSystemSUB$: Subscription;
   errorSUB$: Subscription;
+  userSUB$: Subscription;
 
   constructor(
     private systemState: Store<SystemState>,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private appState: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +69,10 @@ export class EditSystemComponent implements OnInit, OnDestroy {
       .subscribe((system: DIMSystem) => {
         this.updateSystemForm.patchValue(system);
       });
+    this.userSUB$ = this.appState
+      .pipe(select(getCurrentUser))
+      .subscribe((user: User) => (this.user = user));
+    this.subscriptions.push(this.userSUB$);
     this.subscriptions.push(this.systemFormSUB$);
     this.subscriptions.push(this.selectedSystemSUB$);
   }
@@ -82,7 +92,11 @@ export class EditSystemComponent implements OnInit, OnDestroy {
       .subscribe((system: DIMSystem) => {
         const updatedSystem = _.merge(_.clone(this.systemFormEntries), {
           id: system?.id,
-          lastUpdatedBy: new Date(),
+          lastUpdatedAt: new Date(),
+          createdBy: this.user.name,
+          createdById: this.user.id,
+          lastUpdatedBy: this.user.name,
+          lastUpdatedById: this.user.id,
         });
         this.systemState.dispatch(
           UpdateSystem(_.clone({ system: updatedSystem }))
