@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
 import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { IntegrationState, UpdateIntegration } from '../../../state';
@@ -36,6 +36,7 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
   systems: Array<DIMSystem | any>;
   systems$: Observable<Array<DIMSystem | any>>;
   batches$: Observable<Array<DIMBatch | any>>;
+  selectedBatches: Array<DIMBatch | any>;
   procBatch: Array<DIMBatch> = [];
   user: User;
   isUpdating: boolean;
@@ -64,6 +65,7 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
   errorSUB$: Subscription;
   systemsSUB$: Subscription;
   userSUB$: Subscription;
+  batchesSUB$: Subscription;
 
   constructor(
     private integrationState: Store<IntegrationState>,
@@ -78,7 +80,27 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isUpdating = false;
     this.systems$ = this.systemService.getSystems();
-    this.batches$ = this.batchService.getBatches();
+    this.batchesSUB$ = this.batchService
+      .getBatches()
+      .subscribe((batches: Array<DIMBatch | any>) => {
+        this.batches$ = of(
+          _.filter(batches, (batch: DIMBatch) => {
+            return !_.includes(
+              _.map(
+                _.clone(this.selectedBatches),
+                (selectedBatch: DIMBatch) => selectedBatch?.id
+              ),
+              batch?.id
+            );
+          })
+        );
+      });
+    this.selectedIntegrationSUB$ = this.integrationState
+      .pipe(select(getSelectedIntegration))
+      .subscribe((integration: DIMIntegration) => {
+        this.selectedBatches = this.getSelectedBatches(integration);
+        this.updateIntegrationForm.patchValue(integration);
+      });
     this.integrationFormSUB$ = this.updateIntegrationForm.valueChanges.subscribe(
       (integration: DIMIntegration) => {
         this.integrationFormEntries = onUpdateFormProps(
@@ -87,11 +109,6 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
         );
       }
     );
-    this.selectedIntegrationSUB$ = this.integrationState
-      .pipe(select(getSelectedIntegration))
-      .subscribe((integration: DIMIntegration) => {
-        this.updateIntegrationForm.patchValue(integration);
-      });
     this.systemsSUB$ = this.systemService
       .getSystems()
       .subscribe((systems: Array<DIMSystem>) => {
@@ -110,6 +127,18 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
       if (subscription) {
         subscription.unsubscribe();
       }
+    }
+  }
+
+  getSelectedBatches(integration: DIMIntegration): Array<DIMBatch> {
+    const selectedBatches: Array<DIMBatch> = [];
+    if (integration) {
+      for (const key of _.keys(integration)) {
+        if (_.head(_.split(key, '_')) === 'batch') {
+          selectedBatches.push(integration[key]);
+        }
+      }
+      return selectedBatches;
     }
   }
 
@@ -139,7 +168,7 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
             lastUpdatedById: this.user.id,
           },
           arrayToObject(_.clone(this.procBatch), 'id', 'batch', '_')
-          );
+        );
         this.integrationState.dispatch(
           UpdateIntegration(_.clone({ integration: updatedIntegration }))
         );

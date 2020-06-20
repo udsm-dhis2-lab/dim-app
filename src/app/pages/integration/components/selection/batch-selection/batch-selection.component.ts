@@ -15,12 +15,18 @@ export class BatchSelectionComponent implements OnInit {
   searchString: string;
   tempBatches: any[] = [];
   isLoading = true;
+  loaded = false;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.availableBatches) {
+      this.loaded = true;
+    }
+  }
 
   onDoubleClickSelect(batch: DIMBatch, action: string) {
+    this.loaded = true;
     this.tempBatches = [];
     const mBatches: DIMBatch | [] = batch ? batch : [];
     const mSelectedReports: Array<DIMBatch> = this.selectedBatches
@@ -54,6 +60,7 @@ export class BatchSelectionComponent implements OnInit {
   }
 
   onClickSelect(report: any, action: string) {
+    this.loaded = true;
     this.action = action;
     const mBatches: DIMBatch | [] = report ? report : [];
     this.tempBatches = [];
