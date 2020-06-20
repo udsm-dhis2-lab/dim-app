@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
 import { IntegrationState, UpdateIntegration } from '../../../state';
@@ -16,6 +16,11 @@ import {
 } from '../../../state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { DIMSystem } from 'src/app/pages/system/models/system.model';
+import { User } from '@iapps/ngx-dhis2-http-client';
+import { SystemService } from 'src/app/pages/system/services/system.service';
+import { AppState } from 'src/app/state/states/app.state';
+import { getCurrentUser } from 'src/app/state/selectors/user.selectors';
 
 @Component({
   selector: 'app-edit-integration',
@@ -23,61 +28,73 @@ import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
   styleUrls: ['./edit-integration.component.scss'],
 })
 export class EditIntegrationComponent implements OnInit, OnDestroy {
-  systemFormEntries: DataEntryField = _.clone(_.create());
+  integrationFormEntries: DataEntryField = _.clone(_.create());
+  systems: Array<DIMSystem | any>;
+  systems$: Observable<Array<DIMSystem | any>>;
+  user: User;
   isUpdating: boolean;
   updateIntegrationForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    isExecuted: new FormControl(false),
-    dataSet: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
-    ou: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
     description: new FormControl(''),
-    defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
-    importURL: new FormControl(''),
-    isUsingHIM: new FormControl(''),
-    dataFromURL: new FormControl(''),
+    isUsingHIM: new FormControl(false),
     isUsingLiveDhis2: new FormControl(false),
-    from: new FormControl(''),
-    to: new FormControl(''),
+    defaultCOC: new FormControl(''),
+    importURL: new FormControl(''),
+    dataFromURL: new FormControl(''),
+    systemInfo: new FormGroup({
+      from: new FormControl(),
+      to: new FormControl(),
+    }),
+    createdAt: new FormControl(new Date()),
+    lastUpdatedAt: new FormControl(new Date()),
   });
 
   subscriptions: Array<Subscription> = [];
-  systemFormSUB$: Subscription;
-  systemUpdatedSUB$: Subscription;
-  updatedSystemSUB$: Subscription;
-  selectedSystemSUB$: Subscription;
+  integrationFormSUB$: Subscription;
+  integrationUpdatedSUB$: Subscription;
+  updatedIntegrationSUB$: Subscription;
+  selectedIntegrationSUB$: Subscription;
   errorSUB$: Subscription;
+  systemsSUB$: Subscription;
+  userSUB$: Subscription;
 
   constructor(
     private integrationState: Store<IntegrationState>,
+    private appState: Store<AppState>,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private systemService: SystemService
   ) {}
 
   ngOnInit(): void {
     this.isUpdating = false;
-    this.systemFormSUB$ = this.updateIntegrationForm.valueChanges.subscribe(
+    this.systems$ = this.systemService.getSystems();
+    this.integrationFormSUB$ = this.updateIntegrationForm.valueChanges.subscribe(
       (integration: DIMIntegration) => {
-        this.systemFormEntries = onUpdateFormProps(
-          this.systemFormEntries,
+        this.integrationFormEntries = onUpdateFormProps(
+          this.integrationFormEntries,
           integration
         );
       }
     );
-    this.selectedSystemSUB$ = this.integrationState
+    this.selectedIntegrationSUB$ = this.integrationState
       .pipe(select(getSelectedIntegration))
       .subscribe((integration: DIMIntegration) => {
         this.updateIntegrationForm.patchValue(integration);
       });
-    this.subscriptions.push(this.systemFormSUB$);
-    this.subscriptions.push(this.selectedSystemSUB$);
+    this.systemsSUB$ = this.systemService
+      .getSystems()
+      .subscribe((systems: Array<DIMSystem>) => {
+        this.systems = systems;
+      });
+    this.userSUB$ = this.appState
+      .pipe(select(getCurrentUser))
+      .subscribe((user: User) => (this.user = user));
+    this.subscriptions.push(this.userSUB$);
+    this.subscriptions.push(this.integrationFormSUB$);
+    this.subscriptions.push(this.selectedIntegrationSUB$);
   }
 
   ngOnDestroy(): void {
@@ -90,19 +107,27 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
 
   onSubmitForm(): void {
     this.isUpdating = true;
-    this.selectedSystemSUB$ = this.integrationState
+    this.selectedIntegrationSUB$ = this.integrationState
       .pipe(select(getSelectedIntegration))
       .subscribe((integration: DIMIntegration) => {
-        const updatedIntegration = _.merge(_.clone(this.systemFormEntries), {
-          id: integration?.id,
-        });
+        const updatedIntegration = _.merge(
+          _.clone(this.integrationFormEntries),
+          {
+            id: integration?.id,
+            lastUpdatedAt: new Date(),
+            createdBy: this.user.name,
+            createdById: this.user.id,
+            lastUpdatedBy: this.user.name,
+            lastUpdatedById: this.user.id,
+          }
+        );
         this.integrationState.dispatch(
           UpdateIntegration(_.clone({ integration: updatedIntegration }))
         );
         /**
          *
          */
-        this.systemUpdatedSUB$ = this.integrationState
+        this.integrationUpdatedSUB$ = this.integrationState
           .pipe(select(getIntegrationEditedStatus))
           .subscribe((status: boolean) => {
             if (status) {
@@ -132,8 +157,8 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
     /**
      *
      */
-    this.subscriptions.push(this.systemUpdatedSUB$);
-    this.subscriptions.push(this.selectedSystemSUB$);
+    this.subscriptions.push(this.integrationUpdatedSUB$);
+    this.subscriptions.push(this.selectedIntegrationSUB$);
     this.subscriptions.push(this.errorSUB$);
   }
 

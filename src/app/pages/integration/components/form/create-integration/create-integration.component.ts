@@ -32,8 +32,8 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
   // matcher = new MyErrorStateMatcher();
   integrationFormEntries: DataEntryField = _.clone(_.create());
   systems: Array<DIMSystem | any>;
-  user: User;
   systems$: Observable<Array<DIMSystem | any>>;
+  user: User;
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
   createIntegrationForm: FormGroup = new FormGroup({

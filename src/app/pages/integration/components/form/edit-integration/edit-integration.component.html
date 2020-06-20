@@ -10,7 +10,7 @@
             </div>
             &nbsp;
             <div class="title">
-                <span> System Configuration Form</span>
+                <span> Integration Configuration Form</span>
             </div>
         </div>
     </div>
@@ -31,16 +31,85 @@
                     <input formControlName="description" matInput placeholder="Description" />
                 </mat-form-field>
             </div>
+            <div formGroupName="systemInfo" class="row field-form-input-div">
+                <div class="col-md-6">
+                    <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Data Source Systems</mat-label>
+                            <mat-select formControlName="from" [value]="">
+                                <mat-option *ngFor="let system of systems" [value]="system.name">
+                                    {{ system?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <mat-progress-bar *ngIf="!systems" mode="indeterminate"></mat-progress-bar>
+                </div>
+                <div class="col-md-6">
+                    <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Data Recipient Systems</mat-label>
+                            <mat-select [value]="" formControlName="to">
+                                <mat-option *ngFor="let system of systems" [value]="system.name">
+                                    {{ system?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <mat-progress-bar *ngIf="!systems" mode="indeterminate"></mat-progress-bar>
+                </div>
+            </div>
+            &nbsp;
+            <div class="field-form-input-div">
+                <mat-checkbox formControlName="isAllowed" class="example-margin">Is this integration allowed to be
+                    executed in the next schedule?
+                </mat-checkbox>
+            </div>
+            <div class="field-form-input-div">
+                <mat-checkbox formControlName="isUsingHIM" class="example-margin">Is using Health Information
+                    Mediator(HIM) -
+                    <strong>Ministry of Health</strong>
+                    Mediator during Data Exchange?
+                </mat-checkbox>
+            </div>
+            <div class="field-form-input-div">
+                <mat-checkbox formControlName="isUsingLiveDhis2" class="example-margin">Is using Live DHIS2 as Data
+                    Source during Data Exchange?
+                </mat-checkbox>
+            </div>
+            <div class="field-form-input-div">
+                <mat-form-field class="example-full-width" appearance="standard">
+                    <mat-label>Default Category Option Combo Id</mat-label>
+                    <input matInput formControlName="defaultCOC" />
+                    <mat-icon matSuffix [matTooltip]="
+              'Default Category Option Combo Id of the Receiving System'
+            ">info</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="field-form-input-div">
+                <mat-form-field class="example-full-width" appearance="standard">
+                    <mat-label>Data From URL</mat-label>
+                    <input matInput formControlName="dataFromURL" />
+                    <mat-icon matSuffix [matTooltip]="'URL of the Data Source System'">info</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="field-form-input-div">
+                <mat-form-field class="example-full-width" appearance="standard">
+                    <mat-label>Data Import URL</mat-label>
+                    <input matInput formControlName="importURL" />
+                    <mat-icon matSuffix [matTooltip]="'URL of the Data Recepient System'">info</mat-icon>
+                </mat-form-field>
+            </div>
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">
                     <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
                         [class.spinner]="isUpdating" (click)="onSubmitForm()">
-                        Update
+                        Save
                     </button>
 
                     <button *ngIf="isUpdating" mat-stroked-button color="primary" class="form-footer-save-btn"
                         [disabled]="isUpdating" [class.spinner]="isUpdating">
-                        Updating...
+                        Saving...
                     </button>
                 </div>
                 <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn" (click)="onBack()">
