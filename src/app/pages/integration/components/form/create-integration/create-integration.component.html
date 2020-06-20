@@ -36,7 +36,8 @@
                     <div class="field-form-input-div">
                         <mat-form-field class="example-full-width">
                             <mat-label>Data Source Systems</mat-label>
-                            <mat-select formControlName="from" [value]="" (selectionChange)="getEditorHeight($event.value)">
+                            <mat-select formControlName="from" [value]=""
+                                (selectionChange)="getEditorHeight($event.value)">
                                 <mat-option *ngFor="let system of systems" [value]="system.name">
                                     {{ system?.name }}
                                 </mat-option>
@@ -49,7 +50,8 @@
                     <div class="field-form-input-div">
                         <mat-form-field class="example-full-width">
                             <mat-label>Data Recipient Systems</mat-label>
-                            <mat-select [value]="" formControlName="to" (selectionChange)="getEditorHeight($event.value)">
+                            <mat-select [value]="" formControlName="to"
+                                (selectionChange)="getEditorHeight($event.value)">
                                 <mat-option *ngFor="let system of systems" [value]="system.name">
                                     {{ system?.name }}
                                 </mat-option>
@@ -99,6 +101,10 @@
                     <input matInput formControlName="importURL" />
                     <mat-icon matSuffix [matTooltip]="'URL of the Data Recepient System'">info</mat-icon>
                 </mat-form-field>
+            </div>
+            <div class="field-form-input-div">
+                <app-batch-selection [availableBatches]="batches$ | async"
+                    (selectedBatchEventEmitter)="getSelectedBatch($event)"></app-batch-selection>
             </div>
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">

@@ -21,6 +21,10 @@ import { User } from '@iapps/ngx-dhis2-http-client';
 import { SystemService } from 'src/app/pages/system/services/system.service';
 import { AppState } from 'src/app/state/states/app.state';
 import { getCurrentUser } from 'src/app/state/selectors/user.selectors';
+import { DIMBatch } from 'src/app/pages/batch/models/batch.model';
+import { BatchService } from 'src/app/pages/batch/services/batch.service';
+import { uuid } from '@icodebible/utils/uuid';
+import { arrayToObject } from 'src/app/shared/helpers/array-to-object.helper';
 
 @Component({
   selector: 'app-edit-integration',
@@ -31,6 +35,8 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
   integrationFormEntries: DataEntryField = _.clone(_.create());
   systems: Array<DIMSystem | any>;
   systems$: Observable<Array<DIMSystem | any>>;
+  batches$: Observable<Array<DIMBatch | any>>;
+  procBatch: Array<DIMBatch> = [];
   user: User;
   isUpdating: boolean;
   updateIntegrationForm: FormGroup = new FormGroup({
@@ -65,12 +71,14 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private systemService: SystemService
+    private systemService: SystemService,
+    private batchService: BatchService
   ) {}
 
   ngOnInit(): void {
     this.isUpdating = false;
     this.systems$ = this.systemService.getSystems();
+    this.batches$ = this.batchService.getBatches();
     this.integrationFormSUB$ = this.updateIntegrationForm.valueChanges.subscribe(
       (integration: DIMIntegration) => {
         this.integrationFormEntries = onUpdateFormProps(
@@ -105,6 +113,16 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
     }
   }
 
+  getSelectedBatch(batch: Array<DIMBatch>) {
+    if (batch) {
+      this.procBatch = _.union(_.clone(this.procBatch), batch);
+    }
+  }
+
+  getBatchCustomUID(): string {
+    return `batch_${uuid('', 11)}`;
+  }
+
   onSubmitForm(): void {
     this.isUpdating = true;
     this.selectedIntegrationSUB$ = this.integrationState
@@ -119,8 +137,9 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
             createdById: this.user.id,
             lastUpdatedBy: this.user.name,
             lastUpdatedById: this.user.id,
-          }
-        );
+          },
+          arrayToObject(_.clone(this.procBatch), 'id', 'batch', '_')
+          );
         this.integrationState.dispatch(
           UpdateIntegration(_.clone({ integration: updatedIntegration }))
         );

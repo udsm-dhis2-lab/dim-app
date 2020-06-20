@@ -10,6 +10,7 @@ import { CreateIntegrationComponent } from './components/form/create-integration
 import { EditIntegrationComponent } from './components/form/edit-integration/edit-integration.component';
 import { StoreModule } from '@ngrx/store';
 import { _IntegrationReducer } from './state';
+import { BatchSelectionComponent } from './components/selection/batch-selection/batch-selection.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { _IntegrationReducer } from './state';
     ServiceMenuComponent,
     CreateIntegrationComponent,
     EditIntegrationComponent,
+    BatchSelectionComponent,
   ],
   imports: [
     CommonModule,

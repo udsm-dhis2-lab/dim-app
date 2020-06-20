@@ -22,6 +22,9 @@ import { DIMSystem } from 'src/app/pages/system/models/system.model';
 import { SystemService } from 'src/app/pages/system/services/system.service';
 import { getCurrentUser } from 'src/app/state/selectors/user.selectors';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { DIMBatch } from 'src/app/pages/batch/models/batch.model';
+import { BatchService } from 'src/app/pages/batch/services/batch.service';
+import { arrayToObject } from 'src/app/shared/helpers/array-to-object.helper';
 
 @Component({
   selector: 'app-create-integration',
@@ -33,6 +36,8 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
   integrationFormEntries: DataEntryField = _.clone(_.create());
   systems: Array<DIMSystem | any>;
   systems$: Observable<Array<DIMSystem | any>>;
+  batches$: Observable<Array<DIMBatch | any>>;
+  procBatch: Array<DIMBatch> = [];
   user: User;
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
@@ -67,12 +72,14 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private systemService: SystemService
+    private systemService: SystemService,
+    private batchService: BatchService
   ) {}
 
   ngOnInit(): void {
     this.isUpdating = false;
     this.systems$ = this.systemService.getSystems();
+    this.batches$ = this.batchService.getBatches();
     this.formSUB$ = this.createIntegrationForm.valueChanges.subscribe(
       (integration: DIMIntegration) => {
         this.integrationFormEntries = onUpdateFormProps(
@@ -98,6 +105,16 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
     //
   }
 
+  getSelectedBatch(batch: Array<DIMBatch>) {
+    if (batch) {
+      this.procBatch = _.union(_.clone(this.procBatch), batch);
+    }
+  }
+
+  getBatchCustomUID(): string {
+    return `batch_${uuid('', 11)}`;
+  }
+
   ngOnDestroy(): void {
     for (const subscription of this.subscriptions) {
       if (subscription) {
@@ -109,13 +126,17 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
   onSubmitForm(): void {
     this.isUpdating = true;
     const id = uuid('', 11);
-    const integration = _.merge(_.clone(this.integrationFormEntries), {
-      id,
-      createdBy: this.user.name,
-      createdById: this.user.id,
-      lastUpdatedBy: this.user.name,
-      lastUpdatedById: this.user.id,
-    });
+    const integration = _.merge(
+      _.clone(this.integrationFormEntries),
+      {
+        id,
+        createdBy: this.user.name,
+        createdById: this.user.id,
+        lastUpdatedBy: this.user.name,
+        lastUpdatedById: this.user.id,
+      },
+      arrayToObject(_.clone(this.procBatch), 'id', 'batch', '_')
+    );
     this.integrationState.dispatch(CreateIntegration(_.clone({ integration })));
     this.integrationCreatedSUB$ = this.integrationState
       .pipe(select(getIntegrationCreatedStatus))
