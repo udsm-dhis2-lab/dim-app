@@ -103,10 +103,15 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
       });
     this.integrationFormSUB$ = this.updateIntegrationForm.valueChanges.subscribe(
       (integration: DIMIntegration) => {
-        this.integrationFormEntries = onUpdateFormProps(
-          this.integrationFormEntries,
-          integration
-        );
+        this.integrationFormEntries = {
+          ...onUpdateFormProps(this.integrationFormEntries, integration),
+          ...arrayToObject(
+            _.union(_.clone(this.procBatch), this.selectedBatches),
+            'id',
+            'batch',
+            '_'
+          ),
+        };
       }
     );
     this.systemsSUB$ = this.systemService
@@ -145,6 +150,10 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
   getSelectedBatch(batch: Array<DIMBatch>) {
     if (batch) {
       this.procBatch = _.union(_.clone(this.procBatch), batch);
+      this.integrationFormEntries = {
+        ..._.clone(this.integrationFormEntries),
+        ...this.updateIntegrationForm.value,
+      };
     }
   }
 
