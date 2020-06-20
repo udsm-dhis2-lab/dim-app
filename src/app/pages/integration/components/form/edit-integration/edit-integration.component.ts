@@ -53,8 +53,8 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
       from: new FormControl(),
       to: new FormControl(),
     }),
-    createdAt: new FormControl(new Date()),
-    lastUpdatedAt: new FormControl(new Date()),
+    createdAt: new FormControl(),
+    lastUpdatedAt: new FormControl(),
   });
 
   subscriptions: Array<Subscription> = [];

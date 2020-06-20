@@ -45,7 +45,7 @@
   border-radius: 50%;
   border: 2px solid #ffffff;
   border-top-color: #000000;
-  animation: spinner .8s linear infinite;
+  animation: spinner 0.8s linear infinite;
 }
 
 .field-form-input-div {
@@ -63,7 +63,7 @@
   margin-top: 20px;
 }
 
-// Form Footer 
+// Form Footer
 .form-footer {
   margin-top: 1rem;
 
@@ -115,7 +115,7 @@
   }
 }
 
-// Material Overriden styles 
+// Material Overriden styles
 ::ng-deep .mat-focused .mat-form-field-label {
   /*change color of label*/
   color: rgb(51, 153, 255) !important;
@@ -129,14 +129,13 @@
 ::ng-deep.mat-form-field-ripple {
   /*change color of underline when focused*/
   background-color: rgb(51, 153, 255) !important;
-  ;
 }
 
 .example-full-width {
   width: 100%;
 }
 
-// Form Header CSS 
+// Form Header CSS
 
 .material-icons {
   display: inline-flex;

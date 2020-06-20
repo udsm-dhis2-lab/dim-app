@@ -5,18 +5,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { uuid } from '@icodebible/utils/uuid';
 import * as _ from 'lodash';
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { AppState } from 'src/app/state/states/app.state';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { BatchState, CreateBatch } from '../../../state';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DIMBatch } from '../../../models/batch.model';
-import {
-  getBatchCreatedStatus,
-  getBatchError,
-} from '../../../state/batch.selector';
-import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { JobService } from 'src/app/pages/job/services/job.service';
+import { DIMJob } from 'src/app/pages/job/models/job.model';
+import { User } from '@iapps/ngx-dhis2-http-client';
+import { getCurrentUser } from 'src/app/state/selectors/user.selectors';
+import { arrayToObject } from 'src/app/shared/helpers/array-to-object.helper';
+import { getBatchCreatedStatus } from '../../../state/batch.selector';
+
 @Component({
   selector: 'app-create-batch',
   templateUrl: './create-batch.component.html',
@@ -25,28 +27,16 @@ import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 export class CreateBatchComponent implements OnInit, OnDestroy {
   // matcher = new MyErrorStateMatcher();
   batchFormEntries: DataEntryField = _.clone(_.create());
+  jobs$: Observable<Array<DIMJob | any>>;
+  procJobs: Array<DIMBatch> = [];
+  user: User;
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
   createBatchForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    isExecuted: new FormControl(false),
-    dataSet: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
-    ou: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
     description: new FormControl(''),
-    defaultCOC: new FormControl(''),
-    isAllowed: new FormControl(false),
-    importURL: new FormControl(''),
-    isUsingHIM: new FormControl(''),
-    dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(false),
-    from: new FormControl(''),
-    to: new FormControl(''),
+    createdAt: new FormControl(new Date()),
+    lastUpdatedAt: new FormControl(new Date()),
   });
 
   // Subscriptions
@@ -54,23 +44,40 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
   batchCreatedSUB$: Subscription;
   createdBatchSUB$: Subscription;
   errorSUB$: Subscription;
+  userSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
     private batchState: Store<BatchState>,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private jobService: JobService
   ) {}
 
   ngOnInit(): void {
     this.isUpdating = false;
+    this.jobs$ = this.jobService.getJobs();
     this.formSUB$ = this.createBatchForm.valueChanges.subscribe(
       (batch: DIMBatch) => {
         this.batchFormEntries = onUpdateFormProps(this.batchFormEntries, batch);
       }
     );
+    this.userSUB$ = this.appState
+      .pipe(select(getCurrentUser))
+      .subscribe((user: User) => (this.user = user));
+    this.subscriptions.push(this.userSUB$);
     this.subscriptions.push(this.formSUB$);
+  }
+
+  getSelectedJob(job: Array<DIMJob>) {
+    if (job) {
+      this.procJobs = _.union(_.clone(this.procJobs), job);
+    }
+  }
+
+  getJobCustomUID(): string {
+    return `job_${uuid('', 11)}`;
   }
 
   ngOnDestroy(): void {
@@ -84,9 +91,17 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
   onSubmitForm(): void {
     this.isUpdating = true;
     const id = uuid('', 11);
-    const batch = _.merge(_.clone(this.batchFormEntries), {
-      id,
-    });
+    const batch = _.merge(
+      _.clone(this.batchFormEntries),
+      {
+        id,
+        createdBy: this.user.name,
+        createdById: this.user.id,
+        lastUpdatedBy: this.user.name,
+        lastUpdatedById: this.user.id,
+      },
+      arrayToObject(_.clone(this.procJobs), 'id', 'job', '_')
+    );
     this.batchState.dispatch(CreateBatch(_.clone({ batch })));
     this.batchCreatedSUB$ = this.batchState
       .pipe(select(getBatchCreatedStatus))
@@ -102,20 +117,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
           );
         }
       });
-    this.errorSUB$ = this.batchState
-      .pipe(select(getBatchError))
-      .subscribe((error: HTTPErrorMessage) => {
-        if (error) {
-          this.isUpdating = false;
-          this.router.navigate(['../../list'], { relativeTo: this.route });
-          const message = _.has(error.error, 'message')
-            ? error.error.message
-            : error.error.error;
-          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
-        }
-      });
     this.subscriptions.push(this.batchCreatedSUB$);
-    this.subscriptions.push(this.errorSUB$);
   }
 
   onBack() {

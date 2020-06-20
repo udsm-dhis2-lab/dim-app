@@ -10,7 +10,7 @@
             </div>
             &nbsp;
             <div class="title">
-                <span> Integration Configuration Form</span>
+                <span> Batch Configuration Form</span>
             </div>
         </div>
     </div>
@@ -30,6 +30,10 @@
                 <mat-form-field class="example-full-width">
                     <input formControlName="description" matInput placeholder="Description" />
                 </mat-form-field>
+            </div>
+            <div class="field-form-input-div">
+                <app-job-selection [availableJobs]="jobs$ | async" (selectedJobsEventEmitter)="getSelectedJob($event)">
+                </app-job-selection>
             </div>
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">

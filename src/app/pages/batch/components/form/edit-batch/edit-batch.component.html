@@ -31,6 +31,10 @@
                     <input formControlName="description" matInput placeholder="Description" />
                 </mat-form-field>
             </div>
+            <div class="field-form-input-div">
+                <app-job-selection [availableJobs]="jobs$ | async" [selectedJobs]="selectedJobs"
+                    (selectedJobsEventEmitter)="getSelectedJobs($event)"></app-job-selection>
+            </div>
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">
                     <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
