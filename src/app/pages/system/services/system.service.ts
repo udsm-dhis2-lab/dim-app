@@ -32,7 +32,7 @@ export class SystemService {
     return this.httpClient.post<any>(endPointURL, system, httpOptions);
   }
 
-  getSystems(): Observable<any> {
+  getSystems(): Observable<Array<any>> {
     const endPointURL = `${this.baseURL}/dataStore/${this.namespace}`;
     return this.httpClient.get(endPointURL).pipe(
       mergeMap((uids: Array<string>) => {

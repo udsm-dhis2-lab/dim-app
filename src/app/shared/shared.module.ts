@@ -17,8 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /**
  *
@@ -64,7 +63,7 @@ import { ProgressLoaderComponent } from './components/progress-loader/progress-l
     MatMenuModule,
     MatPaginatorModule,
     MatTableModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   exports: [
     SearchByNamePipe,
@@ -87,7 +86,8 @@ import { ProgressLoaderComponent } from './components/progress-loader/progress-l
     MatMenuModule,
     MatPaginatorModule,
     MatTableModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
   ],
 })
 /**

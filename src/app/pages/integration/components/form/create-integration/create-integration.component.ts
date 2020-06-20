@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import * as _ from 'lodash';
 import { uuid } from '@icodebible/utils/uuid';
 
@@ -18,6 +18,8 @@ import {
 } from '../../../state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { DIMSystem } from 'src/app/pages/system/models/system.model';
+import { SystemService } from 'src/app/pages/system/services/system.service';
 
 @Component({
   selector: 'app-create-integration',
@@ -27,34 +29,30 @@ import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 export class CreateIntegrationComponent implements OnInit, OnDestroy {
   // matcher = new MyErrorStateMatcher();
   integrationFormEntries: DataEntryField = _.clone(_.create());
+  systems: Array<DIMSystem | any>;
+  systems$: Observable<Array<DIMSystem | any>>;
   isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
-  createJobForm: FormGroup = new FormGroup({
+  createIntegrationForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    isExecuted: new FormControl(false),
-    dataSet: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
-    ou: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
     description: new FormControl(''),
-    defaultCOC: new FormControl(''),
     isAllowed: new FormControl(false),
-    importURL: new FormControl(''),
-    isUsingHIM: new FormControl(''),
-    dataFromURL: new FormControl(''),
+    isUsingHIM: new FormControl(false),
     isUsingLiveDhis2: new FormControl(false),
-    from: new FormControl(''),
-    to: new FormControl(''),
+    defaultCOC: new FormControl(''),
+    importURL: new FormControl(''),
+    dataFromURL: new FormControl(''),
+    systemInfo: new FormGroup({
+      from: new FormControl(),
+      to: new FormControl(),
+    }),
   });
 
   // Subscriptions
   formSUB$: Subscription;
   integrationCreatedSUB$: Subscription;
   createdIntegrationSUB$: Subscription;
+  systemsSUB$: Subscription;
   errorSUB$: Subscription;
 
   constructor(
@@ -62,12 +60,14 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
     private integrationState: Store<IntegrationState>,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private systemService: SystemService
   ) {}
 
   ngOnInit(): void {
     this.isUpdating = false;
-    this.formSUB$ = this.createJobForm.valueChanges.subscribe(
+    this.systems$ = this.systemService.getSystems();
+    this.formSUB$ = this.createIntegrationForm.valueChanges.subscribe(
       (integration: DIMIntegration) => {
         this.integrationFormEntries = onUpdateFormProps(
           this.integrationFormEntries,
@@ -75,7 +75,17 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
         );
       }
     );
+    this.systemsSUB$ = this.systemService
+      .getSystems()
+      .subscribe((systems: Array<DIMSystem>) => {
+        this.systems = systems;
+      });
     this.subscriptions.push(this.formSUB$);
+    this.subscriptions.push(this.systemsSUB$);
+  }
+
+  getEditorHeight(e: any) {
+    //
   }
 
   ngOnDestroy(): void {
@@ -107,20 +117,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
           );
         }
       });
-    this.errorSUB$ = this.integrationState
-      .pipe(select(getIntegrationError))
-      .subscribe((error: HTTPErrorMessage) => {
-        if (error) {
-          this.isUpdating = false;
-          this.router.navigate(['../../list'], { relativeTo: this.route });
-          const message = _.has(error.error, 'message')
-            ? error.error.message
-            : error.error.error;
-          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
-        }
-      });
     this.subscriptions.push(this.integrationCreatedSUB$);
-    this.subscriptions.push(this.errorSUB$);
   }
 
   onBack() {
