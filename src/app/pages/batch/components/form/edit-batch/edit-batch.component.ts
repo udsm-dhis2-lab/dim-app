@@ -112,7 +112,7 @@ export class EditBatchComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSelectedBatches(batch: DIMBatch): Array<DIMBatch> {
+  getSelectedBatches(batch: DIMBatch): Array<DIMJob> {
     const selectedJobs: Array<DIMJob> = [];
     if (batch) {
       for (const key of _.keys(batch)) {

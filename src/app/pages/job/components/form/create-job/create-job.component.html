@@ -10,7 +10,7 @@
             </div>
             &nbsp;
             <div class="title">
-                <span> Integration Configuration Form</span>
+                <span> Job Configuration Form</span>
             </div>
         </div>
     </div>
@@ -21,8 +21,8 @@
             <div class="field-form-input-div">
                 <mat-form-field class="example-full-width" appearance="standard">
                     <mat-label>Name(*)</mat-label>
-                    <input id="field-name" formControlName="name" matInput />
-                    <mat-error *ngIf="createJobForm.get('name').hasError('notUnique')">
+                    <input id="field-name" formControlName="jobName" matInput />
+                    <mat-error *ngIf="createJobForm.get('jobName').hasError('notUnique')">
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -31,6 +31,147 @@
                     <input formControlName="description" matInput placeholder="Description" />
                 </mat-form-field>
             </div>
+            <hr />
+            <div>
+                <mat-checkbox formControlName="isExecuted" class="example-margin">Is this JOB ready to be executed?
+                </mat-checkbox>
+            </div>
+            <hr />
+            <div formGroupName="dataSet" class="row field-form-input-div">
+                <div class="col-md-6">
+                    <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <input formControlName="name" matInput placeholder="Dataset Name" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <input formControlName="id" matInput placeholder="Dataset ID" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div formGroupName="ou" class="field-form-input-div">
+                <div>
+                    <mat-form-field class="example-full-width">
+                        <input formControlName="name" matInput placeholder="Organisation Unit TagName" />
+                    </mat-form-field>
+                </div>
+                <div formGroupName="orgUnits">
+                    <div class="field-form-input-div">
+                        <mat-checkbox formControlName="hasUids" class="example-margin">Has Organisation Unit Ids?
+                        </mat-checkbox>
+                    </div>
+                    <hr />
+                    <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Organisation Unit Levels</mat-label>
+                            <mat-select formControlName="orgUnitLevel" [value]="">
+                                <mat-option *ngFor="let organisationUnitLevel of organisationUnitLevels"
+                                    [value]="organisationUnitLevel.level">
+                                    {{ organisationUnitLevel?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="field-form-input-div">
+                        <p><b>Organisation Unit UIDs</b></p>
+                        <td-code-editor formControlName="orgUnitUids" class="editor" [style.height.px]="200"
+                            editorStyle="border: 0;" flex theme="vs-dark" language="javascript"
+                            [editorOptions]="{ readOnly: false, fontSize: 15 }">
+                        </td-code-editor>
+                    </div>
+                    <!-- <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Editor Types</mat-label>
+                            <mat-select [value]="'javascript'" (selectionChange)="getEditorSelection($event.value)">
+                                <mat-option *ngFor="let editorType of editorTypes" [value]="editorType.id">
+                                    {{ editorType.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <!-- <div class="field-form-input-div">
+                        <div>
+                            <mat-radio-group>
+                                <mat-radio-button>Dark Theme</mat-radio-button>
+                                <mat-radio-button>White Theme</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <hr />
+            <div formGroupName="mapping">
+                <div formGroupName="ou">
+                    <div>
+                        <mat-checkbox formControlName="hasMapping" class="example-margin">Organisation Unit Has Mapping?
+                        </mat-checkbox>
+                    </div>
+                    <div formGroupName="mappingCriteria">
+                        <mat-radio-group  formControlName="code" aria-label="Organisation Unit Mapping Criteria">
+                            <mat-radio-button>Organisation Unit Mapping Criterial - CODE </mat-radio-button>&nbsp;
+                            <mat-radio-button>Organisation Unit Mapping Criterial - ID
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="field-form-input-div">
+                        <p><b>Organisation Units Mapping</b></p>
+                        <td-code-editor formControlName="orgUnits" class="editor" [style.height.px]="200"
+                            editorStyle="border:0;" flex theme="black" language="javascript"
+                            [editorOptions]="{ readOnly: false, fontSize: 15 }">
+                        </td-code-editor>
+                    </div>
+                </div>
+                <hr />
+                <div formGroupName="dx">
+                    <div>
+                        <mat-checkbox formControlName="hasMapping" class="example-margin">Data Has Mapping?
+                        </mat-checkbox>
+                    </div>
+                    <div class="field-form-input-div">
+                        <p><b>Data Mapping</b></p>
+                        <td-code-editor formControlName="data" class="editor" [style.height.px]="200"
+                            editorStyle="border:0;" flex theme="black" language="javascript"
+                            [editorOptions]="{ readOnly: false, fontSize: 15 }">
+                        </td-code-editor>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            &nbsp;
+            <div class="field-form-input-div">
+                <div formGroupName="pe">
+                    <mat-form-field class="example-full-width">
+                        <input formControlName="name" matInput placeholder="Period" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="field-form-input-div">
+                <ngx-dhis2-period-filter [selectedPeriods]="selectedPeriodItems"
+                    [periodFilterConfig]="periodFilterConfig" [selectedPeriodType]="'Monthly'"
+                    (update)="onPeriodUpdate($event, 'UPDATE')" (change)="onPeriodUpdate($event, 'CHANGE')"
+                    (close)="onPeriodUpdate($event, 'CLOSE')">
+                </ngx-dhis2-period-filter>
+            </div>
+            <hr />
+            <div class="field-form-input-div">
+                <div formGroupName="dx">
+                    <mat-form-field class="example-full-width">
+                        <input formControlName="name" matInput placeholder="Data" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="field-form-input-div">
+                <ngx-dhis2-data-filter [selectedItems]="selectedDataItems" [selectedGroups]="selectedDataGroups"
+                    [dataFilterConfig]="dataFilterConfig" (update)="onDataUpdate($event, 'UPDATE')"
+                    (change)="onDataUpdate($event, 'CHANGE')" (close)="onDataUpdate($event, 'CLOSE')">
+                </ngx-dhis2-data-filter>
+            </div>
+            <hr />
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">
                     <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"

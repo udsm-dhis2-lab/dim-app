@@ -21,16 +21,23 @@ import {
  */
 import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
+
+
 
 /**
  *
  */
 import { AppComponent } from './app.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { AppRoutingModule, HttpLoaderFactory } from './app-routing.module';
 import { CoreModule, RouteSerializer } from './core';
 import { reducers, metaReducers, appEffects } from './state/states/app.state';
 import { environment } from 'src/environments/environment';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CovalentCodeEditorModule } from '@covalent/code-editor';
+
 /**
  *
  */
@@ -41,8 +48,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     CoreModule,
     BrowserAnimationsModule,
+    CovalentCodeEditorModule,
+    NgxDhis2DataFilterModule,
+    NgxDhis2PeriodFilterModule,
+    MonacoEditorModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(appEffects),
     NgxDhis2HttpClientModule.forRoot({
