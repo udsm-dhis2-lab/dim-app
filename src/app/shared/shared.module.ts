@@ -12,6 +12,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /**
  *
@@ -24,7 +30,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SearchByNamePipe } from './pipes/search-by-name/search-by-name.pipe';
 import { EmptyNotificationComponent } from './components/empty-notification/empty-notification.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ProgressLoaderComponent } from './components/progress-loader/progress-loader.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { CovalentCodeEditorModule } from '@covalent/code-editor';
 
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 /**
  *
  */
@@ -33,9 +44,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     NavigationMenuComponent,
     EmptyNotificationComponent,
     SearchByNamePipe,
+    ProgressLoaderComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     MatButtonModule,
     MatTooltipModule,
@@ -51,9 +64,19 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatMomentDateModule,
     MatNativeDateModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatProgressBarModule,
+    MonacoEditorModule,
+    CovalentCodeEditorModule,
+    NgxDhis2PeriodFilterModule,
+    NgxDhis2DataFilterModule,
   ],
   exports: [
     SearchByNamePipe,
+    ProgressLoaderComponent,
     EmptyNotificationComponent,
     NavigationMenuComponent,
     MatButtonModule,
@@ -68,6 +91,16 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSnackBarModule,
     MatIconModule,
     MatDatepickerModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MonacoEditorModule,
+    CovalentCodeEditorModule,
+    NgxDhis2PeriodFilterModule,
+    NgxDhis2DataFilterModule,
   ],
 })
 /**

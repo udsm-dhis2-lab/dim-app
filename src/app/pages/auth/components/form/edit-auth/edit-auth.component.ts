@@ -7,17 +7,12 @@ import * as _ from 'lodash';
 import { uuid } from '@icodebible/utils/uuid';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
-import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
-import {
-  SystemIntegrationState,
-  CreateSystemIntegration,
-} from 'src/app/pages/home/state';
-import { SystemIntegration } from 'src/app/pages/home/models/integration.model';
+import { SystemState, CreateSystem } from 'src/app/pages/system/state';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemIntegrationCreatedStatus } from 'src/app/pages/home/state/integration.selector';
+import { getSystemCreatedStatus } from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { DIMSystem } from 'src/app/pages/system/models/system.model';
 @Component({
   selector: 'app-edit-auth',
   templateUrl: './edit-auth.component.html',
@@ -44,7 +39,6 @@ export class EditAuthComponent implements OnInit, OnDestroy {
   ];
   integrationFormEntries: DataEntryField = _.clone(_.create());
   subscriptions: Array<Subscription> = [];
-  organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
   createJobForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     isExecuted: new FormControl(false),
@@ -74,13 +68,13 @@ export class EditAuthComponent implements OnInit, OnDestroy {
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
+    private systemIntegrationState: Store<SystemState>,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.formSUB$ = this.createJobForm.valueChanges.subscribe(
-      (systemIntegration: SystemIntegration) => {
+      (systemIntegration: DIMSystem) => {
         this.integrationFormEntries = onUpdateFormProps(
           this.integrationFormEntries,
           systemIntegration
@@ -104,10 +98,10 @@ export class EditAuthComponent implements OnInit, OnDestroy {
       id,
     });
     this.systemIntegrationState.dispatch(
-      CreateSystemIntegration(_.clone({ systemIntegration }))
+      CreateSystem(_.clone({ systemIntegration }))
     );
     this.integrationCreatedSUB$ = this.systemIntegrationState
-      .pipe(select(getSystemIntegrationCreatedStatus))
+      .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
           this.createJobForm.reset();

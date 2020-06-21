@@ -1,0 +1,50 @@
+<app-navigation-menu class="navigation-menu"></app-navigation-menu>
+<main class="dim-all-container">
+    <div class="dim-all-sub-container">
+        <div>
+            <div style="margin-bottom: 2rem;" *ngFor="let menu of AllMenuConfigs">
+                <h1 class="dim-all-sub-container-title">
+                    {{ menu?.name }}
+                </h1>
+                <div>
+                    <div class="dim-all-card-container" *ngFor="let subMenu of menu?.subMenus">
+                        <div class="dim-all-card">
+                            <div class="dim-all-card-container-title">
+                                <div>
+                                    <span class="title">{{ subMenu?.name }}</span>
+                                </div>
+                            </div>
+                            <div class="dim-all-card-container-description">
+                                {{ subMenu?.description }}
+                            </div>
+                            <div class="dim-all-card-container-actions">
+                                <button (click)="onOpenForm(subMenu)" [matTooltip]="'Open Form'" type="button"
+                                    class="button">
+                                    <div matRipple>
+                                        <div class="dim-button-section">
+                                            <div class="dim-add-button"></div>
+                                            <span class="add">Add</span>
+                                        </div>
+                                        <span class="material-icons"></span>
+                                    </div>
+                                </button>
+                                <button (click)="onOpenList(subMenu)" [matTooltip]="'View List'" tabindex="0"
+                                    type="button" class="button">
+                                    <div matRipple>
+                                        <div class="dim-button-section">
+                                            <div class="list-section"></div>
+                                            <span class="list">List</span>
+                                        </div>
+                                        <span class="material-icons"></span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+            &nbsp;
+        </div>
+    </div>
+</main>

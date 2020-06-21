@@ -5,7 +5,11 @@ import { MetaReducer, ActionReducerMap } from '@ngrx/store';
 /**
  *
  */
-import * as fromSystemIntegrationStore from '../../pages/home/state';
+import * as fromSystemIntegrationStore from '../../pages/system/state';
+import * as fromIntegrationState from '../../pages/integration/state';
+import * as fromJobState from '../../pages/job/state';
+import * as fromBatchState from '../../pages/batch/state';
+
 import { environment } from 'src/environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { UserState, initialUserState } from './user.state';
@@ -17,7 +21,6 @@ import { UserEffects } from '../effects/user.effects';
 import { SystemInfoEffects } from '../effects/system-info.effects';
 import { RouterEffects } from '../effects/router.effects';
 import { initialRouterState } from '../selectors/router.selectors';
-
 /**
  *
  */
@@ -25,7 +28,10 @@ export interface AppState {
     /**
      *
      */
-    systemIntegrations: fromSystemIntegrationStore.SystemIntegrationState;
+    system: fromSystemIntegrationStore.SystemState;
+    integration: fromIntegrationState.IntegrationState;
+    job: fromJobState.JobState;
+    batch: fromBatchState.BatchState;
     user: UserState;
     systemInfo: SystemInfoState;
     router: RouterReducerState;
@@ -38,7 +44,10 @@ export const initialAppState: AppState = {
     /**
      *
      */
-    systemIntegrations: fromSystemIntegrationStore.initialSystemIntegrationState,
+    system: fromSystemIntegrationStore.initialSystemState,
+    integration: fromIntegrationState.initialIntegrationState,
+    job: fromJobState.initialJobState,
+    batch: fromBatchState.initialBatchState,
     user: initialUserState,
     systemInfo: initialSystemInfoState,
     router: initialRouterState,
@@ -52,7 +61,10 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
  *
  */
 export const reducers: ActionReducerMap<AppState> = {
-    systemIntegrations: fromSystemIntegrationStore._SystemIntegrationReducer,
+    system: fromSystemIntegrationStore._SystemReducer,
+    integration: fromIntegrationState._IntegrationReducer,
+    job: fromJobState._JobReducer,
+    batch: fromBatchState._BatchReducer,
     user: userReducer,
     systemInfo: systemInfoReducer,
     router: routerReducer,
@@ -62,7 +74,10 @@ export const reducers: ActionReducerMap<AppState> = {
  *
  */
 export const appEffects: Array<any> = [
-    fromSystemIntegrationStore.SystemIntegrationEffects,
+    fromSystemIntegrationStore.SystemEffects,
+    fromIntegrationState.IntegrationEffects,
+    fromJobState.JobEffects,
+    fromBatchState.BatchEffects,
     UserEffects,
     SystemInfoEffects,
     RouterEffects,

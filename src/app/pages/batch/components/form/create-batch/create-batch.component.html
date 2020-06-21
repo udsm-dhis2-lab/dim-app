@@ -1,34 +1,53 @@
-<main class="form">
-    <div class="field-form-div">
-        <form [formGroup]="createJobForm" class="field-form">
-            <div class="form-element-container">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Name</mat-label>
-                    <input formControlName="jobName" matInput placeholder="Ex. National Health Portal - DHIS2 HMIS"
-                        value="" />
-                </mat-form-field>
-            </div>
-            <div class="form-element-container">
-                <mat-form-field class="example-full-width">
-                    <mat-label>System List</mat-label>
-                    <mat-select formControlName="to">
-                        <mat-option *ngFor="let system of systems" [value]="system?.id">
-                            {{ system?.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="form-element-container">
-                <app-job-selection></app-job-selection>
+<main>
+    <div class="form-header-container">
+        <div layout="row" layout-sm="column" layout-align="end center" class="form-header-detail">
+            <div class="back">
+                <button class="back-button" [matTooltip]="'Back'" (click)="onBack()" mat-mini-fab>
+                    <span class="material-icons">
+                        keyboard_backspace
+                    </span>
+                </button>
             </div>
             &nbsp;
+            <div class="title">
+                <span> Batch Configuration Form</span>
+            </div>
+        </div>
+    </div>
+</main>
+<main class="form-container">
+    <div class="field-form-div">
+        <form [formGroup]="createBatchForm" class="field-form">
+            <div class="field-form-input-div">
+                <mat-form-field class="example-full-width" appearance="standard">
+                    <mat-label>Name(*)</mat-label>
+                    <input id="field-name" formControlName="name" matInput />
+                    <mat-error *ngIf="createBatchForm.get('name').hasError('notUnique')">
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="field-form-input-div">
+                <mat-form-field class="example-full-width">
+                    <input formControlName="description" matInput placeholder="Description" />
+                </mat-form-field>
+            </div>
+            <div class="field-form-input-div">
+                <app-job-selection [availableJobs]="jobs$ | async" (selectedJobsEventEmitter)="getSelectedJob($event)">
+                </app-job-selection>
+            </div>
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">
-                    <button (click)="onSubmitForm()" mat-stroked-button class="form-footer-save-btn">
-                        Create
+                    <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
+                        [class.spinner]="isUpdating" (click)="onSubmitForm()">
+                        Save
+                    </button>
+
+                    <button *ngIf="isUpdating" mat-stroked-button color="primary" class="form-footer-save-btn"
+                        [disabled]="isUpdating" [class.spinner]="isUpdating">
+                        Saving...
                     </button>
                 </div>
-                <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn">
+                <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn" (click)="onBack()">
                     Cancel
                 </button>
             </div>

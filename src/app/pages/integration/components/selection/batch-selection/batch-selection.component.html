@@ -1,0 +1,101 @@
+<div>
+  <div>
+    <div>
+      <mat-form-field class="search" appearance="standard">
+        <mat-label>Search Batches...</mat-label>
+        <input matInput name="search" type="search" [(ngModel)]="searchString" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="search-container">
+      <div class="search-container-flex">
+        <div class="search-sub-container">
+          <div *ngIf="!availableBatches"></div>
+          <div *ngIf="
+              availableBatches?.length === 0 ||
+              (availableBatches | searchByName: searchString)?.length === 0
+            ">
+            <app-empty-notification></app-empty-notification>
+          </div>
+          <div *ngIf="availableBatches?.length <= 0 && !loaded">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </div>
+          <select *ngIf="availableBatches?.length > 0" multiple class="selection-container">
+            <option class="option" *ngFor="
+                let batch of availableBatches | searchByName: searchString
+              " (dblclick)="onDoubleClickSelect(batch, 'select')" (click)="onClickSelect(batch, 'select')">
+              {{ batch?.name }}
+            </option>
+          </select>
+        </div>
+        <div class="assignment">
+          <button matRipple [attr.class]="availableBatches?.length > 0 ? 'enabled' : 'disabled'"
+            disabled="availableBatches?.length === 0" type="button">
+            <div matRipple>
+              <span (click)="assignAll()">Assign all
+                {{ (availableBatches | searchByName: searchString)?.length }}
+                →</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="temp-selected-container">
+        <div class="temp-selected" *ngIf="tempBatches?.length > 0">
+          {{ tempBatches?.length }} selected
+        </div>
+        <div class="assign-one">
+          <button mat-stroked-button [attr.class]="
+              tempBatches.length > 0 && action === 'select'
+                ? 'is-enabled'
+                : 'is-disabled'
+            " disabled="tempBatches?.length === 0" tabindex="-1" type="button">
+            <div (click)="toggleTempValues()">
+              <span>→</span>
+            </div>
+          </button>
+        </div>
+        <div class="unassign-one">
+          <button mat-stroked-button [attr.class]="
+              tempBatches.length > 0 && action === 'deselect'
+                ? 'is-enabled'
+                : 'is-disabled'
+            " disabled="tempBatches?.length === 0" type="button">
+            <div (click)="toggleTempValues()">
+              <span>←</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="search-container-flex">
+        <div class="search-sub-container">
+          <div *ngIf="
+              selectedBatches?.length === 0 ||
+              (selectedBatches | searchByName: searchString)?.length === 0
+            ">
+            <app-empty-notification></app-empty-notification>
+          </div>
+          <select multiple *ngIf="selectedBatches?.length > 0" class="selection-container">
+            <option class="option" *ngFor="
+                let selectedbatch of selectedBatches
+                  | searchByName: searchString
+              " (dblclick)="onDoubleClickDeSelect(selectedbatch, 'deselect')"
+              (click)="onClickDeSelect(selectedbatch, 'deselect')">
+              {{ selectedbatch?.name }}
+            </option>
+          </select>
+        </div>
+        <div class="un-assignment">
+          <button matRipple [attr.class]="selectedBatches?.length > 0 ? 'enabled' : 'disabled'"
+            disabled="selectedbatch?.length === 0" type="button">
+            <div>
+              <span (click)="removeAll()">← Remove all
+                {{ (selectedBatches | searchByName: searchString)?.length }}
+              </span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="bottom"></div>
+  </div>
+</div>

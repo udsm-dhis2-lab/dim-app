@@ -1,129 +1,124 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { DIMJob } from 'src/app/pages/job/models/job.model';
+import { getSortedList } from 'src/app/shared/helpers/get-sorted-list.helper';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-job-selection',
   templateUrl: './job-selection.component.html',
-  styleUrls: ['./job-selection.component.scss']
+  styleUrls: ['./job-selection.component.scss'],
 })
 export class JobSelectionComponent implements OnInit {
-  @Input() availableReports: Array<any>;
-  @Input() selectedReports: Array<any>;
-  @Output() selectedEntityEventEmitter = new EventEmitter();
+  @Input() availableJobs: Array<any>;
+  @Input() selectedJobs: Array<any>;
+  @Output() selectedJobsEventEmitter = new EventEmitter();
   action: string;
   searchString: string;
-  tempReports: any[] = [];
+  tempJobs: any[] = [];
   isLoading = true;
+  loaded = false;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
-
-  onDoubleClickSelect(report: any, action: string) {
-    // this.tempReports = [];
-    // const mReports: Report | [] = report ? report : [];
-    // const mSelectedReports: Array<Report> = this.selectedReports
-    //   ? [...this.selectedReports]
-    //   : [];
-    // const mAvailableReports: Array<Report> = this.availableReports
-    //   ? [...this.availableReports]
-    //   : [];
-    // this.selectedReports = _.unionBy(mSelectedReports, [mReports], 'id');
-    // this.selectedEntityEventEmitter.emit(this.selectedReports);
-    // this.availableReports = getSortedList(
-    //   _.uniqBy(_.pull(mAvailableReports, report), 'id'),
-    //   'name'
-    // );
+  ngOnInit() {
+    if (this.availableJobs) {
+      this.loaded = true;
+    }
   }
 
-  onDoubleClickDeSelect(report: any, action: string) {
-    // this.tempReports = [];
-    // const mReports: Report | [] = report ? report : [];
-    // const mSelectedReports: Array<Report> = this.selectedReports
-    //   ? [...this.selectedReports]
-    //   : [];
-    // const mAvailableReports: Array<Report> = this.availableReports
-    //   ? [...this.availableReports]
-    //   : [];
-    // this.availableReports = getSortedList(
-    //   _.unionBy(mAvailableReports, [mReports], 'id'),
-    //   'name'
-    // );
-    // this.selectedReports = _.uniqBy(_.pull(mSelectedReports, report), 'id');
+  onDoubleClickSelect(job: DIMJob, action: string) {
+    this.loaded = true;
+    this.tempJobs = [];
+    const mJobs: DIMJob | [] = job ? job : [];
+    const mSelectedJobs: Array<DIMJob> = this.selectedJobs
+      ? [...this.selectedJobs]
+      : [];
+    const mAvailableJobs: Array<DIMJob> = this.availableJobs
+      ? [...this.availableJobs]
+      : [];
+    this.selectedJobs = _.unionBy(mSelectedJobs, [mJobs], 'id');
+    this.selectedJobsEventEmitter.emit(this.selectedJobs);
+    this.availableJobs = getSortedList(
+      _.uniqBy(_.pull(mAvailableJobs, job), 'id'),
+      'name'
+    );
   }
 
-  onClickSelect(report: any, action: string) {
-    // this.action = action;
-    // const mReports: Report | [] = report ? report : [];
-    // this.tempReports = [];
-    // this.tempReports = _.unionBy(this.tempReports, [mReports], 'id');
+  onDoubleClickDeSelect(job: DIMJob, action: string) {
+    this.tempJobs = [];
+    const mJobs: DIMJob | [] = job ? job : [];
+    const mSelectedJobs: Array<DIMJob> = this.selectedJobs
+      ? [...this.selectedJobs]
+      : [];
+    const mAvailableJobs: Array<DIMJob> = this.availableJobs
+      ? [...this.availableJobs]
+      : [];
+    this.availableJobs = getSortedList(
+      _.unionBy(mAvailableJobs, [mJobs], 'id'),
+      'name'
+    );
+    this.selectedJobs = _.uniqBy(_.pull(mSelectedJobs, job), 'id');
+    this.selectedJobsEventEmitter.emit(this.selectedJobs);
   }
 
-  onClickDeSelect(report: any, action: string) {
-    // this.action = action;
-    // const mReports: Report | [] = report ? report : [];
-    // this.tempReports = [];
-    // this.tempReports = _.unionBy(this.tempReports, [mReports], 'id');
+  onClickSelect(job: any, action: string) {
+    this.loaded = true;
+    this.action = action;
+    const mJobs: DIMJob | [] = job ? job : [];
+    this.tempJobs = [];
+    this.tempJobs = _.unionBy(this.tempJobs, [mJobs], 'id');
+  }
+
+  onClickDeSelect(job: any, action: string) {
+    this.action = action;
+    const mJobs: DIMJob | [] = job ? job : [];
+    this.tempJobs = [];
+    this.tempJobs = _.unionBy(this.tempJobs, [mJobs], 'id');
   }
 
   toggleTempValues() {
-    // const action: string = this.action;
-    // if (action === 'select') {
-    //   const mSelectedReports: Array<Report> = this.selectedReports
-    //     ? [...this.selectedReports]
-    //     : [];
-    //   const mAvailableReports: Array<Report> = this.availableReports
-    //     ? [...this.availableReports]
-    //     : [];
-    //   this.selectedReports = _.unionBy(mSelectedReports, this.tempReports);
-    //   this.selectedEntityEventEmitter.emit(this.selectedReports);
-    //   this.availableReports = _.pull(
-    //     mAvailableReports,
-    //     _.head(this.tempReports)
-    //   );
-
-    //   this.tempReports = [];
-    // } else if (action === 'deselect') {
-    //   const mAvailableReports: Array<Report> = this.availableReports
-    //     ? [...this.availableReports]
-    //     : [];
-    //   const mSelectedReports: Array<Report> = this.selectedReports
-    //     ? [...this.selectedReports]
-    //     : [];
-    //   (this.availableReports = _.unionBy(mAvailableReports, this.tempReports)),
-    //     (this.selectedReports = _.pull(
-    //       mSelectedReports,
-    //       _.head(this.tempReports)
-    //     ));
-    //   this.tempReports = [];
-    // }
+    const action: string = this.action;
+    if (action === 'select') {
+      const mSelectedJobs: Array<DIMJob> = this.selectedJobs
+        ? [...this.selectedJobs]
+        : [];
+      const mAvailableJobs: Array<DIMJob> = this.availableJobs
+        ? [...this.availableJobs]
+        : [];
+      this.selectedJobs = _.unionBy(mSelectedJobs, this.tempJobs);
+      this.selectedJobsEventEmitter.emit(this.selectedJobs);
+      this.availableJobs = _.pull(mAvailableJobs, _.head(this.tempJobs));
+      this.tempJobs = [];
+    } else if (action === 'deselect') {
+      const mAvailableJobs: Array<DIMJob> = this.availableJobs
+        ? [...this.availableJobs]
+        : [];
+      const mSelectedJobs: Array<DIMJob> = this.selectedJobs
+        ? [...this.selectedJobs]
+        : [];
+      (this.availableJobs = _.unionBy(mAvailableJobs, this.tempJobs)),
+        (this.selectedJobs = _.pull(mSelectedJobs, _.head(this.tempJobs)));
+      this.tempJobs = [];
+    }
   }
 
   assignAll() {
-    // const mAvailableReports = this.availableReports
-    //   ? [...this.availableReports]
-    //   : [];
-    // const mSelectedReports = this.selectedReports
-    //   ? [...this.selectedReports]
-    //   : [];
-    // this.availableReports = [];
-    // this.selectedReports = _.uniqBy(
-    //   _.unionBy(mAvailableReports, mSelectedReports, 'id'),
-    //   'id'
-    // );
-    // this.selectedEntityEventEmitter.emit(this.selectedReports);
+    const mAvailableJobs = this.availableJobs ? [...this.availableJobs] : [];
+    const mSelectedJobs = this.selectedJobs ? [...this.selectedJobs] : [];
+    this.availableJobs = [];
+    this.selectedJobs = _.uniqBy(
+      _.unionBy(mAvailableJobs, mSelectedJobs, 'id'),
+      'id'
+    );
+    this.selectedJobsEventEmitter.emit(this.selectedJobs);
   }
 
   removeAll() {
-    // const mAvailableReports = this.availableReports
-    //   ? [...this.availableReports]
-    //   : [];
-    // const mSelectedReports = this.selectedReports
-    //   ? [...this.selectedReports]
-    //   : [];
-    // this.selectedReports = [];
-    // this.availableReports = _.uniqBy(
-    //   _.unionBy(mAvailableReports, mSelectedReports, 'id'),
-    //   'id'
-    // );
+    const mAvailableJobs = this.availableJobs ? [...this.availableJobs] : [];
+    const mSelectedJobs = this.selectedJobs ? [...this.selectedJobs] : [];
+    this.selectedJobs = [];
+    this.availableJobs = _.uniqBy(
+      _.unionBy(mAvailableJobs, mSelectedJobs, 'id'),
+      'id'
+    );
   }
 }

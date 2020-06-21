@@ -1,11 +1,11 @@
 import { createSelector } from '@ngrx/store';
-import { getRootState, State } from '../reducers';
 import { UserState } from '../states/user.state';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { AppState, getAppRootState } from '../states/app.state';
 
 export const getUserState = createSelector(
-  getRootState,
-  (state: State) => state.user
+  getAppRootState,
+  (state: AppState) => state.user
 );
 
 export const getCurrentUser = createSelector(

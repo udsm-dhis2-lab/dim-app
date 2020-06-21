@@ -1,255 +1,190 @@
-<main class="form">
+<main>
+    <div class="form-header-container">
+        <div layout="row" layout-sm="column" layout-align="end center" class="form-header-detail">
+            <div class="back">
+                <button class="back-button" [matTooltip]="'Back'" (click)="onBack()" mat-mini-fab>
+                    <span class="material-icons">
+                        keyboard_backspace
+                    </span>
+                </button>
+            </div>
+            &nbsp;
+            <div class="title">
+                <span> Job Configuration Form</span>
+            </div>
+        </div>
+    </div>
+</main>
+<main class="form-container">
     <div class="field-form-div">
         <form [formGroup]="createJobForm" class="field-form">
-            <div class="form-element-container">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Name</mat-label>
-                    <input formControlName="jobName" matInput placeholder="Ex. National Health Portal - DHIS2 HMIS"
-                        value="" />
+            <div class="field-form-input-div">
+                <mat-form-field class="example-full-width" appearance="standard">
+                    <mat-label>Name(*)</mat-label>
+                    <input id="field-name" formControlName="jobName" matInput />
+                    <mat-error *ngIf="createJobForm.get('jobName').hasError('notUnique')">
+                    </mat-error>
                 </mat-form-field>
             </div>
-            <div class="form-element-container">
-                <section class="example-section">
-                    <mat-checkbox formControlName="isExecuted" class="example-margin">Included in the next Data Exchange
-                        Schedule(DES)?
-                    </mat-checkbox>
-                </section>
+            <div class="field-form-input-div">
+                <mat-form-field class="example-full-width">
+                    <input formControlName="description" matInput placeholder="Description" />
+                </mat-form-field>
             </div>
-
+            <hr />
             <div>
-                <div class="form-element-container row">
-                    <div class="col-md-6">
+                <mat-checkbox formControlName="isExecuted" class="example-margin">Is this JOB ready to be executed?
+                </mat-checkbox>
+            </div>
+            <hr />
+            <div formGroupName="dataSet" class="row field-form-input-div">
+                <div class="col-md-6">
+                    <div class="field-form-input-div">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Dataset Name</mat-label>
-                            <input formControlName="name" matInput placeholder="Ex. Maternal and Neonatal Death"
-                                value="" />
+                            <input formControlName="name" matInput placeholder="Dataset Name" />
                         </mat-form-field>
                     </div>
-                    <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                    <div class="field-form-input-div">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Dataset ID</mat-label>
-                            <input formControlName="id" matInput placeholder="Ex. pVZJqihw4fC" value="" />
+                            <input formControlName="id" matInput placeholder="Dataset ID" />
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <hr />
-            <div>
-                <div class="form-element-container">
-                    <section class="example-section">
-                        <mat-checkbox formControlName="hasUids" class="example-margin">Organisation Unit has UIDs?
-                        </mat-checkbox>
-                    </section>
+            <div formGroupName="ou" class="field-form-input-div">
+                <div>
+                    <mat-form-field class="example-full-width">
+                        <input formControlName="name" matInput placeholder="Organisation Unit TagName" />
+                    </mat-form-field>
                 </div>
-                &nbsp;
-                <div class="form-element-container">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="file-upload">
-                                <div class="file-select">
-                                    <div class="file-select-button" id="fileName">
-                                        Choose File
-                                    </div>
-                                    <div class="file-select-name" id="noFile">
-                                        {{ 'No file chosen...' }}
-                                    </div>
-                                    <input id="chooseFile" type="file" />
-                                </div>
-                            </div>
+                <div formGroupName="orgUnits">
+                    <div class="field-form-input-div">
+                        <mat-checkbox formControlName="hasUids" class="example-margin">Has Organisation Unit Ids?
+                        </mat-checkbox>
+                    </div>
+                    <hr />
+                    <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Organisation Unit Levels</mat-label>
+                            <mat-select formControlName="orgUnitLevel" [value]="">
+                                <mat-option *ngFor="let organisationUnitLevel of organisationUnitLevels"
+                                    [value]="organisationUnitLevel.level">
+                                    {{ organisationUnitLevel?.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="field-form-input-div">
+                        <p><b>Organisation Unit UIDs</b></p>
+                        <td-code-editor formControlName="orgUnitUids" class="editor" [style.height.px]="200"
+                            editorStyle="border: 0;" flex theme="vs-dark" language="javascript"
+                            [editorOptions]="{ readOnly: false, fontSize: 15 }">
+                        </td-code-editor>
+                    </div>
+                    <!-- <div class="field-form-input-div">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Editor Types</mat-label>
+                            <mat-select [value]="'javascript'" (selectionChange)="getEditorSelection($event.value)">
+                                <mat-option *ngFor="let editorType of editorTypes" [value]="editorType.id">
+                                    {{ editorType.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <!-- <div class="field-form-input-div">
+                        <div>
+                            <mat-radio-group>
+                                <mat-radio-button>Dark Theme</mat-radio-button>
+                                <mat-radio-button>White Theme</mat-radio-button>
+                            </mat-radio-group>
                         </div>
-                        <div class="col-md-2">
-                            <button mat-stroked-button>
-                                Download Template
-                                <span class="material-icons">
-                                    cloud_download
-                                </span>
-                            </button>
-                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <hr />
+            <div formGroupName="mapping">
+                <div formGroupName="ou">
+                    <div>
+                        <mat-checkbox formControlName="hasMapping" class="example-margin">Organisation Unit Has Mapping?
+                        </mat-checkbox>
+                    </div>
+                    <div formGroupName="mappingCriteria">
+                        <mat-radio-group  formControlName="code" aria-label="Organisation Unit Mapping Criteria">
+                            <mat-radio-button>Organisation Unit Mapping Criterial - CODE </mat-radio-button>&nbsp;
+                            <mat-radio-button>Organisation Unit Mapping Criterial - ID
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="field-form-input-div">
+                        <p><b>Organisation Units Mapping</b></p>
+                        <td-code-editor formControlName="orgUnits" class="editor" [style.height.px]="200"
+                            editorStyle="border:0;" flex theme="black" language="javascript"
+                            [editorOptions]="{ readOnly: false, fontSize: 15 }">
+                        </td-code-editor>
                     </div>
                 </div>
-                &nbsp;
-                <div class="form-element-container">
-                    <mat-form-field placeholder="Ex. From National Health Portal" class="example-full-width">
-                        <mat-label>Organisation Unit Level</mat-label>
-                        <mat-select formControlName="from">
-                            <mat-option *ngFor="let organisationUnitLevel of organisationUnitLevels"
-                                [value]="organisationUnitLevel?.value">
-                                {{ organisationUnitLevel?.name }}
-                            </mat-option>
-                        </mat-select>
+                <hr />
+                <div formGroupName="dx">
+                    <div>
+                        <mat-checkbox formControlName="hasMapping" class="example-margin">Data Has Mapping?
+                        </mat-checkbox>
+                    </div>
+                    <div class="field-form-input-div">
+                        <p><b>Data Mapping</b></p>
+                        <td-code-editor formControlName="data" class="editor" [style.height.px]="200"
+                            editorStyle="border:0;" flex theme="black" language="javascript"
+                            [editorOptions]="{ readOnly: false, fontSize: 15 }">
+                        </td-code-editor>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            &nbsp;
+            <div class="field-form-input-div">
+                <div formGroupName="pe">
+                    <mat-form-field class="example-full-width">
+                        <input formControlName="name" matInput placeholder="Period" />
                     </mat-form-field>
                 </div>
             </div>
+            <div class="field-form-input-div">
+                <ngx-dhis2-period-filter [selectedPeriods]="selectedPeriodItems"
+                    [periodFilterConfig]="periodFilterConfig" [selectedPeriodType]="'Monthly'"
+                    (update)="onPeriodUpdate($event, 'UPDATE')" (change)="onPeriodUpdate($event, 'CHANGE')"
+                    (close)="onPeriodUpdate($event, 'CLOSE')">
+                </ngx-dhis2-period-filter>
+            </div>
             <hr />
-            <div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-element-container">
-                                    <div class="file-upload">
-                                        <div class="file-select">
-                                            <div class="file-select-button" id="fileName">
-                                                Choose Periods File
-                                            </div>
-                                            <div class="file-select-name" id="noFile">
-                                                {{ 'No file chosen...' }}
-                                            </div>
-                                            <input id="chooseFile" type="file" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button mat-stroked-button>
-                                    Download Template
-                                    <span class="material-icons">
-                                        cloud_download
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-element-container">
-                                    <div class="file-upload">
-                                        <div class="file-select">
-                                            <div class="file-select-button" id="fileName">
-                                                Choose Sub Periods File
-                                            </div>
-                                            <div class="file-select-name" id="noFile">
-                                                {{ 'No file chosen...' }}
-                                            </div>
-                                            <input id="chooseFile" type="file" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button mat-stroked-button>
-                                    Download Template
-                                    <span class="material-icons">
-                                        cloud_download
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="field-form-input-div">
+                <div formGroupName="dx">
+                    <mat-form-field class="example-full-width">
+                        <input formControlName="name" matInput placeholder="Data" />
+                    </mat-form-field>
                 </div>
             </div>
-            <div class="form-element-container">
-                <app-data-element-selection></app-data-element-selection>
+            <div class="field-form-input-div">
+                <ngx-dhis2-data-filter [selectedItems]="selectedDataItems" [selectedGroups]="selectedDataGroups"
+                    [dataFilterConfig]="dataFilterConfig" (update)="onDataUpdate($event, 'UPDATE')"
+                    (change)="onDataUpdate($event, 'CHANGE')" (close)="onDataUpdate($event, 'CLOSE')">
+                </ngx-dhis2-data-filter>
             </div>
-            <div class="form-element-container">
-                <app-indicator-selection></app-indicator-selection>
-            </div>
-            <div class="form-element-container">
-                <app-program-indicator-selection></app-program-indicator-selection>
-            </div>
-            &nbsp;
-            <div class="form-element-container">
-                <div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <section class="example-section">
-                                <mat-checkbox formControlName="hasMapping" class="example-margin">Has Organisation Unit
-                                    and Data Mapping?
-                                </mat-checkbox>
-                            </section>
-                        </div>
-                        <div class="col-md-6">
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="1">Organisation Unit Mapping Criteria - ID</mat-radio-button>
-                                &nbsp;
-                                <mat-radio-button value="2">Organisation Unit Mapping Criteria - CODE</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                </div>
-                &nbsp;
-                <div class="form-element-container">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="file-upload">
-                                <div class="file-select">
-                                    <div class="file-select-button" id="fileName">
-                                        Choose Organisation Unit Mapping File
-                                    </div>
-                                    <div class="file-select-name" id="noFile">
-                                        {{ 'No file chosen...' }}
-                                    </div>
-                                    <input id="chooseFile" type="file" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button mat-stroked-button>
-                                Download Template
-                                <span class="material-icons">
-                                    cloud_download
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            &nbsp;
-            <div class="form-element-container">
-                <div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <section class="example-section">
-                                <mat-checkbox formControlName="hasMapping" class="example-margin">Has Data Mapping? Eg.
-                                    Indicator, Data Elements...
-                                </mat-checkbox>
-                            </section>
-                        </div>
-                        <div class="col-md-6">
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="1">Data Mapping Criteria - ID</mat-radio-button>
-                                &nbsp;
-                                <mat-radio-button value="2">Data Mapping Criteria - CODE</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                </div>
-                &nbsp;
-                <div class="form-element-container">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="file-upload">
-                                <div class="file-select">
-                                    <div class="file-select-button" id="fileName">
-                                        Choose Data Mapping File
-                                    </div>
-                                    <div class="file-select-name" id="noFile">
-                                        {{ 'No file chosen...' }}
-                                    </div>
-                                    <input id="chooseFile" type="file" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button mat-stroked-button>
-                                Download Template
-                                <span class="material-icons">
-                                    cloud_download
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            &nbsp;
+            <hr />
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">
-                    <button (click)="onSubmitForm()" mat-stroked-button class="form-footer-save-btn">
-                        Create
+                    <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
+                        [class.spinner]="isUpdating" (click)="onSubmitForm()">
+                        Save
+                    </button>
+
+                    <button *ngIf="isUpdating" mat-stroked-button color="primary" class="form-footer-save-btn"
+                        [disabled]="isUpdating" [class.spinner]="isUpdating">
+                        Saving...
                     </button>
                 </div>
-                <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn">
+                <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn" (click)="onBack()">
                     Cancel
                 </button>
             </div>

@@ -7,85 +7,76 @@ import { uuid } from '@icodebible/utils/uuid';
 import * as _ from 'lodash';
 
 import { DataEntryField } from 'src/app/shared/models/form.model';
-import { OrgUnitLevel } from 'src/app/pages/job/models/orgunit-level.model';
-import { OrgUnitLevelConfig } from 'src/app/pages/job/config/orgunit-level.config';
 import { AppState } from 'src/app/state/states/app.state';
-import { SystemIntegrationState, CreateSystemIntegration } from 'src/app/pages/home/state';
-import { SystemIntegration } from 'src/app/pages/home/models/integration.model';
+import { CreateSystem } from 'src/app/pages/system/state';
 import { onUpdateFormProps } from 'src/app/shared/utils/form-values-updater.utils';
-import { getSystemIntegrationCreatedStatus } from 'src/app/pages/home/state/integration.selector';
+import {
+  getSystemCreatedStatus,
+  getSystemError,
+} from 'src/app/pages/system/state/system.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SystemState } from '../../../state/system.state';
+import { DIMSystem } from '../../../models/system.model';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
+import { getCurrentUser } from 'src/app/state/selectors/user.selectors';
+import { User } from '@iapps/ngx-dhis2-http-client';
+
+// export class MyErrorStateMatcher implements ErrorStateMatcher {
+//   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+//     const isSubmitted = form && form.submitted;
+//     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+//   }
+// }
 
 @Component({
   selector: 'app-create-system',
   templateUrl: './create-system.component.html',
-  styleUrls: ['./create-system.component.scss']
+  styleUrls: ['./create-system.component.scss'],
 })
 export class CreateSystemComponent implements OnInit, OnDestroy {
-  systems: Array<{ [key: string]: any }> = [
-    {
-      name: 'National Health Portal',
-      id: 'portal',
-    },
-    {
-      name: 'DHIS2 HMIS',
-      id: 'hmis',
-    },
-    {
-      name: 'NSMIS',
-      id: 'nsmis',
-    },
-    {
-      name: 'ARDS',
-      id: 'ards',
-    },
-  ];
-  integrationFormEntries: DataEntryField = _.clone(_.create());
+  // matcher = new MyErrorStateMatcher();
+  user: User;
+  systemFormEntries: DataEntryField = _.clone(_.create());
+  isUpdating: boolean;
   subscriptions: Array<Subscription> = [];
-  organisationUnitLevels: Array<OrgUnitLevel> = OrgUnitLevelConfig;
-  createJobForm: FormGroup = new FormGroup({
+  createSystemForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    isExecuted: new FormControl(false),
-    dataSet: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
-    ou: new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl(''),
-    }),
     description: new FormControl(''),
-    defaultCOC: new FormControl(''),
-    isAllowed: new FormControl(false),
-    importURL: new FormControl(false),
-    isUsingHIM: new FormControl(false),
-    dataFromURL: new FormControl(''),
-    isUsingLiveDhis2: new FormControl(''),
-    from: new FormControl(''),
-    to: new FormControl(''),
+    createdAt: new FormControl(new Date()),
+    lastUpdatedAt: new FormControl(new Date()),
   });
 
   // Subscriptions
   formSUB$: Subscription;
-  integrationCreatedSUB$: Subscription;
-  createdIntegrationSUB$: Subscription;
+  systemCreatedSUB$: Subscription;
+  createdSystemSUB$: Subscription;
+  errorSUB$: Subscription;
+  userSUB$: Subscription;
 
   constructor(
     private appState: Store<AppState>,
-    private systemIntegrationState: Store<SystemIntegrationState>,
-    private snackBar: MatSnackBar
+    private systemState: Store<SystemState>,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.formSUB$ = this.createJobForm.valueChanges.subscribe(
-      (systemIntegration: SystemIntegration) => {
-        this.integrationFormEntries = onUpdateFormProps(
-          this.integrationFormEntries,
-          systemIntegration
+    this.isUpdating = false;
+    this.formSUB$ = this.createSystemForm.valueChanges.subscribe(
+      (system: DIMSystem) => {
+        this.systemFormEntries = onUpdateFormProps(
+          this.systemFormEntries,
+          system
         );
       }
     );
     this.subscriptions.push(this.formSUB$);
+    this.userSUB$ = this.appState
+      .pipe(select(getCurrentUser))
+      .subscribe((user: User) => (this.user = user));
+    this.subscriptions.push(this.userSUB$);
   }
 
   ngOnDestroy(): void {
@@ -97,26 +88,48 @@ export class CreateSystemComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(): void {
+    this.isUpdating = true;
     const id = uuid('', 11);
-    const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
+    const system = _.merge(_.clone(this.systemFormEntries), {
       id,
+      createdBy: this.user.name,
+      createdById: this.user.id,
+      lastUpdatedBy: this.user.name,
+      lastUpdatedById: this.user.id,
     });
-    this.systemIntegrationState.dispatch(
-      CreateSystemIntegration(_.clone({ systemIntegration }))
-    );
-    this.integrationCreatedSUB$ = this.systemIntegrationState
-      .pipe(select(getSystemIntegrationCreatedStatus))
+    this.systemState.dispatch(CreateSystem(_.clone({ system })));
+    this.systemCreatedSUB$ = this.systemState
+      .pipe(select(getSystemCreatedStatus))
       .subscribe((status: boolean) => {
         if (status) {
-          this.createJobForm.reset();
+          this.isUpdating = false;
+          this.router.navigate(['../list'], { relativeTo: this.route });
           OpenSnackBar(
             this.snackBar,
-            `System Integration "${systemIntegration?.name}" with id <${systemIntegration?.id}> is successfully created`,
+            `System "${system?.name}" with id <${system?.id}> is successfully created`,
             '',
             'success-snackbar'
           );
         }
       });
-    this.subscriptions.push(this.integrationCreatedSUB$);
+
+    this.errorSUB$ = this.systemState
+      .pipe(select(getSystemError))
+      .subscribe((error: HTTPErrorMessage) => {
+        if (error) {
+          this.isUpdating = false;
+          this.router.navigate(['../../list'], { relativeTo: this.route });
+          const message = _.has(error.error, 'message')
+            ? error.error.message
+            : error.error.error;
+          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
+        }
+      });
+    this.subscriptions.push(this.errorSUB$);
+    this.subscriptions.push(this.systemCreatedSUB$);
+  }
+
+  onBack() {
+    this.router.navigate(['../list'], { relativeTo: this.route });
   }
 }

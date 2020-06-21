@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { JobComponent } from './components/job/job.component';
+import { JobComponent } from './containers/job/job.component';
 import { CreateJobComponent } from './components/form/create-job/create-job.component';
 import { EditJobComponent } from './components/form/edit-job/edit-job.component';
+import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
+import { JobListComponent } from './components/job-list/job-list.component';
 
 const routes: Routes = [
   {
@@ -12,14 +14,22 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'create'
+        component: ServiceMenuComponent,
+      },
+      {
+        path: 'dim-system-section',
+        component: ServiceMenuComponent,
+      },
+      {
+        path: 'list',
+        component: JobListComponent,
       },
       {
         path: 'create',
         component: CreateJobComponent,
       },
       {
-        path: 'edit',
+        path: 'edit/:id',
         component: EditJobComponent,
       },
     ],

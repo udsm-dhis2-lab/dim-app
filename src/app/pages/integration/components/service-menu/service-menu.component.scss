@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.dim-service-container {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgb(255, 255, 255);
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
+  z-index: 1;
+  padding: 0px;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0rem;
+  float: left;
+  width: 23%;
+
+  .dim-service-card {
+    transition: all 0.25s linear;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .dim-service-card:hover {
+    box-shadow: -1px 10px 29px 0px rgba(0, 0, 0, 0.6);
+  }
+
+  .dim-service-description {
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.87);
+    height: 85px;
+  }
+
+  .dim-service-action-container {
+    padding: 8px;
+    position: relative;
+    text-align: right;
+
+    .dim-service-action-list-container {
+      border: 10px;
+      box-sizing: border-box;
+      display: inline-block;
+      font-family: 'Roboto', sans-serif;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0px 8px 0px 0px;
+      padding: 12px;
+      outline: none;
+      font-size: 0px;
+      font-weight: inherit;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      width: 48px;
+      height: 48px;
+      background: none;
+
+      .dim-service-list-action-icon {
+        color: rgba(0, 0, 0, 0.87);
+        position: relative;
+        font-size: 24px;
+        display: inline-block;
+        user-select: none;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      }
+
+      .dim-service-list-action-wrapper {
+        position: absolute;
+        font-family: 'Roboto', sans-serif;
+        font-size: 10px;
+        line-height: 22px;
+        padding: 0px 8px;
+        z-index: 3000;
+        color: rgb(255, 255, 255);
+        overflow: hidden;
+        top: -10000px;
+        border-radius: 2px;
+        user-select: none;
+        opacity: 0;
+        left: 8px;
+        transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+          transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
+          opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+        box-sizing: border-box;
+
+        .dim-action-list-btn {
+          position: relative;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .dim-service-action-add-container {
+      border: 10px;
+      box-sizing: border-box;
+      display: inline-block;
+      font-family: 'Roboto', sans-serif;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0px 8px 0px 0px;
+      padding: 12px;
+      outline: none;
+      font-size: 0px;
+      font-weight: inherit;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      width: 48px;
+      height: 48px;
+      background: none;
+
+      .dim-service-add-action-wrapper {
+        position: absolute;
+        font-family: 'Roboto', sans-serif;
+        font-size: 10px;
+        line-height: 22px;
+        padding: 0px 8px;
+        z-index: 3000;
+        color: rgb(255, 255, 255);
+        overflow: hidden;
+        top: -10000px;
+        border-radius: 2px;
+        user-select: none;
+        opacity: 0;
+        left: 7px;
+        transition: top 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms,
+          transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
+          opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+        box-sizing: border-box;
+
+        .dim-action-add-btn {
+          position: relative;
+          white-space: nowrap;
+        }
+
+        .dim-service-add-action-icon {
+          color: rgba(0, 0, 0, 0.87);
+          position: relative;
+          font-size: 24px;
+          display: inline-block;
+          user-select: none;
+          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+        }
+      }
+    }
+  }
+}
+
+.dim-service-item-container {
+  padding: 1rem;
+  font-weight: 500;
+  box-sizing: border-box;
+  position: relative;
+  white-space: nowrap;
+  height: auto;
+  border-bottom: 1px solid rgb(221, 221, 221);
+
+  .dim-service-title-container {
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    padding-right: 0px;
+  }
+
+  .dim-service-title {
+    color: rgba(0, 0, 0, 0.77);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
