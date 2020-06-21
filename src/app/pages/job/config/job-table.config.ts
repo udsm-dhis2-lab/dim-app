@@ -1,9 +1,10 @@
 export const JobTableCulumns: Array<string> = [
-    'name',
+    'jobName',
     'description',
     'isExecuted',
-    'isAllowed',
-    'isUsingHIM',
-    'isUsingLiveDhis2',
+    'createdBy',
+    'lastUpdatedBy',
+    'createdAt',
+    'lastUpdatedAt',
     'menu',
 ];

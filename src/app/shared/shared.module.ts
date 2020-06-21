@@ -32,7 +32,6 @@ import { EmptyNotificationComponent } from './components/empty-notification/empt
 import { MatNativeDateModule } from '@angular/material/core';
 import { ProgressLoaderComponent } from './components/progress-loader/progress-loader.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
-import { CodeEditorComponent } from './components/code-editor/code-editor.component';
 import { CovalentCodeEditorModule } from '@covalent/code-editor';
 
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
@@ -46,7 +45,6 @@ import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
     EmptyNotificationComponent,
     SearchByNamePipe,
     ProgressLoaderComponent,
-    CodeEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -74,7 +72,7 @@ import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
     MonacoEditorModule,
     CovalentCodeEditorModule,
     NgxDhis2PeriodFilterModule,
-    NgxDhis2DataFilterModule
+    NgxDhis2DataFilterModule,
   ],
   exports: [
     SearchByNamePipe,
@@ -100,10 +98,9 @@ import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MonacoEditorModule,
-    CodeEditorComponent,
     CovalentCodeEditorModule,
     NgxDhis2PeriodFilterModule,
-    NgxDhis2DataFilterModule
+    NgxDhis2DataFilterModule,
   ],
 })
 /**
