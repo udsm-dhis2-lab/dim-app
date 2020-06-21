@@ -23,7 +23,13 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webapp",
-              "src/manifest.json"
+              "src/manifest.json",
+              { "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" },
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor/min",
+                "output": "/assets/monaco"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
