@@ -59,6 +59,7 @@ const mAuthReducer = createReducer(
             ...state,
             loading: false,
             loaded: true,
+            edited: false,
             error: null,
         });
     }),

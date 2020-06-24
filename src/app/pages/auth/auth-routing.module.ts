@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateAuthComponent } from './components/form/create-auth/create-auth.component';
 import { EditAuthComponent } from './components/form/edit-auth/edit-auth.component';
 import { AuthComponent } from './containers/auth/auth.component';
+import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
+import { AuthListComponent } from './components/auth-list/auth-list.component';
 
 const routes: Routes = [
   {
@@ -12,14 +14,22 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'create',
+        component: ServiceMenuComponent,
+      },
+      {
+        path: 'dim-auth-section',
+        component: ServiceMenuComponent,
+      },
+      {
+        path: 'list',
+        component: AuthListComponent,
       },
       {
         path: 'create',
         component: CreateAuthComponent,
       },
       {
-        path: 'edit',
+        path: 'edit/:id',
         component: EditAuthComponent,
       },
     ],
@@ -30,4 +40,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AuthRoutingModule {}
+export class AuthRoutingModule { }

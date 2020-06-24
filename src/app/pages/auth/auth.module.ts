@@ -8,9 +8,11 @@ import { EditAuthComponent } from './components/form/edit-auth/edit-auth.compone
 import { AuthComponent } from './containers/auth/auth.component';
 import { StoreModule } from '@ngrx/store';
 import { _AuthReducer } from './state';
+import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
+import { AuthListComponent } from './components/auth-list/auth-list.component';
 
 @NgModule({
-  declarations: [AuthComponent, CreateAuthComponent, EditAuthComponent],
+  declarations: [AuthComponent, CreateAuthComponent, EditAuthComponent, ServiceMenuComponent, AuthListComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
