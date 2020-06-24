@@ -43,6 +43,7 @@ const mJobReducer = createReducer(
             loaded: false,
             loading: false,
             edited: true,
+            error: null,
             selectedJobId: payload?.id,
             job: payload,
         });
@@ -58,6 +59,7 @@ const mJobReducer = createReducer(
             ...state,
             loading: false,
             loaded: true,
+            edited: false
         });
     }),
     on(LoadJobsFail, (state: JobState, { error }) => ({

@@ -90,7 +90,7 @@ export class JobListComponent implements OnInit, OnDestroy {
   onDelete(job: DIMJob) {
     if (
       confirm(
-        `Are you sure you want to delete Job <${job?.name}> with id <${job?.id}> `
+        `Are you sure you want to delete Job <${job?.jobName}> with id <${job?.id}> `
       )
     ) {
       this.jobState.dispatch(DeleteJob({ job }));
@@ -101,7 +101,7 @@ export class JobListComponent implements OnInit, OnDestroy {
             this.router.navigate(['./'], { relativeTo: this.route });
             OpenSnackBar(
               this.snackBar,
-              `Job "${job?.name}" with id <${job?.id}> is successfully deleted`,
+              `Job "${job?.jobName}" with id <${job?.id}> is successfully deleted`,
               '',
               'success-snackbar'
             );

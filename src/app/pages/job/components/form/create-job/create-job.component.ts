@@ -163,20 +163,7 @@ export class CreateJobComponent implements OnInit, OnDestroy {
           );
         }
       });
-    this.errorSUB$ = this.integrationState
-      .pipe(select(getJobError))
-      .subscribe((error: HTTPErrorMessage) => {
-        if (error) {
-          this.isUpdating = false;
-          this.router.navigate(['../../list'], { relativeTo: this.route });
-          const message = _.has(error.error, 'message')
-            ? error.error.message
-            : error.error.error;
-          OpenSnackBar(this.snackBar, message, '', 'error-snackbar');
-        }
-      });
     this.subscriptions.push(this.integrationCreatedSUB$);
-    this.subscriptions.push(this.errorSUB$);
   }
 
   onBack() {
@@ -184,7 +171,7 @@ export class CreateJobComponent implements OnInit, OnDestroy {
   }
 
   onPeriodUpdate(periods: PeriodSelection, action: string) {
-    const periodIds = _.map(periods?.items || [], (item: Item) => item.id);
+    const periodIds = _.map(periods?.items || [], (item: Item) => item);
     this.jobFormEntries = {
       ...this.jobFormEntries,
       pe: { periods: periodIds },
