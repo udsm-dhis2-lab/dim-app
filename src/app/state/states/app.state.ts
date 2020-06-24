@@ -9,6 +9,7 @@ import * as fromSystemIntegrationStore from '../../pages/system/state';
 import * as fromIntegrationState from '../../pages/integration/state';
 import * as fromJobState from '../../pages/job/state';
 import * as fromBatchState from '../../pages/batch/state';
+import * as fromAuthState from '../../pages/auth/state';
 
 import { environment } from 'src/environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -29,6 +30,7 @@ export interface AppState {
      *
      */
     system: fromSystemIntegrationStore.SystemState;
+    auth: fromAuthState.AuthState;
     integration: fromIntegrationState.IntegrationState;
     job: fromJobState.JobState;
     batch: fromBatchState.BatchState;
@@ -45,6 +47,7 @@ export const initialAppState: AppState = {
      *
      */
     system: fromSystemIntegrationStore.initialSystemState,
+    auth: fromAuthState.initialAuthState,
     integration: fromIntegrationState.initialIntegrationState,
     job: fromJobState.initialJobState,
     batch: fromBatchState.initialBatchState,
@@ -62,6 +65,7 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
  */
 export const reducers: ActionReducerMap<AppState> = {
     system: fromSystemIntegrationStore._SystemReducer,
+    auth: fromAuthState._AuthReducer,
     integration: fromIntegrationState._IntegrationReducer,
     job: fromJobState._JobReducer,
     batch: fromBatchState._BatchReducer,
@@ -78,6 +82,7 @@ export const appEffects: Array<any> = [
     fromIntegrationState.IntegrationEffects,
     fromJobState.JobEffects,
     fromBatchState.BatchEffects,
+    fromAuthState.AuthEffects,
     UserEffects,
     SystemInfoEffects,
     RouterEffects,
