@@ -11,9 +11,5 @@ export const SystemSideMenuConfig: Array<Menu> = [
     {
         name: 'Systems',
         route: 'list',
-    },
-    {
-        name: 'Authentication',
-        route: 'auth',
-    },
+    }
 ];
