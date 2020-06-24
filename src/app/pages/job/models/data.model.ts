@@ -10,6 +10,7 @@ export interface DataItem {
     name: string;
     dataElements?: DataElement[];
     valueType?: string;
+    dimensions?: Array<any>;
     categoryCombo: { id: string };
     type: string;
 }

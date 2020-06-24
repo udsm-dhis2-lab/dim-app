@@ -80,7 +80,7 @@
                     <div class="field-form-input-div">
                         <p><b>Organisation Unit UIDs</b></p>
                         <td-code-editor formControlName="orgUnitUids" class="editor" [style.height.px]="200"
-                            editorStyle="border: 0;" flex theme="vs-dark" language="javascript"
+                            editorStyle="border: 0;" flex theme="vs-dark" language="json"
                             [editorOptions]="{ readOnly: false, fontSize: 15 }">
                         </td-code-editor>
                     </div>
@@ -121,7 +121,7 @@
                     <div class="field-form-input-div">
                         <p><b>Organisation Units Mapping</b></p>
                         <td-code-editor formControlName="orgUnits" class="editor" [style.height.px]="200"
-                            editorStyle="border:0;" flex theme="black" language="javascript"
+                            editorStyle="border:0;" flex theme="black" language="json"
                             [editorOptions]="{ readOnly: false, fontSize: 15 }">
                         </td-code-editor>
                     </div>
@@ -135,7 +135,7 @@
                     <div class="field-form-input-div">
                         <p><b>Data Mapping</b></p>
                         <td-code-editor formControlName="data" class="editor" [style.height.px]="200"
-                            editorStyle="border:0;" flex theme="black" language="javascript"
+                            editorStyle="border:0;" flex theme="black" language="json"
                             [editorOptions]="{ readOnly: false, fontSize: 15 }">
                         </td-code-editor>
                     </div>
@@ -143,45 +143,54 @@
             </div>
             <hr />
             &nbsp;
-            <div class="field-form-input-div">
-                <div formGroupName="pe">
-                    <mat-form-field class="example-full-width">
-                        <input formControlName="name" matInput placeholder="Period" />
-                    </mat-form-field>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-card>
+                        <div class="field-form-input-div">
+                            <div formGroupName="pe">
+                                <mat-form-field class="example-full-width">
+                                    <input formControlName="name" matInput placeholder="Period" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="field-form-input-div">
+                            <ngx-dhis2-period-filter [selectedPeriods]="selectedPeriodItems"
+                                [periodFilterConfig]="periodFilterConfig" [selectedPeriodType]="'Monthly'"
+                                (update)="onPeriodUpdate($event, 'UPDATE')" (change)="onPeriodUpdate($event, 'CHANGE')"
+                                (close)="onPeriodUpdate($event, 'CLOSE')">
+                            </ngx-dhis2-period-filter>
+                        </div>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card>
+                        <div class="field-form-input-div">
+                            <div formGroupName="dx">
+                                <mat-form-field class="example-full-width">
+                                    <input formControlName="name" matInput placeholder="Data" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="field-form-input-div">
+                            <ngx-dhis2-data-filter [selectedItems]="selectedDataItems"
+                                [selectedGroups]="selectedDataGroups" [dataFilterConfig]="dataFilterConfig"
+                                (update)="onDataUpdate($event, 'UPDATE')" (change)="onDataUpdate($event, 'CHANGE')"
+                                (close)="onDataUpdate($event, 'CLOSE')">
+                            </ngx-dhis2-data-filter>
+                        </div>
+                    </mat-card>
                 </div>
             </div>
-            <div class="field-form-input-div">
-                <ngx-dhis2-period-filter [selectedPeriods]="selectedPeriodItems"
-                    [periodFilterConfig]="periodFilterConfig" [selectedPeriodType]="'Monthly'"
-                    (update)="onPeriodUpdate($event, 'UPDATE')" (change)="onPeriodUpdate($event, 'CHANGE')"
-                    (close)="onPeriodUpdate($event, 'CLOSE')">
-                </ngx-dhis2-period-filter>
-            </div>
-            <hr />
-            <div class="field-form-input-div">
-                <div formGroupName="dx">
-                    <mat-form-field class="example-full-width">
-                        <input formControlName="name" matInput placeholder="Data" />
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="field-form-input-div">
-                <ngx-dhis2-data-filter [selectedItems]="selectedDataItems" [selectedGroups]="selectedDataGroups"
-                    [dataFilterConfig]="dataFilterConfig" (update)="onDataUpdate($event, 'UPDATE')"
-                    (change)="onDataUpdate($event, 'CHANGE')" (close)="onDataUpdate($event, 'CLOSE')">
-                </ngx-dhis2-data-filter>
-            </div>
-            <hr />
             <div class="form-footer">
                 <div class="form-footer-div example-button-row">
                     <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
                         [class.spinner]="isUpdating" (click)="onSubmitForm()">
-                        Save
+                        Update
                     </button>
 
                     <button *ngIf="isUpdating" mat-stroked-button color="primary" class="form-footer-save-btn"
                         [disabled]="isUpdating" [class.spinner]="isUpdating">
-                        Saving...
+                        Updating...
                     </button>
                 </div>
                 <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn" (click)="onBack()">

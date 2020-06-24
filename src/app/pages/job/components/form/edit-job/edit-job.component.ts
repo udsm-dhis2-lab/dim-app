@@ -117,29 +117,21 @@ export class EditJobComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.isUpdating = false;
     this.selectedJobSUB$ = this.jobState
       .pipe(select(getSelectedJob))
-      .subscribe((job: any) => {
-        this.selectedDataItems = [
-          ..._.clone(this.selectedDataItems),
-          ...(job?.dx?.data ? job?.dx?.data : []),
-        ];
-        this.selectedPeriodItems = [
-          ..._.clone(this.selectedPeriodItems),
-          ...(job?.pe?.periods ? job?.pe?.periods : []),
-        ];
+      .subscribe((job: DIMJob) => {
+        this.selectedPeriodItems = job?.pe?.periods ? job?.pe?.periods : [];
+        this.selectedDataItems = job?.dx?.data ? job?.dx?.data : [];
         this.updateJobForm.patchValue(job);
+        this.jobFormEntries = { ...this.jobFormEntries, ...job };
       });
     this.jobFormSUB$ = this.updateJobForm.valueChanges.subscribe(
       (job: DIMJob) => {
-        this.jobFormEntries = onUpdateFormProps(
-          this.jobFormEntries,
-          _.omit(job, ['ou', 'dx'])
-        );
+        this.jobFormEntries = onUpdateFormProps(this.jobFormEntries, job);
       }
     );
     this.userSUB$ = this.appState
@@ -165,9 +157,9 @@ export class EditJobComponent implements OnInit, OnDestroy {
       .subscribe((job: DIMJob) => {
         const updatedJob = _.merge(_.clone(this.jobFormEntries), {
           id: job?.id,
+          createdBy: job?.createdBy,
+          createdById: job?.createdById,
           lastUpdatedAt: new Date(),
-          createdBy: this.user.name,
-          createdById: this.user.id,
           lastUpdatedBy: this.user.name,
           lastUpdatedById: this.user.id,
         });
@@ -211,26 +203,32 @@ export class EditJobComponent implements OnInit, OnDestroy {
   }
 
   onPeriodUpdate(periods: PeriodSelection, action: string) {
-    const periodIds = _.map(periods?.items || [], (item: Item) => item.id);
-    this.jobFormEntries = {
-      ...this.jobFormEntries,
-      pe: { periods: periodIds },
-    };
-  }
-
-  onDataUpdate(datas: DataSelection, action: string) {
-    const selectedData = _.map(datas?.items || [], (item: DataItem) => {
+    const selectedPeriodItems = _.map(periods?.items || [], (item: Item) => {
       return {
         id: item?.id,
         name: item?.name,
         type: item?.type,
-        dimensions: [],
       };
     });
-    this.jobFormEntries = {
-      ...this.jobFormEntries,
-      dx: { data: selectedData },
+    const mPe = {
+      ...this.jobFormEntries.pe,
+      periods: selectedPeriodItems,
     };
+    const formEntries = { ...this.jobFormEntries, pe: mPe };
+    this.jobFormEntries = formEntries;
+  }
+
+  onDataUpdate(datas: DataSelection, action: string) {
+    const selectedDataItems = _.map(
+      datas?.items || [],
+      (item: DataItem) => item
+    );
+    const mDx = {
+      ...this.jobFormEntries.dx,
+      data: selectedDataItems,
+    };
+    const formEntries = { ...this.jobFormEntries, dx: mDx };
+    this.jobFormEntries = formEntries;
   }
 
   onBack() {

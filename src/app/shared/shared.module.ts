@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
 
 /**
  *
@@ -73,6 +74,7 @@ import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
     CovalentCodeEditorModule,
     NgxDhis2PeriodFilterModule,
     NgxDhis2DataFilterModule,
+    MatCardModule
   ],
   exports: [
     SearchByNamePipe,
@@ -101,6 +103,7 @@ import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
     CovalentCodeEditorModule,
     NgxDhis2PeriodFilterModule,
     NgxDhis2DataFilterModule,
+    MatCardModule
   ],
 })
 /**
