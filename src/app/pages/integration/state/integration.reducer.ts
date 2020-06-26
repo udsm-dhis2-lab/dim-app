@@ -65,6 +65,8 @@ const mIntegrationReducer = createReducer(
     on(LoadIntegrationsSuccess, (state: IntegrationState, { integrations }) => {
         return integrationAdapter.setAll(integrations, {
             ...state,
+            edited: false,
+            error: null,
             loading: false,
             loaded: true,
         });
