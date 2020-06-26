@@ -74,7 +74,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private systemService: SystemService,
     private batchService: BatchService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.isUpdating = false;
@@ -137,6 +137,7 @@ export class CreateIntegrationComponent implements OnInit, OnDestroy {
       },
       arrayToObject(_.clone(this.procBatch), 'id', 'batch', '_')
     );
+    console.log('AMAZING::: ' + JSON.stringify(integration, null, 4));
     this.integrationState.dispatch(CreateIntegration(_.clone({ integration })));
     this.integrationCreatedSUB$ = this.integrationState
       .pipe(select(getIntegrationCreatedStatus))

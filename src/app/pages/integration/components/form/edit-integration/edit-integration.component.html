@@ -36,8 +36,9 @@
                     <div class="field-form-input-div">
                         <mat-form-field class="example-full-width">
                             <mat-label>Data Source Systems</mat-label>
-                            <mat-select formControlName="from" [value]="">
-                                <mat-option *ngFor="let system of systems" [value]="system.name">
+                            <mat-select [value]="selectedFromSystem?.name">
+                                <mat-option *ngFor="let system of systems" (click)="getSelectedSystem(system, 'from')"
+                                    [value]="system?.name">
                                     {{ system?.name }}
                                 </mat-option>
                             </mat-select>
@@ -49,8 +50,9 @@
                     <div class="field-form-input-div">
                         <mat-form-field class="example-full-width">
                             <mat-label>Data Recipient Systems</mat-label>
-                            <mat-select [value]="" formControlName="to">
-                                <mat-option *ngFor="let system of systems" [value]="system.name">
+                            <mat-select [value]="selectedToSystem?.name">
+                                <mat-option *ngFor="let system of systems" (click)="getSelectedSystem(system, 'to')"
+                                    [value]="system?.name">
                                     {{ system?.name }}
                                 </mat-option>
                             </mat-select>

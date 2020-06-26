@@ -67,6 +67,9 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
   userSUB$: Subscription;
   batchesSUB$: Subscription;
 
+  selectedFromSystem: { id: string; name: string };
+  selectedToSystem: { id: string; name: string };
+
   constructor(
     private integrationState: Store<IntegrationState>,
     private appState: Store<AppState>,
@@ -98,8 +101,16 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
     this.selectedIntegrationSUB$ = this.integrationState
       .pipe(select(getSelectedIntegration))
       .subscribe((integration: DIMIntegration) => {
-        this.selectedBatches = this.getSelectedBatches(integration);
-        this.updateIntegrationForm.patchValue(integration);
+        if (integration) {
+          this.selectedFromSystem = integration.systemInfo.from;
+          this.selectedToSystem = integration.systemInfo.to;
+          this.selectedBatches = this.getSelectedBatches(integration);
+          this.integrationFormEntries = {
+            ...this.integrationFormEntries,
+            ...integration,
+          };
+          this.updateIntegrationForm.patchValue(integration);
+        }
       });
     this.integrationFormSUB$ = this.updateIntegrationForm.valueChanges.subscribe(
       (integration: DIMIntegration) => {
@@ -161,11 +172,28 @@ export class EditIntegrationComponent implements OnInit, OnDestroy {
     return `batch_${uuid('', 11)}`;
   }
 
+  getSelectedSystem(system: DIMSystem, controller: string) {
+    if (controller === 'from') {
+      this.selectedFromSystem = { id: system?.id, name: system?.name };
+    } else if (controller === 'to') {
+      this.selectedToSystem = { id: system?.id, name: system?.name };
+    }
+  }
+
   onSubmitForm(): void {
     this.isUpdating = true;
     this.selectedIntegrationSUB$ = this.integrationState
       .pipe(select(getSelectedIntegration))
       .subscribe((integration: DIMIntegration) => {
+        const systemInfo = {
+          ...this.integrationFormEntries.systemInfo,
+          from: this.selectedFromSystem,
+          to: this.selectedToSystem,
+        };
+        this.integrationFormEntries = {
+          ...this.integrationFormEntries,
+          systemInfo,
+        };
         const updatedIntegration = _.merge(
           _.clone(this.integrationFormEntries),
           {
