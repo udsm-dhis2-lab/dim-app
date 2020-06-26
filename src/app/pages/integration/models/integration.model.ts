@@ -128,6 +128,11 @@ export interface PE {
  *
  */
 export interface SystemInfo {
-    from: string;
-    to: string;
+    from: Info;
+    to: Info;
+}
+
+export interface Info {
+    id: string;
+    name: string;
 }
