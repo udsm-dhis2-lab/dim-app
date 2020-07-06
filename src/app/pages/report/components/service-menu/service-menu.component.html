@@ -1,0 +1,27 @@
+<main>
+    <div class="row ml-1">
+        <div class="dim-service-container" *ngFor="let menuService of integrationMenuServices">
+            <div class="dim-service-card">
+                <div class="dim-service-item-container">
+                    <div class="dim-service-title-container">
+                        <span class="dim-service-title">{{ menuService.title }}</span>
+                    </div>
+                </div>
+                <div class="dim-service-description">
+                    {{ menuService.description }}
+                </div>
+                <div class="dim-service-action-container">
+                    <button (click)="onOpenList(menuService)" class="dim-service-action-list-container"
+                        [matTooltip]="'View List'">
+                        <div matRipple>
+                            <div class="dim-service-list-action-wrapper">
+                                <span class="dim-action-list-btn">create</span>
+                            </div>
+                            <span class="material-icons dim-service-list-action-icon">create</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
