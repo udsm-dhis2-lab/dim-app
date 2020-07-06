@@ -2,20 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReportRoutingModule } from './report-routing.module';
-import { ReportComponent } from './components/report/report.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CreateReportComponent } from './components/form/create-report/create-report.component';
-import { DataElementSelectionComponent } from './components/selection/data-element-selection/data-element-selection.component';
-import { IndicatorSelectionComponent } from './components/selection/indicator-selection/indicator-selection.component';
-import { ProgramIndicatorSelectionComponent } from './components/selection/program-indicator-selection/program-indicator-selection.component';
+import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
+import { GenerateReportComponent } from './components/generate-report/generate-report.component';
+import { ReportComponent } from './containers/report/report.component';
 
 @NgModule({
   declarations: [
     ReportComponent,
-    CreateReportComponent,
-    DataElementSelectionComponent,
-    IndicatorSelectionComponent,
-    ProgramIndicatorSelectionComponent,
+    ServiceMenuComponent,
+    GenerateReportComponent,
   ],
   imports: [CommonModule, ReportRoutingModule, SharedModule],
 })

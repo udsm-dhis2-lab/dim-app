@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ReportComponent } from './components/report/report.component';
-import { CreateReportComponent } from './components/form/create-report/create-report.component';
+import { ReportComponent } from './containers/report/report.component';
+import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
+import { GenerateReportComponent } from './components/generate-report/generate-report.component';
 
 
 const routes: Routes = [
@@ -12,14 +13,18 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'report',
+        component: ServiceMenuComponent,
       },
       {
-        path: 'report',
-        component: CreateReportComponent,
-      }
+        path: 'dim-report-section',
+        component: ServiceMenuComponent,
+      },
+      {
+        path: 'generate',
+        component: GenerateReportComponent,
+      },
     ],
-  }
+  },
 ];
 
 @NgModule({
