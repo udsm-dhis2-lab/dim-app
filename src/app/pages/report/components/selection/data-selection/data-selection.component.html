@@ -1,0 +1,99 @@
+<div>
+    <div>
+        <div>
+            <mat-form-field class="search" appearance="standard">
+                <mat-label>Search Data...</mat-label>
+                <input matInput name="search" type="search" [(ngModel)]="searchString" />
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="search-container">
+            <div class="search-container-flex">
+                <div class="search-sub-container">
+                    <div *ngIf="!availableDatas"></div>
+                    <div *ngIf="
+              availableDatas?.length === 0 ||
+              (availableDatas | searchByName: searchString)?.length === 0
+            ">
+                        <app-empty-notification></app-empty-notification>
+                    </div>
+                    <select *ngIf="availableDatas?.length > 0" multiple class="selection-container">
+                        <option class="option" *ngFor="
+                let fieldOption of availableDatas | searchByName: searchString
+              " (dblclick)="onDoubleClickSelect(fieldOption, 'select')" (click)="onClickSelect(fieldOption, 'select')">
+                            {{ fieldOption?.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="assignment">
+                    <button matRipple [attr.class]="availableDatas?.length > 0 ? 'enabled' : 'disabled'"
+                        disabled="availableDatas?.length === 0" type="button">
+                        <div matRipple>
+                            <span (click)="assignAll()">Assign all
+                                {{ (availableDatas | searchByName: searchString)?.length }}
+                                →</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="temp-selected-container">
+                <div class="temp-selected" *ngIf="tempDatas?.length > 0">
+                    {{ tempDatas?.length }} selected
+                </div>
+                <div class="assign-one">
+                    <button mat-stroked-button [attr.class]="
+              tempDatas.length > 0 && action === 'select'
+                ? 'is-enabled'
+                : 'is-disabled'
+            " disabled="tempDatas?.length === 0" tabindex="-1" type="button">
+                        <div (click)="toggleTempValues()">
+                            <span>→</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="unassign-one">
+                    <button mat-stroked-button [attr.class]="
+              tempDatas.length > 0 && action === 'deselect'
+                ? 'is-enabled'
+                : 'is-disabled'
+            " disabled="tempDatas?.length === 0" type="button">
+                        <div (click)="toggleTempValues()">
+                            <span>←</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="search-container-flex">
+                <div class="search-sub-container">
+                    <div *ngIf="
+              selectedDatas?.length === 0 ||
+              (selectedDatas | searchByName: searchString)?.length === 0
+            ">
+                        <app-empty-notification></app-empty-notification>
+                    </div>
+                    <select multiple *ngIf="selectedDatas?.length > 0" class="selection-container">
+                        <option class="option" *ngFor="
+                let selectedFieldOption of selectedDatas
+                  | searchByName: searchString
+              " (dblclick)="
+                onDoubleClickDeSelect(selectedFieldOption, 'deselect')
+              " (click)="onClickDeSelect(selectedFieldOption, 'deselect')">
+                            {{ selectedFieldOption?.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="un-assignment">
+                    <button matRipple [attr.class]="selectedDatas?.length > 0 ? 'enabled' : 'disabled'"
+                        disabled="selectedFieldOption?.length === 0" type="button">
+                        <div>
+                            <span (click)="removeAll()">← Remove all
+                                {{ (selectedDatas | searchByName: searchString)?.length }}
+                            </span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="bottom"></div>
+    </div>
+</div>
