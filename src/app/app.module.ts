@@ -37,6 +37,8 @@ import { reducers, metaReducers, appEffects } from './state/states/app.state';
 import { environment } from 'src/environments/environment';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CovalentCodeEditorModule } from '@covalent/code-editor';
+import { NgxPrintModule } from 'ngx-print';
+
 
 /**
  *
@@ -49,6 +51,7 @@ import { CovalentCodeEditorModule } from '@covalent/code-editor';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxPrintModule,
     CoreModule,
     BrowserAnimationsModule,
     CovalentCodeEditorModule,

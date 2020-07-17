@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReportComponent } from './containers/report/report.component';
 import { ServiceMenuComponent } from './components/service-menu/service-menu.component';
 import { GenerateReportComponent } from './components/generate-report/generate-report.component';
+import { ReportContainerComponent } from './components/report-container/report-container.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'generate',
         component: GenerateReportComponent,
+      },
+      {
+        path: 'report',
+        component: ReportContainerComponent,
       },
     ],
   },

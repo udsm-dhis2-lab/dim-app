@@ -1,1 +1,223 @@
-<p>generate-report works!</p>
+<main>
+  <div class="form-header-container">
+    <div
+      layout="row"
+      layout-sm="column"
+      layout-align="end center"
+      class="form-header-detail"
+    >
+      <div class="back">
+        <button
+          class="back-button"
+          [matTooltip]="'Back'"
+          (click)="onBack()"
+          mat-mini-fab
+        >
+          <span class="material-icons">
+            keyboard_backspace
+          </span>
+        </button>
+      </div>
+      &nbsp;
+      <div class="title">
+        <span> Report Configuration Form</span>
+      </div>
+    </div>
+  </div>
+</main>
+<main class="form-container">
+  <div class="field-form-div">
+    <form [formGroup]="generateReportForm" class="field-form">
+      <div class="row field-form-input-div">
+        <div class="col-md-4">
+          <div class="field-form-input-div">
+            <mat-form-field class="example-full-width">
+              <mat-label>Data Source Systems</mat-label>
+              <mat-select
+                formControlName="sourceSystem"
+                (selectionChange)="getEditorHeight($event.value)"
+              >
+                <mat-option
+                  *ngFor="let system of integratedSystems"
+                  [value]="{ id: system?.id, name: system?.name }"
+                >
+                  {{ system?.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <mat-progress-bar
+            *ngIf="integratedSystems?.length <= 0"
+            mode="indeterminate"
+          ></mat-progress-bar>
+        </div>
+        <div class="col-md-4">
+          <div class="field-form-input-div">
+            <mat-form-field class="example-full-width">
+              <mat-label>Data Recipient Systems</mat-label>
+              <mat-select
+                formControlName="destinationSystem"
+                (selectionChange)="getEditorHeight($event.value)"
+              >
+                <mat-option
+                  *ngFor="let system of integratedSystems"
+                  [value]="{ id: system?.id, name: system?.name }"
+                >
+                  {{ system?.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <mat-progress-bar
+            *ngIf="integratedSystems?.length <= 0"
+            mode="indeterminate"
+          ></mat-progress-bar>
+        </div>
+        <div class="col-md-4">
+          <div class="field-form-input-div">
+            <mat-form-field class="example-full-width">
+              <mat-label>Dataset Selection</mat-label>
+              <mat-select [value]="" formControlName="dataSet">
+                <mat-option
+                  *ngFor="let dataset of datasets$ | async"
+                  [value]="dataset?.id"
+                >
+                  {{ dataset?.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-progress-bar
+              *ngIf="(datasets$ | async)?.length <= 0"
+              mode="indeterminate"
+            ></mat-progress-bar>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="form-footer">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Choose Date from</mat-label>
+              <input
+                formControlName="endDate"
+                matInput
+                [matDatepicker]="toPicker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="toPicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #toPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Choose date to</mat-label>
+              <input
+                formControlName="startDate"
+                matInput
+                [matDatepicker]="fromPicker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="fromPicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #fromPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <div class="field-form-input-div">
+              <mat-form-field class="example-full-width">
+                <mat-label>Data Exchange Status</mat-label>
+                <mat-select formControlName="status" value="">
+                  <mat-option
+                    *ngFor="let status of responseStatus"
+                    [value]="status?.id"
+                  >
+                    {{ status?.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="field-form-input-div">
+        <app-data-selection
+          (selectedEntityEventEmitter)="onSelectItemList($event, 'datas')"
+          [availableDatas]="datas$ | async"
+          [availableDatas]="datas$ | async"
+          [selectedDatas]="selectedData"
+        >
+        </app-data-selection>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <mat-card>
+            <div class="field-form-input-div">
+              <ngx-dhis2-period-filter
+                [selectedPeriods]="selectedPeriodItems"
+                [periodFilterConfig]="periodFilterConfig"
+                [selectedPeriodType]="selectedPeriodType"
+                (update)="onPeriodUpdate($event, 'UPDATE')"
+                (change)="onPeriodUpdate($event, 'CHANGE')"
+                (close)="onPeriodUpdate($event, 'CLOSE')"
+              >
+              </ngx-dhis2-period-filter>
+            </div>
+          </mat-card>
+        </div>
+        <!-- <div class="col-md-6">
+          <mat-card>
+            <div class="field-form-input-div">
+              <ngx-dhis2-data-filter [selectedItems]="selectedDataItems" [selectedGroups]="selectedDataGroups"
+                [dataFilterConfig]="dataFilterConfig" (update)="onDataUpdate($event, 'UPDATE')"
+                (change)="onDataUpdate($event, 'CHANGE')" (close)="onDataUpdate($event, 'CLOSE')">
+              </ngx-dhis2-data-filter>
+            </div>
+          </mat-card>
+        </div> -->
+      </div>
+      <hr />
+      <div class="form-footer">
+        <div class="form-footer-div example-button-row">
+          <button
+            *ngIf="!isUpdating"
+            mat-stroked-button
+            class="form-footer-save-btn"
+            [disabled]="isUpdating"
+            [class.spinner]="isUpdating"
+            (click)="onSubmitForm()"
+          >
+            Generate
+          </button>
+
+          <button
+            *ngIf="isUpdating"
+            mat-stroked-button
+            color="primary"
+            class="form-footer-save-btn"
+            [disabled]="isUpdating"
+            [class.spinner]="isUpdating"
+          >
+            Generating...
+          </button>
+        </div>
+        <button
+          mat-stroked-button
+          matRipple
+          color="warn"
+          class="form-footer-cancel-btn"
+          (click)="onBack()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

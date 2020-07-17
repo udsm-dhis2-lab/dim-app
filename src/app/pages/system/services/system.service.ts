@@ -19,6 +19,17 @@ export class SystemService {
   namespace = 'DIM_SYSTEMS_METADATA';
   baseURL = 'api';
 
+  // const systems: [
+  //   {
+  //     name: 'DHIS2 HMIS',
+  //     id: ''
+  //   },
+  //   {
+  //     name: 'DHIS2 PLAY',
+  //     id: ''
+  //   }
+  // ]
+
   constructor(private httpClient: HttpClient) {}
 
   /**
