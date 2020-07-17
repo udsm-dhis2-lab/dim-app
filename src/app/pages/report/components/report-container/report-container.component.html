@@ -1,0 +1,85 @@
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <button printTitle="DHIS2 Integration Mediator Data Exchange Report - {{ today | date }} "
+                printSectionId="printable-area" ngxPrint [useExistingCss]="true" mat-stroked-button>Print <span class="material-icons">
+                    print
+                </span></button>
+        </div>
+    </div>
+    <hr>
+    <div id="printable-area" class="row">
+        <div class="col-md-12 mt-3 report-header">
+            <p class="title">University of Dar es salaam(UDSM) - DHIS2</p>
+            <p class="sub-title">DHIS2 Integration Mediator Data Exchange Report - {{ today | date }} </p>
+        </div>
+        <div class="col-md-12">
+            <mat-card class="mb-1" *ngFor="let reportDetail of reportDetails">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                Data Exchange from <b>{{ reportDetail.sourceSystemName }}</b> to
+                                <b>{{ reportDetail.destinationSystemName }}</b> by date
+                                <b>{{ reportDetail.sourceExchangeDate }}.</b>
+                                Data sent to Dataset with name
+                                <b>{{ reportDetail.destinationDataSetName }}</b> and with id
+                                <b>{{ reportDetail.destinationDataSetId }}</b> and use category option combo with name
+                                <b>{{ reportDetail.destinationCategoryOptionComboName}}</b> and with id
+                                <b>{{ reportDetail.destinationCategoryOptionComboId}}</b>
+                            </p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <table>
+                                    <tr>
+                                        <th>System</th>
+                                        <th>Data Element Name</th>
+                                        <th>Data Element ID</th>
+                                        <th>OrgUnit Name</th>
+                                        <th>OrgUnit ID</th>
+                                        <th>Exchange Frequency</th>
+                                        <th>Value</th>
+                                        <th>Exchange Date</th>
+                                        <th>Exchange Status</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ reportDetail.sourceSystemName }} <b>(Source)</b></td>
+                                        <td>{{ reportDetail.sourceDataElementName }}</td>
+                                        <td>{{ reportDetail.sourceDataElementId }}</td>
+                                        <td>{{ reportDetail.sourceOrgUnitId }}</td>
+                                        <td>{{ reportDetail.sourceOrgUnitId }}</td>
+                                        <td>{{ reportDetail.sourceValue }}</td>
+                                        <td>{{ reportDetail.sourceExchangePeriod }}</td>
+                                        <td>{{ reportDetail.sourceExchangeDate | date }}</td>
+                                        <td class="success" *ngIf="reportDetail.status === 'success'">
+                                            {{ reportDetail.status }}</td>
+                                        <td class="failure" *ngIf="reportDetail.status === 'failure'">
+                                            {{ reportDetail.status }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{ reportDetail.destinationSystemName }}
+                                            <b>(Destination)</b>
+                                        </td>
+                                        <td>{{ reportDetail.destinationDataElementName }}</td>
+                                        <td>{{ reportDetail.destinationDataElementId }}</td>
+                                        <td>{{ reportDetail.destinationOrgUnitName }}</td>
+                                        <td>{{ reportDetail.destinationOrgUnitId }}</td>
+                                        <td>{{ reportDetail.destinationValue }}</td>
+                                        <td>{{ reportDetail.destinationExchangePeriod }}</td>
+                                        <td>{{ reportDetail.destinationExchangeDate | date }}</td>
+                                        <td class="success" *ngIf="reportDetail.status === 'success'">
+                                            {{ reportDetail.status }}</td>
+                                        <td class="failure" *ngIf="reportDetail.status === 'failure'">
+                                            {{ reportDetail.status }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
