@@ -12,7 +12,6 @@ import { ReportTableCulumns } from '../../utils/table-config.util';
 import { ReportState } from '../../state';
 import { DIMReport } from '../../models/report.model';
 import { getReportDetails } from '../../state/report.selector';
-import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 
 @Component({
   selector: 'app-report-container',
@@ -38,6 +37,7 @@ export class ReportContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.today = new Date();
+
     this.integrationCreatedSUB$ = this.reportState
       .pipe(
         select(getReportDetails),
@@ -60,23 +60,5 @@ export class ReportContainerComponent implements OnInit, OnDestroy {
         subscription.unsubscribe();
       }
     }
-  }
-
-  applyFilter(filterValue: string) {
-    // this.integrationCreatedSUB$ = this.reportState
-    //   .pipe(
-    //     select(getReportDetails),
-    //     takeWhile((value: Array<DIMReport>) => value !== null)
-    //   )
-    //   .subscribe((reports: Array<DIMReport>) => {
-    //     if (reports.length > 0) {
-    //       if (this.dataSource) {
-    //         this.dataSource.filter = filterValue.trim().toLowerCase();
-    //         if (this.dataSource.paginator) {
-    //           this.dataSource.paginator.firstPage();
-    //         }
-    //       }
-    //     }
-    //   });
   }
 }

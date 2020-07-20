@@ -9,6 +9,7 @@ export interface DIMReport {
     sourceValue:                        string;
     sourceDataElementName:              string;
     sourceDataElementId:                string;
+    sourceOrgUnitName:                  string;
     sourceOrgUnitId:                    string;
     destinationSystemName:              string;
     destinationSystemId:                string;
@@ -17,8 +18,8 @@ export interface DIMReport {
     destinationExchangePeriod:          string;
     destinationExchangeDate:            string;
     destinationValue:                   string;
-    destinationDataElementName:         string;
-    destinationDataElementId:           string;
+    destinationDataElementName?:         string;
+    destinationDataElementId?:           string;
     destinationCategoryOptionComboName: string;
     destinationCategoryOptionComboId:   string;
     destinationOrgUnitName:             string;

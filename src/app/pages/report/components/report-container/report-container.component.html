@@ -2,7 +2,8 @@
     <div class="row">
         <div class="col-md-12">
             <button printTitle="DHIS2 Integration Mediator Data Exchange Report - {{ today | date }} "
-                printSectionId="printable-area" ngxPrint [useExistingCss]="true" mat-stroked-button>Print <span class="material-icons">
+                printSectionId="printable-area" ngxPrint [useExistingCss]="true" mat-stroked-button>Print <span
+                    class="material-icons">
                     print
                 </span></button>
         </div>
@@ -38,10 +39,11 @@
                                         <th>Data Element ID</th>
                                         <th>OrgUnit Name</th>
                                         <th>OrgUnit ID</th>
-                                        <th>Exchange Frequency</th>
                                         <th>Value</th>
-                                        <th>Exchange Date</th>
-                                        <th>Exchange Status</th>
+                                        <th>Frequency</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Reason</th>
                                     </tr>
                                     <tr>
                                         <td>{{ reportDetail.sourceSystemName }} <b>(Source)</b></td>
@@ -53,9 +55,20 @@
                                         <td>{{ reportDetail.sourceExchangePeriod }}</td>
                                         <td>{{ reportDetail.sourceExchangeDate | date }}</td>
                                         <td class="success" *ngIf="reportDetail.status === 'success'">
-                                            {{ reportDetail.status }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}</td>
                                         <td class="failure" *ngIf="reportDetail.status === 'failure'">
-                                            {{ reportDetail.status }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}</td>
+                                        <td *ngIf="reportDetail.status === 'failure'">
+                                            <ul>
+                                                <li *ngFor="let message of reportDetail.messages">{{ message?.message }}
+                                                    -
+                                                    <b class="not-found">{{ message?.objectId }}</b>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td *ngIf="reportDetail.status === 'success'">
+
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -70,9 +83,20 @@
                                         <td>{{ reportDetail.destinationExchangePeriod }}</td>
                                         <td>{{ reportDetail.destinationExchangeDate | date }}</td>
                                         <td class="success" *ngIf="reportDetail.status === 'success'">
-                                            {{ reportDetail.status }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}</td>
                                         <td class="failure" *ngIf="reportDetail.status === 'failure'">
-                                            {{ reportDetail.status }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}</td>
+                                        <td *ngIf="reportDetail.status === 'failure'">
+                                            <ul>
+                                                <li *ngFor="let message of reportDetail.messages">{{ message?.message }}
+                                                    -
+                                                    <b class="not-found">{{ message?.objectId }}</b>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td *ngIf="reportDetail.status === 'success'">
+
+                                        </td>
                                     </tr>
                                 </table>
                             </div>

@@ -31,7 +31,7 @@ import {
 const ReportReducer = createReducer(
     initialReportState,
     on(GenerateReportSuccess, (state: ReportState, { reports }) => {
-        return reportAdapter.upsertMany(reports, {
+        return reportAdapter.setAll(reports, {
             ...state,
             created: true,
             reports,
@@ -61,7 +61,7 @@ export function _ReportReducer(state: ReportState | undefined, action: Action) {
 const DatasetReducer = createReducer(
     initialDatasetState,
     on(LoadDatasetsSuccess, (state: DatasetState, { datasets }) => {
-        return datasetAdapter.upsertMany(datasets, {
+        return datasetAdapter.setAll(datasets, {
             ...state,
             created: true,
             datasets,
@@ -94,7 +94,7 @@ export function _DatasetReducer(
 const DataReducer = createReducer(
     initialDataState,
     on(LoadDatasSuccess, (state: DataState, { datas }) => {
-        return datasetAdapter.upsertMany(datas, {
+        return datasetAdapter.setAll(datas, {
             ...state,
             created: true,
             datas,
@@ -126,7 +126,7 @@ const IntegratedSystemReducer = createReducer(
     on(
         LoadIntegratedSystemsSuccess,
         (state: IntegratedSystemState, { integratedSystems }) => {
-            return integratedSystemAdapter.upsertMany(integratedSystems, {
+            return integratedSystemAdapter.setAll(integratedSystems, {
                 ...state,
                 created: true,
                 integratedSystems,
