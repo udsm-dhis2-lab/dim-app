@@ -23,24 +23,6 @@ import { DIMSystem } from 'src/app/pages/system/models/system.model';
   styleUrls: ['./create-report.component.scss'],
 })
 export class CreateReportComponent implements OnInit, OnDestroy {
-  systems: Array<{ [key: string]: any }> = [
-    {
-      name: 'National Health Portal',
-      id: 'portal',
-    },
-    {
-      name: 'DHIS2 HMIS',
-      id: 'hmis',
-    },
-    {
-      name: 'NSMIS',
-      id: 'nsmis',
-    },
-    {
-      name: 'ARDS',
-      id: 'ards',
-    },
-  ];
   statuses: Array<DataExchangeStatus> = [
     { name: 'All', status: 'all' },
     { name: 'Success', status: 'status' },
@@ -106,6 +88,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
     const systemIntegration = _.merge(_.clone(this.integrationFormEntries), {
       id,
     });
+    console.log('SYSTEM INTEGRATION::: ' + JSON.stringify(systemIntegration, null, 4));
     this.systemState.dispatch(
       CreateSystem(_.clone({ systemIntegration }))
     );

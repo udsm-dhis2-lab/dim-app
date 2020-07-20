@@ -163,10 +163,8 @@
               <ngx-dhis2-period-filter
                 [selectedPeriods]="selectedPeriodItems"
                 [periodFilterConfig]="periodFilterConfig"
-                [selectedPeriodType]="selectedPeriodType"
+                [selectedPeriodType]="'Monthly'"
                 (update)="onPeriodUpdate($event, 'UPDATE')"
-                (change)="onPeriodUpdate($event, 'CHANGE')"
-                (close)="onPeriodUpdate($event, 'CLOSE')"
               >
               </ngx-dhis2-period-filter>
             </div>

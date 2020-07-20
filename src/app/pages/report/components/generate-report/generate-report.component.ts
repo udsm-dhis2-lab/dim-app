@@ -80,17 +80,12 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
   selectedDataGroups: any[] = [];
   periodFilterConfig: any = {
     singleSelection: false,
-    emitOnSelection: true,
+    emitOnSelection: false,
     childrenPeriodSortOrder: 'ASC',
-    allowDateRangeSelection: true,
-    allowRelativePeriodSelection: true,
-    allowFixedPeriodSelection: true,
-  };
-  dataFilterConfig = {
-    singleSelection: false,
-    emitOnSelection: true,
-    enabledSelections: ['in', 'de'],
-    showGroupingButton: false,
+    allowDateRangeSelection: false,
+    allowRelativePeriodSelection: false,
+    allowFixedPeriodSelection: false,
+    updateOnSelect: true,
   };
 
   responseStatus: Array<ResponseStatus> = ResponseStatusConfig;
@@ -181,11 +176,11 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
   // }
 
   onSubmitForm(): void {
+    this.isUpdating = true;
     const reportMetadata: ReportMetadata = {
       ...this.generateReportForm.value,
       ...this.reportFormEntries,
     };
-    this.isUpdating = true;
     this.reportState.dispatch(GenerateReport({ reportMetadata }));
     this.integrationCreatedSUB$ = this.reportState
       .pipe(
@@ -210,6 +205,8 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
             '',
             'success-snackbar'
           );
+        } else {
+          this.isUpdating = false;
         }
       });
     this.subscriptions.push(this.integrationCreatedSUB$);

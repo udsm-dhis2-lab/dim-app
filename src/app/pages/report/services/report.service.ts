@@ -37,7 +37,7 @@ export class ReportService {
       ';'
     );
     const periodIds = _.join(
-      _.map(reportMetadata.datas, (period: Period) => period.id),
+      _.map(reportMetadata.periods, (period: Period) => period.id),
       ';'
     );
     const url = `${this.baseURL}/reports?dx=${dataIds}&pe=${periodIds}&startDate=${startDate}&endDate=${endDate}&sourceSystem=${sourceSystem}&destinationSystem=${destinationSystem}&filter=status:${status}&filter=dataSet:${dataSet}`;
