@@ -28,6 +28,7 @@ import {
   getDatas,
   getIntegratedSystems,
   getReportDetails,
+  getReportDetailTotality,
 } from '../../state/report.selector';
 import { PeriodSelection, Item } from '../../models/period.model';
 import { ResponseStatusConfig } from '../../config/response-status.config';

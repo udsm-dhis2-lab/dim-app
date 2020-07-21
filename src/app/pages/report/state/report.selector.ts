@@ -1,4 +1,8 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import {
+    createFeatureSelector,
+    createSelector,
+    MemoizedSelector,
+} from '@ngrx/store';
 import {
     reportAdapter,
     ReportState,
@@ -20,6 +24,11 @@ export const getIntegratedSystemFeature = createFeatureSelector(
 export const getReportDetails = createSelector(
     getReportFeature,
     reportAdapter.getSelectors().selectAll
+);
+
+export const getReportDetailTotality = createSelector(
+    getReportFeature,
+    reportAdapter.getSelectors().selectTotal
 );
 
 export const getReportGeneratedError = createSelector(

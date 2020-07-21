@@ -23,7 +23,7 @@ import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
-
+import { HighchartsChartModule } from 'highcharts-angular';
 
 
 /**
@@ -56,6 +56,7 @@ import { NgxPrintModule } from 'ngx-print';
     BrowserAnimationsModule,
     CovalentCodeEditorModule,
     NgxDhis2DataFilterModule,
+    HighchartsChartModule,
     NgxDhis2PeriodFilterModule,
     MonacoEditorModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),

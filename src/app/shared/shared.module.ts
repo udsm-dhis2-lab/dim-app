@@ -39,6 +39,7 @@ import { CovalentCodeEditorModule } from '@covalent/code-editor';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 import { NgxPrintModule } from 'ngx-print';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 /**
  *
@@ -79,7 +80,8 @@ import { NgxPrintModule } from 'ngx-print';
     NgxDhis2DataFilterModule,
     MatCardModule,
     NgxPrintModule,
-    MatChipsModule
+    MatChipsModule,
+    HighchartsChartModule
   ],
   exports: [
     SearchByNamePipe,
@@ -110,7 +112,8 @@ import { NgxPrintModule } from 'ngx-print';
     NgxDhis2DataFilterModule,
     MatCardModule,
     NgxPrintModule,
-    MatChipsModule
+    MatChipsModule,
+    HighchartsChartModule
   ],
 })
 /**

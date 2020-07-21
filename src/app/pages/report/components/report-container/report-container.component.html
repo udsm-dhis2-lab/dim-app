@@ -1,18 +1,43 @@
 <div>
     <div class="row">
         <div class="col-md-12">
-            <button printTitle="DHIS2 Integration Mediator Data Exchange Report - {{ today | date }} "
-                printSectionId="printable-area" ngxPrint [useExistingCss]="true" mat-stroked-button>Print <span
-                    class="material-icons">
+            <button printTitle="DHIS2 Integration Mediator Data Exchange Report - {{
+          today | date
+        }} " printSectionId="printable-area" ngxPrint [useExistingCss]="true" mat-stroked-button>
+                Print
+                <span class="material-icons">
                     print
-                </span></button>
+                </span>
+            </button>
         </div>
     </div>
-    <hr>
+    <hr />
     <div id="printable-area" class="row">
         <div class="col-md-12 mt-3 report-header">
             <p class="title">University of Dar es salaam(UDSM) - DHIS2</p>
-            <p class="sub-title">DHIS2 Integration Mediator Data Exchange Report - {{ today | date }} </p>
+            <p class="sub-title">
+                DHIS2 Integration Mediator Data Exchange Report - {{ today | date }}
+            </p>
+        </div>
+        <div class="col-md-12">
+            <div class="row ml-1 mr-1 mb-2">
+                <div class="col-md-6">
+                    <mat-card>
+                        <mat-card-content>
+                            <highcharts-chart [Highcharts]="pieHighcharts" [options]="pieChartOptions"
+                                style="width: 100%; height: fit-content;"></highcharts-chart>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card>
+                        <mat-card-content>
+                            <highcharts-chart [Highcharts]="barHighcharts" [options]="columnChartOptions"
+                                style="width: 100%; height: fit-content;"></highcharts-chart>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
         </div>
         <div class="col-md-12">
             <mat-card class="mb-1" *ngFor="let reportDetail of reportDetails">
@@ -25,9 +50,11 @@
                                 <b>{{ reportDetail.sourceExchangeDate }}.</b>
                                 Data sent to Dataset with name
                                 <b>{{ reportDetail.destinationDataSetName }}</b> and with id
-                                <b>{{ reportDetail.destinationDataSetId }}</b> and use category option combo with name
-                                <b>{{ reportDetail.destinationCategoryOptionComboName}}</b> and with id
-                                <b>{{ reportDetail.destinationCategoryOptionComboId}}</b>
+                                <b>{{ reportDetail.destinationDataSetId }}</b> and use category
+                                option combo with name
+                                <b>{{ reportDetail.destinationCategoryOptionComboName }}</b> and
+                                with id
+                                <b>{{ reportDetail.destinationCategoryOptionComboId }}</b>
                             </p>
                         </div>
                         <div class="col-md-12">
@@ -55,20 +82,21 @@
                                         <td>{{ reportDetail.sourceExchangePeriod }}</td>
                                         <td>{{ reportDetail.sourceExchangeDate | date }}</td>
                                         <td class="success" *ngIf="reportDetail.status === 'success'">
-                                            {{ reportDetail?.status?.toUpperCase() }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}
+                                        </td>
                                         <td class="failure" *ngIf="reportDetail.status === 'failure'">
-                                            {{ reportDetail?.status?.toUpperCase() }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}
+                                        </td>
                                         <td *ngIf="reportDetail.status === 'failure'">
                                             <ul>
-                                                <li *ngFor="let message of reportDetail.messages">{{ message?.message }}
+                                                <li *ngFor="let message of reportDetail.messages">
+                                                    {{ message?.message }}
                                                     -
                                                     <b class="not-found">{{ message?.objectId }}</b>
                                                 </li>
                                             </ul>
                                         </td>
-                                        <td *ngIf="reportDetail.status === 'success'">
-
-                                        </td>
+                                        <td *ngIf="reportDetail.status === 'success'"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -83,20 +111,21 @@
                                         <td>{{ reportDetail.destinationExchangePeriod }}</td>
                                         <td>{{ reportDetail.destinationExchangeDate | date }}</td>
                                         <td class="success" *ngIf="reportDetail.status === 'success'">
-                                            {{ reportDetail?.status?.toUpperCase() }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}
+                                        </td>
                                         <td class="failure" *ngIf="reportDetail.status === 'failure'">
-                                            {{ reportDetail?.status?.toUpperCase() }}</td>
+                                            {{ reportDetail?.status?.toUpperCase() }}
+                                        </td>
                                         <td *ngIf="reportDetail.status === 'failure'">
                                             <ul>
-                                                <li *ngFor="let message of reportDetail.messages">{{ message?.message }}
+                                                <li *ngFor="let message of reportDetail.messages">
+                                                    {{ message?.message }}
                                                     -
                                                     <b class="not-found">{{ message?.objectId }}</b>
                                                 </li>
                                             </ul>
                                         </td>
-                                        <td *ngIf="reportDetail.status === 'success'">
-
-                                        </td>
+                                        <td *ngIf="reportDetail.status === 'success'"></td>
                                     </tr>
                                 </table>
                             </div>

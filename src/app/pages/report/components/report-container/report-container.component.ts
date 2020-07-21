@@ -12,6 +12,16 @@ import { ReportTableCulumns } from '../../utils/table-config.util';
 import { ReportState } from '../../state';
 import { DIMReport } from '../../models/report.model';
 import { getReportDetails } from '../../state/report.selector';
+import * as Highcharts from 'highcharts';
+import * as _ from 'lodash';
+import {
+  getPieConfigOption,
+  getColumnConfigOption,
+} from '../../helpers/highchart.helper';
+import {
+  PieChartConfig,
+  ColumnChartConfig,
+} from '../../config/highchart.config';
 
 @Component({
   selector: 'app-report-container',
@@ -27,17 +37,20 @@ export class ReportContainerComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription> = [];
   today: Date;
   reportDetails: Array<DIMReport>;
+  pieHighcharts: typeof Highcharts = Highcharts;
+  barHighcharts: typeof Highcharts = Highcharts;
+  pieChartOptions: Highcharts.Options = PieChartConfig;
+  columnChartOptions: Highcharts.Options = ColumnChartConfig;
 
   constructor(
     private reportState: Store<ReportState>,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.today = new Date();
-
     this.integrationCreatedSUB$ = this.reportState
       .pipe(
         select(getReportDetails),
@@ -46,6 +59,28 @@ export class ReportContainerComponent implements OnInit, OnDestroy {
       .subscribe((reports: Array<DIMReport>) => {
         if (reports.length > 0) {
           this.reportDetails = reports;
+          const failure = _.filter(
+            reports,
+            (reportDetail: DIMReport) => reportDetail.status === 'failure'
+          );
+          const success = _.filter(
+            reports,
+            (reportDetail: DIMReport) => reportDetail.status === 'success'
+          );
+          if (failure && success) {
+            this.pieChartOptions = getPieConfigOption(
+              reports,
+              _.clone(this.pieChartOptions),
+              success,
+              failure
+            );
+            this.columnChartOptions = getColumnConfigOption(
+              reports,
+              _.clone(this.columnChartOptions),
+              success,
+              failure
+            );
+          }
         } else {
           this.router.navigate(['../generate'], { relativeTo: this.route });
         }
