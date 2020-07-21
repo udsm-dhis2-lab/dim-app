@@ -96,7 +96,7 @@
                 <div class="col-md-3">
                   <mat-form-field appearance="fill" class="example-full-width">
                     <mat-label>Choose Date from</mat-label>
-                    <input formControlName="startDate" matInput [matDatepicker]="toPicker" />
+                    <input readonly formControlName="startDate" matInput [matDatepicker]="toPicker" />
                     <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                     <mat-datepicker #toPicker></mat-datepicker>
                   </mat-form-field>
@@ -104,7 +104,7 @@
                 <div class="col-md-3">
                   <mat-form-field appearance="fill" class="example-full-width">
                     <mat-label>Choose date to</mat-label>
-                    <input formControlName="endDate" matInput [matDatepicker]="fromPicker" />
+                    <input readonly formControlName="endDate" matInput [matDatepicker]="fromPicker" />
                     <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromPicker></mat-datepicker>
                   </mat-form-field>
