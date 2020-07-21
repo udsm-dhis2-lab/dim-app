@@ -19,6 +19,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+
 /**
  *
  */
@@ -76,7 +78,8 @@ import { NgxPrintModule } from 'ngx-print';
     NgxDhis2PeriodFilterModule,
     NgxDhis2DataFilterModule,
     MatCardModule,
-    NgxPrintModule
+    NgxPrintModule,
+    MatChipsModule
   ],
   exports: [
     SearchByNamePipe,
@@ -106,7 +109,8 @@ import { NgxPrintModule } from 'ngx-print';
     NgxDhis2PeriodFilterModule,
     NgxDhis2DataFilterModule,
     MatCardModule,
-    NgxPrintModule
+    NgxPrintModule,
+    MatChipsModule
   ],
 })
 /**

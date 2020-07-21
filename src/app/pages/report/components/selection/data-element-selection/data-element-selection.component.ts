@@ -3,15 +3,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-data-element-selection',
   templateUrl: './data-element-selection.component.html',
-  styleUrls: ['./data-element-selection.component.scss']
+  styleUrls: ['./data-element-selection.component.scss'],
 })
 export class DataElementSelectionComponent implements OnInit {
-  @Input() availableReports: Array<any>;
-  @Input() selectedReports: Array<any>;
+  @Input() availableData: Array<any>;
+  @Input() selectedData: Array<any>;
   @Output() selectedEntityEventEmitter = new EventEmitter();
   action: string;
   searchString: string;
-  tempReports: any[] = [];
+  tempData: any[] = [];
   isLoading = true;
 
   constructor() {}
@@ -80,7 +80,6 @@ export class DataElementSelectionComponent implements OnInit {
     //     mAvailableReports,
     //     _.head(this.tempReports)
     //   );
-
     //   this.tempReports = [];
     // } else if (action === 'deselect') {
     //   const mAvailableReports: Array<Report> = this.availableReports

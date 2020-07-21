@@ -94,6 +94,7 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
   integratedSystems$: Observable<Array<IntegratedSystem>>;
   integratedSystems: Array<IntegratedSystem>;
   selectedPeriodType: string;
+  isPeriodComponentOpen: boolean;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -111,6 +112,7 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isUpdating = false;
+    this.isPeriodComponentOpen = false;
     this.selectedPeriodType = 'Monthly';
     this.reportState.dispatch(LoadDatasets());
     this.reportState.dispatch(LoadDatas());
@@ -135,6 +137,10 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.systemsSUB$);
   }
 
+  openPeriodSelection() {
+    this.isPeriodComponentOpen = !this.isPeriodComponentOpen;
+  }
+
   getEditorHeight(e: any) {
     //
   }
@@ -148,6 +154,7 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
   }
 
   onPeriodUpdate(periods: PeriodSelection, action: string) {
+    this.isPeriodComponentOpen = !this.isPeriodComponentOpen;
     const selectedPeriodItems = _.map(periods?.items || [], (item: Item) => {
       return {
         id: item?.id,
@@ -161,19 +168,6 @@ export class GenerateReportComponent implements OnInit, OnDestroy {
     };
     this.reportFormEntries = formEntries;
   }
-
-  // onDataUpdate(datas: DataSelection, action: string) {
-  //   const selectedDataItems = _.map(
-  //     datas?.items || [],
-  //     (item: DataItem) => item
-  //   );
-  //   const mDx = {
-  //     ...this.reportFormEntries.dx,
-  //     data: selectedDataItems,
-  //   };
-  //   const formEntries = { ...this.reportFormEntries, dx: mDx };
-  //   this.reportFormEntries = formEntries;
-  // }
 
   onSubmitForm(): void {
     this.isUpdating = true;

@@ -4,6 +4,246 @@
   }
 }
 
+button {
+  outline: none;
+}
+
+.sc-input-field {
+  font-size: 16px !important;
+  width: 100%;
+}
+
+.scheduler-form-container {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgb(255, 255, 255);
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
+  z-index: 1;
+  padding: 0px;
+  margin: 0.5rem;
+  float: left;
+  width: 98%;
+
+  // Menu Option Info Title
+  .menu-option-info h4 {
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 300;
+    padding: 16px 0px 5px;
+    margin: 0px;
+  }
+
+  .menu-option-info .link {
+    border: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0px;
+    padding: 12px;
+    outline: none;
+    font-size: 0px;
+    font-weight: inherit;
+    position: relative;
+    vertical-align: middle;
+    z-index: 1;
+    overflow: visible;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    width: 48px;
+    height: 48px;
+    background: none;
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+
+.card-content-actions-container {
+  width: 100%;
+  margin: 0px auto 2rem;
+  padding: 3rem 4rem 1rem;
+}
+
+.field-form-div {
+  width: 100%;
+  margin: 0px auto 2rem;
+  padding: 3rem 4rem 1rem;
+  position: relative;
+}
+
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 85%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+.field-form-input-div {
+  width: 100%;
+  cursor: auto;
+}
+
+.field-form {
+  min-width: 50%;
+  max-width: 100%;
+  width: 100%;
+}
+
+.mt-app-select {
+  margin-top: 20px;
+}
+
+// Form Footer
+.form-footer {
+  margin-top: 1rem;
+
+  .form-footer-div {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: rgb(255, 255, 255);
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    min-width: 88px;
+    margin-right: 1rem;
+    width: 10rem;
+
+    .form-footer-save-btn {
+      border: 10px;
+      box-sizing: border-box;
+      display: inline-block;
+      font-family: Roboto, sans-serif;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0px;
+      padding: 0px;
+      outline: none;
+      font-size: inherit;
+      font-weight: inherit;
+      position: relative;
+      z-index: 1;
+      height: 36px;
+      line-height: 36px;
+      width: 100%;
+      border-radius: 2px;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      text-align: center;
+    }
+
+    .form-footer-save-btn:focus {
+      border-style: none;
+      outline: none;
+    }
+  }
+
+  .form-footer-cancel-btn {
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    overflow: hidden;
+    text-align: center;
+    width: 10rem;
+  }
+}
+
+// Material Overriden styles
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: #009999 !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: #009999 !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: #009999 !important;
+}
+
+// -----------------------------------------------------
+::ng-deep.mat-radio-outer-circle {
+  .mat-radio-checked & {
+    border-color: #009999 !important;
+  }
+}
+
+::ng-deep.mat-radio-inner-circle {
+  background-color: #009999 !important;
+}
+
+::ng-deep.mat-radio-ripple .mat-ripple-element {
+  background-color: rgba(#009999, 0.26) !important;
+}
+
+.period-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  margin-bottom: 20px;
+
+  mat-card {
+    background-color: rgba(255, 255, 255, 1);
+    // opacity: 1 !important;
+  }
+
+  .period-component {
+    background-color: #ffffff !important;
+  }
+}
+
+.stack-top {
+  z-index: 9;
+  margin-top: 40px; 
+}
+
+.select-period {
+  width: 100%;
+}
+
+.select-period:focus {
+  outline: none;
+}
+
+.example-full-width {
+  width: 100%;
+}
+// ------------------------------------------------------------------------------ 
+
+
+
+
 .table-container {
   display: flex;
   flex-wrap: wrap;
