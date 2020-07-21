@@ -1,7 +1,7 @@
-<main *ngIf="(systems$ | async)?.length === 0">
+<main *ngIf="!(loaded$ | async) && !(error$ | async)">
     <app-progress-loader></app-progress-loader>
 </main>
-<div *ngIf="(systems$ | async)?.length > 0">
+<div>
     <div class="table-box-shodow">
         <div>
             <h4 class="menu-option-info">
@@ -137,11 +137,18 @@
                             </mat-menu>
                         </td>
                     </ng-container>
+                    <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+                            No records found.
+                        </mat-footer-cell>
+                    </ng-container>
+                    <mat-footer-row *matFooterRowDef="['noData']" [hidden]="dataSource && dataSource.data.length > 0">
+                    </mat-footer-row>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                 </table>
             </div>
-            <mat-paginator [pageSizeOptions]="[12, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
         </div>
     </div>
     <div>

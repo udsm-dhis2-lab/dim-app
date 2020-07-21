@@ -11,12 +11,17 @@ import { Store, select } from '@ngrx/store';
 import {
   getAllSystems,
   getDeletedSystemStatus,
+  getSystemLoaded,
+  getSystemLoading,
+  getSystemError,
 } from '../../state/system.selector';
 import { LoadSystems, SetSelectedSystem, DeleteSystem } from '../../state';
 import { SystemTableCulumns } from '../../config/system-table.config';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
 import { DIMSystem } from '../../models/system.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-system-list',
@@ -31,6 +36,11 @@ export class SystemListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   subscriptions: Array<Subscription> = [];
   systemSUB$: Subscription;
+  errorSUB$: Subscription;
+  loaded$: Observable<boolean>;
+  loading$: Observable<boolean>;
+  error$: Observable<HTTPErrorMessage>;
+
   systemDeleteSUB$: Subscription;
 
   constructor(
@@ -43,6 +53,23 @@ export class SystemListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.systemState.dispatch(LoadSystems());
     this.systems$ = this.systemState.pipe(select(getAllSystems));
+    this.loaded$ = this.systemState.pipe(select(getSystemLoaded));
+    this.loading$ = this.systemState.pipe(select(getSystemLoading));
+    this.error$ = this.systemState.pipe(select(getSystemError));
+    this.errorSUB$ = this.error$.subscribe((error: HTTPErrorMessage) => {
+      if (error) {
+        const message = _.has(error.error, 'message')
+          ? error.error.message
+          : error.error.error;
+        OpenSnackBar(
+          this.snackBar,
+          message ? message : error.message,
+          '',
+          'error-snackbar'
+        );
+        this.router.navigate(['./'], { relativeTo: this.route });
+      }
+    });
     this.systemSUB$ = this.systemState
       .pipe(select(getAllSystems))
       .subscribe((systems: Array<DIMSystem>) => {
@@ -54,6 +81,7 @@ export class SystemListComponent implements OnInit, OnDestroy {
           }
         }
       });
+    this.subscriptions.push(this.errorSUB$);
     this.subscriptions.push(this.systemSUB$);
   }
 
