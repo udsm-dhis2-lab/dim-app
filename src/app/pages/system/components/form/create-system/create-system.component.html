@@ -1,52 +1,62 @@
-<main>
-    <div class="form-header-container">
-        <div layout="row" layout-sm="column" layout-align="end center" class="form-header-detail">
-            <div class="back">
-                <button class="back-button" [matTooltip]="'Back'" (click)="onBack()" mat-mini-fab>
-                    <span class="material-icons">
-                        keyboard_backspace
-                    </span>
-                </button>
-            </div>
-            &nbsp;
-            <div class="title">
-                <span> System Configuration Form</span>
-            </div>
+<div>
+    <div class="row ml-1">
+        <div class="scheduler-form-container">
+            <form [formGroup]="createSystemForm">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>
+                            <h4 class="menu-option-info">
+                                <span class="link">
+                                    <div>
+                                        <span (click)="onBack()" matRipple class="material-icons">
+                                            keyboard_return
+                                        </span>
+                                    </div>
+                                </span>System Configuration Form
+                                <span class="link">
+                                    <div matRipple>
+                                        <span class="material-icons">
+                                            edit
+                                        </span>
+                                    </div>
+                                </span>
+                            </h4>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="ml-4 mr-4">
+                        <mat-form-field class="sc-input-field" appearance="standard">
+                            <mat-label>Name(*)</mat-label>
+                            <input id="field-name" formControlName="name" matInput />
+                            <mat-error *ngIf="createSystemForm.get('name').hasError('notUnique')">
+                            </mat-error>
+                        </mat-form-field>
+                        <div class="field-form-input-div">
+                            <mat-form-field class="sc-input-field">
+                                <input formControlName="description" matInput placeholder="Description" />
+                            </mat-form-field>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions class="ml-4 mr-4 mb-4">
+                        <div class="form-footer">
+                            <div class="form-footer-div example-button-row">
+                                <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn"
+                                    [disabled]="isUpdating" [class.spinner]="isUpdating" (click)="onSubmitForm()">
+                                    Save
+                                </button>
+
+                                <button *ngIf="isUpdating" mat-stroked-button color="primary"
+                                    class="form-footer-save-btn" [disabled]="isUpdating" [class.spinner]="isUpdating">
+                                    Saving...
+                                </button>
+                            </div>
+                            <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn"
+                                (click)="onBack()">
+                                Cancel
+                            </button>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+            </form>
         </div>
     </div>
-</main>
-<main class="form-container">
-    <div class="field-form-div">
-        <form [formGroup]="createSystemForm" class="field-form">
-            <div class="field-form-input-div">
-                <mat-form-field class="example-full-width" appearance="standard">
-                    <mat-label>Name(*)</mat-label>
-                    <input id="field-name" formControlName="name" matInput />
-                    <mat-error *ngIf="createSystemForm.get('name').hasError('notUnique')">
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="field-form-input-div">
-                <mat-form-field class="example-full-width">
-                    <input formControlName="description" matInput placeholder="Description" />
-                </mat-form-field>
-            </div>
-            <div class="form-footer">
-                <div class="form-footer-div example-button-row">
-                    <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
-                        [class.spinner]="isUpdating" (click)="onSubmitForm()">
-                        Save
-                    </button>
-
-                    <button *ngIf="isUpdating" mat-stroked-button color="primary" class="form-footer-save-btn"
-                        [disabled]="isUpdating" [class.spinner]="isUpdating">
-                        Saving...
-                    </button>
-                </div>
-                <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn" (click)="onBack()">
-                    Cancel
-                </button>
-            </div>
-        </form>
-    </div>
-</main>
+</div>

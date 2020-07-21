@@ -64,17 +64,23 @@ const mSystemReducer = createReducer(
             ...state,
             loading: false,
             loaded: true,
+            edited: false,
+            created: false,
+            deleted: false,
         });
     }),
     on(LoadSystemsFail, (state: SystemState, { error }) => ({
         ...state,
         entities: {},
+        edited: false,
         error,
     })),
     on(DeleteSystemSuccess, (state: SystemState, { response, payload }) => {
         return systemAdapter.removeOne(payload?.id, {
             ...state,
             deleted: true,
+            edited: false,
+            created: false,
         });
     }),
     on(DeleteSystemFail, (state: SystemState, { error }) => ({
