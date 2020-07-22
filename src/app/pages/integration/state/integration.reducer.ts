@@ -65,10 +65,12 @@ const mIntegrationReducer = createReducer(
     on(LoadIntegrationsSuccess, (state: IntegrationState, { integrations }) => {
         return integrationAdapter.setAll(integrations, {
             ...state,
-            edited: false,
             error: null,
             loading: false,
             loaded: true,
+            edited: false,
+            created: false,
+            deleted: false,
         });
     }),
     on(LoadIntegrationsFail, (state: IntegrationState, { error }) => ({
@@ -82,6 +84,8 @@ const mIntegrationReducer = createReducer(
             return integrationAdapter.removeOne(payload?.id, {
                 ...state,
                 deleted: true,
+                edited: false,
+                created: false,
             });
         }
     ),
