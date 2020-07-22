@@ -20,8 +20,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   getAllBatches,
   getDeletedBatchStatus,
+  getBatchLoaded,
+  getBatchLoading,
+  getBatchError,
 } from '../../state/batch.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-batch-list',
@@ -37,6 +41,10 @@ export class BatchListComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription> = [];
   batchSUB$: Subscription;
   batchDeleteSUB$: Subscription;
+  errorSUB$: Subscription;
+  loaded$: Observable<boolean>;
+  loading$: Observable<boolean>;
+  error$: Observable<HTTPErrorMessage>;
 
   constructor(
     private router: Router,
@@ -48,6 +56,23 @@ export class BatchListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.batchState.dispatch(LoadBatches());
     this.batches$ = this.batchState.pipe(select(getAllBatches));
+    this.loaded$ = this.batchState.pipe(select(getBatchLoaded));
+    this.loading$ = this.batchState.pipe(select(getBatchLoading));
+    this.error$ = this.batchState.pipe(select(getBatchError));
+    this.errorSUB$ = this.error$.subscribe((error: HTTPErrorMessage) => {
+      if (error) {
+        const message = _.has(error.error, 'message')
+          ? error.error.message
+          : error.error.error;
+        OpenSnackBar(
+          this.snackBar,
+          message ? message : error.message,
+          '',
+          'error-snackbar'
+        );
+        this.router.navigate(['./'], { relativeTo: this.route });
+      }
+    });
     this.batchSUB$ = this.batchState
       .pipe(select(getAllBatches))
       .subscribe((batches: Array<DIMBatch>) => {
