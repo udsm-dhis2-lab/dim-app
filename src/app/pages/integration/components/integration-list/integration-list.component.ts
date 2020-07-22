@@ -19,8 +19,12 @@ import {
 import {
   getAllIntegrations,
   getDeletedIntegrationStatus,
+  getIntegrationLoaded,
+  getIntegrationLoading,
+  getIntegrationError,
 } from '../../state/integration.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-integration-list',
@@ -36,6 +40,10 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription> = [];
   systemSUB$: Subscription;
   systemDeleteSUB$: Subscription;
+  errorSUB$: Subscription;
+  loaded$: Observable<boolean>;
+  loading$: Observable<boolean>;
+  error$: Observable<HTTPErrorMessage>;
 
   constructor(
     private router: Router,
@@ -47,6 +55,23 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.integrationState.dispatch(LoadIntegrations());
     this.systems$ = this.integrationState.pipe(select(getAllIntegrations));
+    this.loaded$ = this.integrationState.pipe(select(getIntegrationLoaded));
+    this.loading$ = this.integrationState.pipe(select(getIntegrationLoading));
+    this.error$ = this.integrationState.pipe(select(getIntegrationError));
+    this.errorSUB$ = this.error$.subscribe((error: HTTPErrorMessage) => {
+      if (error) {
+        const message = _.has(error.error, 'message')
+          ? error.error.message
+          : error.error.error;
+        OpenSnackBar(
+          this.snackBar,
+          message ? message : error.message,
+          '',
+          'error-snackbar'
+        );
+        this.router.navigate(['./'], { relativeTo: this.route });
+      }
+    });
     this.systemSUB$ = this.integrationState
       .pipe(select(getAllIntegrations))
       .subscribe((integrations: Array<DIMIntegration>) => {
