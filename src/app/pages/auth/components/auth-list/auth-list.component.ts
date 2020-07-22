@@ -13,8 +13,9 @@ import * as _ from 'lodash';
 import { AuthTableCulumns } from '../../config/auth-table.config';
 import { DIMAuth } from '../../models/auth.model';
 import { AuthState, LoadAuths, SetSelectedAuth, DeleteAuth } from '../../state';
-import { getAllAuth, getDeletedAuthStatus } from '../../state/auth.selector';
+import { getAllAuth, getDeletedAuthStatus, getAuthLoaded, getAuthLoading, getAuthError } from '../../state/auth.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-auth-list',
@@ -30,6 +31,10 @@ export class AuthListComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription> = [];
   authSUB$: Subscription;
   authDeleteSUB$: Subscription;
+  errorSUB$: Subscription;
+  loaded$: Observable<boolean>;
+  loading$: Observable<boolean>;
+  error$: Observable<HTTPErrorMessage>;
 
   constructor(
     private router: Router,
@@ -41,6 +46,23 @@ export class AuthListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authState.dispatch(LoadAuths());
     this.auth$ = this.authState.pipe(select(getAllAuth));
+    this.loaded$ = this.authState.pipe(select(getAuthLoaded));
+    this.loading$ = this.authState.pipe(select(getAuthLoading));
+    this.error$ = this.authState.pipe(select(getAuthError));
+    this.errorSUB$ = this.error$.subscribe((error: HTTPErrorMessage) => {
+      if (error) {
+        const message = _.has(error.error, 'message')
+          ? error.error.message
+          : error.error.error;
+        OpenSnackBar(
+          this.snackBar,
+          message ? message : error.message,
+          '',
+          'error-snackbar'
+        );
+        this.router.navigate(['./'], { relativeTo: this.route });
+      }
+    });
     this.authSUB$ = this.authState
       .pipe(select(getAllAuth))
       .subscribe((auths: Array<DIMAuth>) => {

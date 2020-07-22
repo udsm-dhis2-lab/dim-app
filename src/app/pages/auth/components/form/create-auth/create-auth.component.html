@@ -1,91 +1,101 @@
-<main>
-    <div class="form-header-container">
-        <div layout="row" layout-sm="column" layout-align="end center" class="form-header-detail">
-            <div class="back">
-                <button class="back-button" [matTooltip]="'Back'" (click)="onBack()" mat-mini-fab>
-                    <span class="material-icons">
-                        keyboard_backspace
-                    </span>
-                </button>
-            </div>
-            &nbsp;
-            <div class="title">
-                <span> Auth Configuration Form</span>
-            </div>
+
+<div>
+    <div class="row ml-1">
+        <div class="scheduler-form-container">
+            <form [formGroup]="createAuthForm">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>
+                            <h4 class="menu-option-info">
+                                <span class="link">
+                                    <div>
+                                        <span (click)="onBack()" matRipple class="material-icons">
+                                            keyboard_return
+                                        </span>
+                                    </div>
+                                </span>Auth Configuration Form
+                                <span class="link">
+                                    <div matRipple>
+                                        <span class="material-icons">
+                                            edit
+                                        </span>
+                                    </div>
+                                </span>
+                            </h4>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="ml-4 mr-4">
+                        <div class="row field-form-input-div">
+                            <div class="col-md-6">
+                                <h5>Source System Auth Details</h5>
+                                <div class="field-form-input-div">
+                                    <mat-form-field class="sc-input-field">
+                                        <input formControlName="username" matInput placeholder="username" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="field-form-input-div">
+                                    <mat-form-field class="sc-input-field">
+                                        <input type="password" formControlName="password" matInput placeholder="password" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="field-form-input-div">
+                                    <mat-form-field class="sc-input-field">
+                                        <mat-label>Source Systems</mat-label>
+                                        <mat-select formControlName="from" [value]="">
+                                            <mat-option *ngFor="let system of systems" [value]="system.name">
+                                                {{ system?.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <mat-progress-bar *ngIf="(systems$ | async)?.length === 0" mode="indeterminate"></mat-progress-bar>
+                            </div>
+                            <div formGroupName="authSecondarySystem" class="col-md-6">
+                                <h5>Destination System Auth Details</h5>
+                                <div class="field-form-input-div">
+                                    <mat-form-field class="sc-input-field">
+                                        <input formControlName="username" matInput placeholder="username" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="field-form-input-div">
+                                    <mat-form-field class="sc-input-field">
+                                        <input type="password" formControlName="password" matInput placeholder="password" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="field-form-input-div">
+                                    <mat-form-field class="sc-input-field">
+                                        <mat-label>Recipient Systems</mat-label>
+                                        <mat-select [value]="" formControlName="to">
+                                            <mat-option *ngFor="let system of systems" [value]="system.name">
+                                                {{ system?.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <mat-progress-bar *ngIf="(systems$ | async)?.length === 0" mode="indeterminate"></mat-progress-bar>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions class="ml-4 mr-4 mb-4">
+                        <div class="form-footer">
+                            <div class="form-footer-div example-button-row">
+                                <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
+                                    [class.spinner]="isUpdating" (click)="onSubmitForm()">
+                                    Save
+                                </button>
+            
+                                <button *ngIf="isUpdating" mat-stroked-button color="primary" class="form-footer-save-btn"
+                                    [disabled]="isUpdating" [class.spinner]="isUpdating">
+                                    Saving...
+                                </button>
+                            </div>
+                            <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn" (click)="onBack()">
+                                Cancel
+                            </button>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+            </form>
         </div>
     </div>
-</main>
-<main class="form-container">
-    <div class="field-form-div">
-        <form [formGroup]="createAuthForm" class="field-form">
-            <div class="row field-form-input-div">
-                <div class="col-md-6">
-                    <h6>Source System Auth Details</h6>
-                    <hr>
-                    <div class="field-form-input-div">
-                        <mat-form-field class="example-full-width">
-                            <input formControlName="username" matInput placeholder="username" />
-                        </mat-form-field>
-                    </div>
-                    <div class="field-form-input-div">
-                        <mat-form-field class="example-full-width">
-                            <input type="password" formControlName="password" matInput placeholder="password" />
-                        </mat-form-field>
-                    </div>
-                    <div class="field-form-input-div">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Source Systems</mat-label>
-                            <mat-select formControlName="from" [value]="">
-                                <mat-option *ngFor="let system of systems" [value]="system.name">
-                                    {{ system?.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <mat-progress-bar *ngIf="(systems$ | async)?.length === 0" mode="indeterminate"></mat-progress-bar>
-                </div>
-                <div formGroupName="authSecondarySystem" class="col-md-6">
-                    <h6>Destination System Auth Details</h6>
-                    <hr>
-                    <div class="field-form-input-div">
-                        <mat-form-field class="example-full-width">
-                            <input formControlName="username" matInput placeholder="username" />
-                        </mat-form-field>
-                    </div>
-                    <div class="field-form-input-div">
-                        <mat-form-field class="example-full-width">
-                            <input type="password" formControlName="password" matInput placeholder="password" />
-                        </mat-form-field>
-                    </div>
-                    <div class="field-form-input-div">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Recipient Systems</mat-label>
-                            <mat-select [value]="" formControlName="to">
-                                <mat-option *ngFor="let system of systems" [value]="system.name">
-                                    {{ system?.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <mat-progress-bar *ngIf="(systems$ | async)?.length === 0" mode="indeterminate"></mat-progress-bar>
-                </div>
-            </div>
-            <div class="form-footer">
-                <div class="form-footer-div example-button-row">
-                    <button *ngIf="!isUpdating" mat-stroked-button class="form-footer-save-btn" [disabled]="isUpdating"
-                        [class.spinner]="isUpdating" (click)="onSubmitForm()">
-                        Save
-                    </button>
-
-                    <button *ngIf="isUpdating" mat-stroked-button color="primary" class="form-footer-save-btn"
-                        [disabled]="isUpdating" [class.spinner]="isUpdating">
-                        Saving...
-                    </button>
-                </div>
-                <button mat-stroked-button matRipple color="warn" class="form-footer-cancel-btn" (click)="onBack()">
-                    Cancel
-                </button>
-            </div>
-        </form>
-    </div>
-</main>
+</div>
