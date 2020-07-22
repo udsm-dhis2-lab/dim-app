@@ -59,7 +59,9 @@ const mJobReducer = createReducer(
             ...state,
             loading: false,
             loaded: true,
-            edited: false
+            edited: false,
+            created: false,
+            deleted: false,
         });
     }),
     on(LoadJobsFail, (state: JobState, { error }) => ({
@@ -71,6 +73,8 @@ const mJobReducer = createReducer(
         return jobAdapter.removeOne(payload?.id, {
             ...state,
             deleted: true,
+            edited: false,
+            created: false,
         });
     }),
     on(DeleteJobFail, (state: JobState, { error }) => ({
