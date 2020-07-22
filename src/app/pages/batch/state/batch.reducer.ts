@@ -58,6 +58,9 @@ const mBatchReducer = createReducer(
             ...state,
             loading: false,
             loaded: true,
+            edited: false,
+            created: false,
+            deleted: false,
         });
     }),
     on(LoadBatchesFail, (state: BatchState, { error }) => ({
@@ -69,6 +72,8 @@ const mBatchReducer = createReducer(
         return batchAdapter.removeOne(payload?.id, {
             ...state,
             deleted: true,
+            edited: false,
+            created: false,
         });
     }),
     on(DeleteBatchFail, (state: BatchState, { error }) => ({
