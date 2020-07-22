@@ -12,8 +12,9 @@ import { JobTableCulumns } from '../../config/job-table.config';
 import { Observable, Subscription } from 'rxjs';
 import { DIMJob } from '../../models/job.model';
 import { JobState, LoadJobs, SetSelectedJob, DeleteJob } from '../../state';
-import { getAllJobs, getDeletedJobStatus } from '../../state/job.selector';
+import { getAllJobs, getDeletedJobStatus, getJobLoaded, getJobLoading, getJobError } from '../../state/job.selector';
 import { OpenSnackBar } from 'src/app/shared/helpers/snackbar.helper';
+import { HTTPErrorMessage } from 'src/app/shared/models/http-error.model';
 
 @Component({
   selector: 'app-job-list',
@@ -29,6 +30,10 @@ export class JobListComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription> = [];
   systemSUB$: Subscription;
   systemDeleteSUB$: Subscription;
+  errorSUB$: Subscription;
+  loaded$: Observable<boolean>;
+  loading$: Observable<boolean>;
+  error$: Observable<HTTPErrorMessage>;
 
   constructor(
     private router: Router,
@@ -40,6 +45,23 @@ export class JobListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.jobState.dispatch(LoadJobs());
     this.systems$ = this.jobState.pipe(select(getAllJobs));
+    this.loaded$ = this.jobState.pipe(select(getJobLoaded));
+    this.loading$ = this.jobState.pipe(select(getJobLoading));
+    this.error$ = this.jobState.pipe(select(getJobError));
+    this.errorSUB$ = this.error$.subscribe((error: HTTPErrorMessage) => {
+      if (error) {
+        const message = _.has(error.error, 'message')
+          ? error.error.message
+          : error.error.error;
+        OpenSnackBar(
+          this.snackBar,
+          message ? message : error.message,
+          '',
+          'error-snackbar'
+        );
+        this.router.navigate(['./'], { relativeTo: this.route });
+      }
+    });
     this.systemSUB$ = this.jobState
       .pipe(select(getAllJobs))
       .subscribe((job: Array<DIMJob>) => {
